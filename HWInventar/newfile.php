@@ -1,4 +1,4 @@
 <?php
 
-	echo "hahahahaha";
+	echo "HAGHHAGH";
 ?>
