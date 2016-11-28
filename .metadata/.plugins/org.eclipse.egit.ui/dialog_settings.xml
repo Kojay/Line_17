@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="1" key="org.eclipse.egit.ui.internal.clone.GitSelectWizardPageWizardSel"/>
+	<list key="EGit.KnownHosts">
+		<item value="github.com"/>
+		<item value="bitbucket.org"/>
+		<item value="git.eclipse.org"/>
+		<item value="gitlab.com"/>
+	</list>
+	<list key="RepositorySelectionPage.UsedUris">
+		<item value="https://gitlab.com/skppr/Lagerverwaltung.git"/>
+		<item value="https://gitlab.com/Lagerverwaltung2/Lagerverwaltung_2.git"/>
+		<item value="https://github.com/arbnoraliaj/Lagerverwaltung_2"/>
+		<item value="https://github.com/Prizrenali/HWInventar.git"/>
+	</list>
+	<section name="GitImportWizard">
+	</section>
+	<section name="GitCommitMessageComponent">
+		<list key="C:\xampp\htdocs\hwinventar\tets\HWInventar\.git">
+			<item value="empty"/>
+		</list>
+		<list key="C:\Users\Rilind\git\Lagerverwaltung_2\.git">
+			<item value="empty"/>
+		</list>
+	</section>
+	<section name="org.eclipse.egit.ui.internal.staging.StagingView">
+		<item value="500,500" key="STAGING_SASH_FORM_WEIGHT"/>
+		<item value="false" key="sortItemState"/>
+		<item value="500,500" key="HORIZONTAL_SASH_FORM_WEIGHT"/>
+	</section>
+</section>
