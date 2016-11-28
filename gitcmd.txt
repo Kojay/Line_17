@@ -1,3 +1,0 @@
-git.exe pull --progress --no-rebase -v "origin" master --allow-unrelated-histories
-
-Es funktioniert
