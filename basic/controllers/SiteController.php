@@ -122,4 +122,22 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+    
+    
+    public function actionArtikelliste()
+    {
+        return $this->render('artikelliste');
+    }
+    
+    public function actionBenutzerverwaltung()
+    {
+        return $this->render('benutzerverwaltung');
+    }
+    
+    public function actionArtikel()
+    {
+        return $this->render('artikel');
+    }
+    
+    
 }
