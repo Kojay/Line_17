@@ -9,7 +9,6 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use yii\bootstrap\ActiveForm;
 
 AppAsset::register($this);
 ?>
@@ -35,12 +34,13 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-	?> "<form class='navbar-form navbar-right' role='search'>
-       <div class='form-group has-feedback'>
-            <input id='searchbox' type='text' placeholder='Search' class='form-control'>
-            <span id='searchicon' class='fa fa-search form-control-feedback'></span>
-        </div>
-		</form>";
+	?> "
+       <form class='navbar-form navbar-right' role='search'>
+            <div class='form-group has-feedback'>
+                <input id='searchbox' type='text' placeholder='Search' class='form-control'>
+                <span id='searchicon' class='fa fa-search form-control-feedback'></span>
+            </div>
+	</form>";
 	<?php
 
   echo Nav::widget([

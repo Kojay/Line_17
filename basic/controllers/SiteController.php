@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\ArtikelForm;
 
 class SiteController extends Controller
 {
@@ -142,9 +143,20 @@ class SiteController extends Controller
     {
         return 'test';
     }
+    
+    
+    
     public function actionArtikel()
     {
-        return $this->render('artikel');
+        $model = new ArtikelForm();
+        
+        if ($model->load(Yii::$app->request->post())) {
+            return $this->goBack();
+        }
+        
+        return $this->render('artikel', [
+            'model' => $model,
+        ]);
     }
     
     

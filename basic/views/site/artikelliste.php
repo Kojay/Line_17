@@ -8,7 +8,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use app\models\SearchForm;
+use app\models\QueryForm;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\web\UrlManager ;
@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="fragment-1">
             Artikel
             <?php
-            $dataObj = new SearchForm(); 
+            $dataObj = new QueryForm(); 
             $dataProvider = $dataObj->getData();
             Pjax::begin();               
             ?>

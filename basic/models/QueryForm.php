@@ -8,7 +8,7 @@ use yii\data\SqlDataProvider;
 /**
  * ContactForm is the model behind the contact form.
  */
-class SearchForm extends Model
+class QueryForm extends Model
 {
     private $dataProvider;
 
