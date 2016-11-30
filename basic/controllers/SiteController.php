@@ -118,9 +118,9 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionStatistik()
     {
-        return $this->render('about');
+        return $this->render('statistik');
     }
     
     
@@ -134,9 +134,9 @@ class SiteController extends Controller
         return $this->render('benutzerverwaltung');
     }
     
-    public function actionArtikel()
+    public function actionNeuerartikel()
     {
-        return $this->render('artikel');
+        return $this->render('neuerartikel');
     }
     
     

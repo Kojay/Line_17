@@ -12,11 +12,54 @@ use yii\helpers\Html;
 $this->title = 'Artikel';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-about">
+<div class="site-artikelliste">
     <h1 font size="20"><?= Html::encode($this->title) ?></h1>
-    <?= Html::a('Neuer Artikel', ['/site/artikel'], ['class'=>'btn btn-primary']) ?>
+    <?= Html::a('Neuer Artikel', ['/site/neuerartikel'], ['class'=>'btn btn-primary']) ?>
+      
+    <?php
+     /*   $this->registerJsFile(Yii::$app->request->baseUrl.'/js/ArticleList.js', ['depends' => [\yii\web\JqueryAsset::className()]]);*/
+    
+    // Following code is here to generate Tabs and in there a list.
+    ?>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+    <div id="tabs">
+        <ul>
+            <li><a href="#fragment-1"><span>One</span></a></li>
+            <li><a href="#fragment-2"><span>Two</span></a></li>
+            <li><a href="#fragment-3"><span>Three</span></a></li>
+        </ul>
+        <div id="fragment-1">
+            <p>First tab is active by default:</p>
+            
+            <h2>Unordered List:</h2>
+            <ul data-role="listview">
+                <li><a href="#">List Item</a></li>
+                <li><a href="#">List Item</a></li>
+                <li><a href="#">List Item</a></li>
+            </ul>
+            
+            <!-- Gridview widget which can be filled with data -->
+            
+        </div>
+        <div id="fragment-2">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+        </div>
+        <div id="fragment-3">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+        </div>
+    </div>
+
+    <script>$( "#tabs" ).tabs();</script>
+    
+
     <code><?= __FILE__ ?></code>
+    
 </div>
-
-
 
