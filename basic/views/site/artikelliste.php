@@ -8,6 +8,11 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use app\models\SearchForm;
+use yii\grid\GridView;
+use yii\grid\ActionColumn;
+use yii\widgets\Pjax;
+use yii\data\SqlDataProvider;
 
 $this->title = 'Artikel';
 $this->params['breadcrumbs'][] = $this->title;
@@ -33,15 +38,24 @@ $this->params['breadcrumbs'][] = $this->title;
             <li><a href="#fragment-3"><span>Three</span></a></li>
         </ul>
         <div id="fragment-1">
-            <p>First tab is active by default:</p>
-            
-            <h2>Unordered List:</h2>
-            <ul data-role="listview">
-                <li><a href="#">List Item</a></li>
-                <li><a href="#">List Item</a></li>
-                <li><a href="#">List Item</a></li>
-            </ul>
-            
+            Artikel
+            <?php
+            $dataObj = new SearchForm(); 
+            $dataProvider = $dataObj->getData();
+
+            Pjax::begin();
+                
+             ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [['class' => 'yii\grid\ActionColumn'],
+                'name',
+                'population',
+                ],
+                          
+            ]); 
+            Pjax::end();
+            ?>
             <!-- Gridview widget which can be filled with data -->
             
         </div>
