@@ -138,6 +138,14 @@ class SiteController extends Controller
     {
         return $this->render('neuerartikel');
     }
+    public function createUrl($paramUrl)
+    {
+        return 'test';
+    }
+    public function actionArtikel()
+    {
+        return $this->render('artikel');
+    }
     
     
 }
