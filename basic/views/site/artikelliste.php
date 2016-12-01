@@ -16,6 +16,7 @@ use yii\widgets\Pjax;
 use yii\data\SqlDataProvider;
 use yii\helpers\Url;
 
+
 $this->title = 'Artikel';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

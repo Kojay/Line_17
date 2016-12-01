@@ -158,6 +158,18 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    public function actionArtikelbearbeiten()
+    {
+        $model = new ArtikelForm();
+        
+        if ($model->load(Yii::$app->request->post())) {
+            return $this->goBack();
+        }
+        
+        return $this->render('artikel', [
+            'model' => $model,
+        ]);
+    }
     
     
 }

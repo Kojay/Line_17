@@ -19,13 +19,15 @@ class ArtikelForm extends Model
            $articleType, $articleManufacturer, $articleSerialnumber, 
            $articleInstitute, $articlePurchased, $articleGuarantee, 
            $articlePrice, $articleFHNW, $articleDescription, $articleID;
-
+    
     /**
      * @return array the validation rules.
      */
     public function rules()
     {
-        return [   
+        return 
+        [  
+            
         ];
     }
 
