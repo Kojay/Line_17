@@ -76,10 +76,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'header' => 'Ausleihender',
                         'attribute' => 'personFirstname',
                     ],
-                    /*[
+                    [
                         'header' => 'Rückgabedatum',
                         'attribute' => 'lvLoanReturnDate',
-                    ],*/
+                    ],
+                    [
+                        'header' => 'Artikel',
+                        'attribute' => 'articleName',
+                    ],
                     [
                         'header' => 'Standort',
                         'attribute' => 'loanLocation',

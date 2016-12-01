@@ -69,9 +69,12 @@ class QueryForm extends Model
     {
         $dataProvider = new SqlDataProvider([
         //'sql' => 'SELECT * FROM lv_loanitems WHERE lvLoanReturnDate >= CURDATE()',
-        'sql' => 'SELECT persons.personFirstname, persons.personLastname, loanprofile.loanLocation'.
+        'sql' => 'SELECT persons.personFirstname, persons.personLastname, loanitems.lvLoanReturnDate, loanprofile.loanLocation, article.articleName'.
         ' FROM lv_loanprofile AS loanprofile'.
-        ' LEFT JOIN lv_persons AS persons ON loanprofile.loanPerson = persons.personsID;',
+        ' LEFT JOIN lv_persons AS persons ON loanprofile.loanPerson = persons.personsID'.
+        ' LEFT JOIN lv_loanitems AS loanitems ON loanprofile.loanID = loanitems.lv_loan_loanID'.
+        ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID'.
+        ' WHERE loanitems.lvLoanReturnDate >= CURDATE() GROUP BY loanprofile.loanID;',
             
         'sort' => [
         'attributes' => [
@@ -93,9 +96,9 @@ class QueryForm extends Model
                 'default' => SORT_DESC,
                 'label' => 'Name',
             ],
-            /*'fhnwNumber' => [
-                'asc' => ['fhnwNumber' => SORT_ASC],
-                'desc' => ['fhnwNumber' => SORT_DESC],
+            'articleName' => [
+                'asc' => ['articleName' => SORT_ASC],
+                'desc' => ['articleName' => SORT_DESC],
                 'default' => SORT_DESC,
                 'label' => 'Name',
             ],
@@ -104,7 +107,7 @@ class QueryForm extends Model
                 'desc' => ['lvLoanReturnDate' => SORT_DESC],
                 'default' => SORT_DESC,
                 'label' => 'Name',
-            ],*/
+            ],
 			'created_on'
         ],
     ],
