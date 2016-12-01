@@ -94,7 +94,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'header' => 'Ausgeliehen bis',
                         'attribute' => 'lvLoanReturnDate',
-                    ],
+                    ],                    
+                    'name', 
+                    'population',                  
                 ] 
             ]);        
             Pjax::end();
