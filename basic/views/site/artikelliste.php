@@ -76,7 +76,26 @@ $this->params['breadcrumbs'][] = $this->title;
                                 }
                         
                     ],
-                    
+                    [
+                        'header' => 'Typ',
+                        'attribute' => 'articleTypeName',
+                    ],
+                    [
+                        'header' => 'Hersteller',
+                        'attribute' => 'articleproducerName',
+                    ],
+                    [
+                        'header' => 'Artikelname',
+                        'attribute' => 'articleName',
+                    ],
+                    [
+                        'header' => 'FHNW Nummer',
+                        'attribute' => 'fhnwNumber',
+                    ],
+                    [
+                        'header' => 'Ausgeliehen bis',
+                        'attribute' => 'lvLoanReturnDate',
+                    ],                    
                     'name', 
                     'population',                  
                 ] 
