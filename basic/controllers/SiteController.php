@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\ArtikelForm;
+use yii\helpers\Url;
 
 class SiteController extends Controller
 {
@@ -139,9 +140,9 @@ class SiteController extends Controller
     {
         return $this->render('neuerartikel');
     }
-    public function createUrl($paramUrl)
+    public function actionReturn()
     {
-        return 'test';
+        $this->redirect(Url::toRoute('site/artikelliste'));
     }
     
     public function actionArtikel()

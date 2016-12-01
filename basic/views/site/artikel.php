@@ -19,9 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
         echo Menu::widget([
             'items' => 
             [
-                ['label' => 'Zurück', 'url' => ['site/index']],
-                ['label' => 'Artikel Bearbeiten', 'url' => ['site/index']],
-                ['label' => 'Etikette Drucken', 'url' => ['site/about']],
+                ['label' => 'Zurück', 'url' => ['site/return']],
+                ['label' => 'Artikel Bearbeiten', 'url' => ['site/artikelbearbeiten']],
+                ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
                 ['label' => 'Ausleihen', 'url' => ['site/index']],
             ],
             'options' => ['class' =>'nav nav-tabs'],
