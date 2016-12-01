@@ -39,9 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
         
-        <?= VarDumper::dumpAsString('$articleNumber') ?>
-        
-        <?= $form->field($model, 'articleNumber')->textInput()->label('Nummer',['class' => 'col-sm-2']) ?>
         <?= $form->field($model, 'articleName')->textInput()->label('Artikelname',['class' => 'col-sm-2']) ?>        
         <?= $form->field($model, 'articleType')->textInput()->label('Typ',['class' => 'col-sm-2']) ?>
         <?= $form->field($model, 'articleManufacturer')->textInput()->label('Hersteller',['class' => 'col-sm-2']) ?>
@@ -51,8 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'articleGuarantee')->textInput()->label('Garantiedatum',['class' => 'col-sm-2']) ?>
         <?= $form->field($model, 'articlePrice')->textInput()->label('Preis (CHF)',['class' => 'col-sm-2']) ?>
         <?= $form->field($model, 'articleFHNW')->textInput()->label('FHNW Nummer',['class' => 'col-sm-2']) ?> 
-        <?= $form->field($model, 'articleDescription')->textInput()->label('Beschreibung',['class' => 'col-sm-2']) ?>
-        <?= $form->field($model, 'articleID')->textInput()->label('ID',['class' => 'col-sm-2']) ?>        
+        <?= $form->field($model, 'articleDescription')->textInput()->label('Beschreibung',['class' => 'col-sm-2']) ?>    
         <?= Html::submitButton('Artikel speichern', ['class' => 'btn btn-primary','col-sm-2', 'name' => 'save-button']) ?>
     
     </div>       

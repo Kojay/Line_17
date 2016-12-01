@@ -144,8 +144,6 @@ class SiteController extends Controller
         return 'test';
     }
     
-    
-    
     public function actionArtikel()
     {
         $model = new ArtikelForm();
@@ -166,7 +164,7 @@ class SiteController extends Controller
             return $this->goBack();
         }
         
-        return $this->render('artikel', [
+        return $this->render('artikelbearbeiten', [
             'model' => $model,
         ]);
     }
