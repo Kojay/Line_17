@@ -8,11 +8,13 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use app\models\SearchForm;
+use app\models\QueryForm;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use yii\web\UrlManager ;
 use yii\widgets\Pjax;
 use yii\data\SqlDataProvider;
+use yii\helpers\Url;
 
 $this->title = 'Artikel';
 $this->params['breadcrumbs'][] = $this->title;
@@ -40,21 +42,63 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="fragment-1">
             Artikel
             <?php
-            $dataObj = new SearchForm(); 
+            $dataObj = new QueryForm(); 
             $dataProvider = $dataObj->getData();
-
-            Pjax::begin();
-                
-             ?>
+            Pjax::begin();               
+            ?>
+            
             <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [['class' => 'yii\grid\ActionColumn'],
-                'name',
-                'population',
-                ],
-                          
-            ]); 
+                
+            'dataProvider' => $dataProvider,
+                
+            'columns' => 
+                [
+                    [
+                        'class' => ActionColumn::className(),
+                        'template'=>'{view}',
+                        'buttons' => 
+                        [
+                            'view' => function ($url, $model) 
+                            {
+                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, 
+                            [
+                            'title' => Yii::t('app', 'Artikel Bearbeiten'),
+                            ]);
+                            }
+                        ],
+                                'urlCreator' => function ($action, $model, $key, $index)
+                                {
+                                    if ($action === 'view') 
+                                    {
+                                        return Url::to(['artikel']);
+                                    }
+                                }
+                        
+                    ],
+                    [
+                        'header' => 'Typ',
+                        'attribute' => 'articleTypeName',
+                    ],
+                    [
+                        'header' => 'Hersteller',
+                        'attribute' => 'articleproducerName',
+                    ],
+                    [
+                        'header' => 'Artikelname',
+                        'attribute' => 'articleName',
+                    ],
+                    [
+                        'header' => 'FHNW Nummer',
+                        'attribute' => 'fhnwNumber',
+                    ],
+                    [
+                        'header' => 'Ausgeliehen bis',
+                        'attribute' => 'lvLoanReturnDate',
+                    ],
+                ] 
+            ]);        
             Pjax::end();
+            
             ?>
             <!-- Gridview widget which can be filled with data -->
             

@@ -1,53 +1,166 @@
 <?php
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+use yii\helpers\Html;
+use app\models\QueryForm;
+use yii\grid\GridView;
+use yii\grid\ActionColumn;
+use yii\web\UrlManager ;
+use yii\widgets\Pjax;
+use yii\data\SqlDataProvider;
+use yii\helpers\Url;
+
+$this->title = 'Dashboard';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-index">
+<div class="site-artikelliste">
+    <h1 font size="20"><?= Html::encode($this->title) ?>
+    <span style="float:right;"><?= Html::a('Erinnerungen verschicken', ['/site/neuerartikel'], ['class'=>'btn btn-danger']) ?></span></h1>
+      
+    <?php
+     /*   $this->registerJsFile(Yii::$app->request->baseUrl.'/js/ArticleList.js', ['depends' => [\yii\web\JqueryAsset::className()]]);*/
+    
+    // Following code is here to generate Tabs and in there a list.
+    ?>
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+    <div id="tabs">
+        <ul>
+            <li><a href="#fragment-1"><span>Überfällige Ausleihungen</span></a></li>
+            <li><a href="#fragment-2"><span>Bald allfällige Ausleihungen</span></a></li>
+        </ul>
+        <div id="fragment-1">
+            <?php
+            $dataObj = new QueryForm(); 
+            $dataProvider = $dataObj->getDataAllfaelligeAusleihungen();
+            Pjax::begin();               
+            ?>
+            
+            <?= GridView::widget([
+                
+            'dataProvider' => $dataProvider,
+            'columns' => 
+                [
+                    [
+                        'class' => ActionColumn::className(),
+                        'template'=>'{view}',
+                        'buttons' => 
+                        [
+                            'view' => function ($url, $model) 
+                            {
+                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, 
+                            [
+                            'title' => Yii::t('app', 'Artikel Bearbeiten'),
+                            ]);
+                            }
+                        ],
+                                'urlCreator' => function ($action, $model, $key, $index)
+                                {
+                                    if ($action === 'view') 
+                                    {
+                                        return Url::to(['artikel']);
+                                    }
+                                }
+                        
+                    ],
+                    [
+                        'header' => 'Ausleihender',
+                        'attribute' => 'personFirstname',
+                    ],
+                    /*[
+                        'header' => 'Rückgabedatum',
+                        'attribute' => 'lvLoanReturnDate',
+                    ],*/
+                    [
+                        'header' => 'Standort',
+                        'attribute' => 'loanLocation',
+                    ],
+                ] 
+            ]);        
+            Pjax::end();
+            
+            ?>
+            <!-- Gridview widget which can be filled with data -->
+            
         </div>
-
+        <div id="fragment-2">
+            <?php
+            $dataObj = new QueryForm(); 
+            $dataProvider = $dataObj->getData();
+            Pjax::begin();               
+            ?>
+            
+            <?= GridView::widget([
+                
+            'dataProvider' => $dataProvider,
+                
+            'columns' => 
+                [
+                    [
+                        'class' => ActionColumn::className(),
+                        'template'=>'{view}',
+                        'buttons' => 
+                        [
+                            'view' => function ($url, $model) 
+                            {
+                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, 
+                            [
+                            'title' => Yii::t('app', 'Artikel Bearbeiten'),
+                            ]);
+                            }
+                        ],
+                                'urlCreator' => function ($action, $model, $key, $index)
+                                {
+                                    if ($action === 'view') 
+                                    {
+                                        return Url::to(['artikel']);
+                                    }
+                                }
+                        
+                    ],
+                    [
+                        'header' => 'Ausleihender',
+                        'attribute' => 'articleTypeName',
+                    ],
+                    [
+                        'header' => 'Dozent',
+                        'attribute' => 'articleproducerName',
+                    ],
+                    [
+                        'header' => 'Rückgabedatum',
+                        'attribute' => 'articleName',
+                    ],
+                    [
+                        'header' => 'Positionen',
+                        'attribute' => 'fhnwNumber',
+                    ],
+                    [
+                        'header' => 'Standort',
+                        'attribute' => 'lvLoanReturnDate',
+                    ],
+                ] 
+            ]);        
+            Pjax::end();
+            
+            ?>
+            <!-- Gridview widget which can be filled with data -->
+            
+        </div>
     </div>
+
+    <script>$( "#tabs" ).tabs();</script>
+    
+
+    <code><?= __FILE__ ?></code>
+    
 </div>
+
