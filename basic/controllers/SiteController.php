@@ -9,7 +9,9 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\ArtikelForm;
+use app\models\QueryForm;
 use yii\helpers\Url;
+use yii\helpers\Json;
 
 class SiteController extends Controller
 {
@@ -148,27 +150,78 @@ class SiteController extends Controller
     public function actionArtikel()
     {
         $model = new ArtikelForm();
+        ?>
+        <!--
+        <script>
+        $("#RefreshList").click(function(){		
+		$.ajax({
+				type: 'POST',
+				url: '@app/site/ajax',					
+				dataType: 'json',
+                                contentType: "application/json; charset=utf-8",
+				success: function(data) {					
+			        var list = document.getElementById('DataList');		
+					
+					$(document.getElementById('DataList')).empty();
+						
+						for (var i = 0; i < data.length; i++) {
+							var entry = document.createElement('li');
+                                                        entry.appendChild(document.createTextNode(JSON.stringify(data[i])));
+							list.appendChild(entry);
+						}												
+					}
+		});
+        });
+        </script>
+        -->
+        <?php
         
-        if ($model->load(Yii::$app->request->post())) {
-            return $this->goBack();
-        }
+       
+        $articleID = Yii::$app->request->get('id');
+        
+        $dataObj = new QueryForm();
+        $dataProvider = $dataObj->getDataArtikel($articleID);
+        $models = $dataProvider->getModels();
+        $model = $models[0];
+        
+        
         
         return $this->render('artikel', [
             'model' => $model,
         ]);
     }
-    public function actionArtikelbearbeiten()
+    public function actionArtikelbearbeiten($model)
     {
-        $model = new ArtikelForm();
-        
-        if ($model->load(Yii::$app->request->post())) {
-            return $this->goBack();
-        }
-        
+        $model = $model[0];
         return $this->render('artikelbearbeiten', [
             'model' => $model,
         ]);
     }
+    public function actionAjax()
+    {
+            echo alert('triggered');
+            /*$dataObj = new QueryForm(); 
+            $dataProvider = $dataObj->getData();
+            
+            $dataArray = \yii\helpers\ArrayHelper::toArray($dataProvider);
+            //echo json_encode($dataArray);
+            
+            
+            if (Yii::$app->request->isAjax) {
+                        $data = Yii::$app->request->post();                       
+                        //$log = new History();
+                        //$log->name = $filename;
+                        //$log->save();
+                
+                        $response = Yii::$app->response;
+                        $response->format = \yii\web\Response::FORMAT_JSON;
+                        $response->data = $dataArray;
+                        $response->statusCode = 200;
+                        
+                        return Json::encode($response);
+                }
+                else throw new \yii\web\BadRequestHttpException;*/
+    }       
     
     
 }

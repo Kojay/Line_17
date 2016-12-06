@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\widgets\Menu;
 use yii\bootstrap\ActiveForm;
-
+use app\models\QueryForm;
 
 $this->title = 'Artikel bearbeiten';
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,10 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         echo Menu::widget([
             'items' => 
             [
-                ['label' => 'Zurück', 'url' => ['site/index']],
-                ['label' => 'Artikel Bearbeiten', 'url' => ['site/index']],
-                ['label' => 'Etikette Drucken', 'url' => ['site/about']],
-                ['label' => 'Ausleihen', 'url' => ['site/index']],
+                ['label' => 'Zurück', 'url' => ['site/artikel']],
+                ['label' => 'Artikel Bearbeiten', 'url' => ['site/artikelbearbeiten']],
+                ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
+                ['label' => 'Ausleihen', 'url' => ['site/ausleihe']],
             ],
             'options' => ['class' =>'nav nav-tabs'],
         ]);
@@ -39,18 +39,35 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
         
-        <?= $form->field($model, 'articleName')->textInput()->label('Artikelname',['class' => 'col-sm-2']) ?>        
-        <?= $form->field($model, 'articleType')->textInput()->label('Typ',['class' => 'col-sm-2']) ?>
-        <?= $form->field($model, 'articleManufacturer')->textInput()->label('Hersteller',['class' => 'col-sm-2']) ?>
-        <?= $form->field($model, 'articleSerialnumber')->textInput()->label('Seriennummer',['class' => 'col-sm-2']) ?>
-        <?= $form->field($model, 'articleInstitute')->textInput()->label('Institut',['class' => 'col-sm-2']) ?> 
-        <?= $form->field($model, 'articlePurchased')->textInput()->label('Kaufdatum',['class' => 'col-sm-2']) ?>
-        <?= $form->field($model, 'articleGuarantee')->textInput()->label('Garantiedatum',['class' => 'col-sm-2']) ?>
-        <?= $form->field($model, 'articlePrice')->textInput()->label('Preis (CHF)',['class' => 'col-sm-2']) ?>
-        <?= $form->field($model, 'articleFHNW')->textInput()->label('FHNW Nummer',['class' => 'col-sm-2']) ?> 
-        <?= $form->field($model, 'articleDescription')->textInput()->label('Beschreibung',['class' => 'col-sm-2']) ?>    
-        <?= Html::submitButton('Artikel speichern', ['class' => 'btn btn-primary','col-sm-2', 'name' => 'save-button']) ?>
-    
+        <div class="form-group">
+            <label for="usr">Name:</label>
+            <input type="text" class="form-control" id="usr">
+        </div>
+        
+        
+        <div class="form-group field-artikelform-articleFHNW">
+                <label class="col-sm-2" for="artikelform-articleFHNW">
+                    FHNW Nummer:
+                </label>
+                <input class="col-lg-3">
+                    <?= VarDumper::dumpAsString($model['fhnwNumber'])?>        
+                </input>
+                <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
+            </div>
+        
+        <?php
+//            $dataObj = new QueryForm(); 
+//            $dataProvider = $dataObj->getDataArtikelliste();
+//            
+//            foreach($dataProvider->models as $myModel)
+//            {
+//            
+//            
+//            //echo $myModel['articleName'];
+//            } 
+        ?>
+        
+       
     </div>       
         <div class="form-group">
            

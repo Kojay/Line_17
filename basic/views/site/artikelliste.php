@@ -9,13 +9,14 @@
 
 use yii\helpers\Html;
 use app\models\QueryForm;
-use yii\grid\GridView;
-use yii\grid\ActionColumn;
-use yii\web\UrlManager ;
+use yii\web\UrlManager;
 use yii\widgets\Pjax;
 use yii\data\SqlDataProvider;
 use yii\helpers\Url;
-
+use yii\helpers\VarDumper;
+use yii\helpers\toArray;
+use yii\web\AssetBundle;
+use kartik\grid\GridView;
 
 $this->title = 'Artikel';
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,92 +36,75 @@ $this->params['breadcrumbs'][] = $this->title;
     <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
     <div id="tabs">
+        
         <ul>
-            <li><a href="#fragment-1"><span>One</span></a></li>
-            <li><a href="#fragment-2"><span>Two</span></a></li>
-            <li><a href="#fragment-3"><span>Three</span></a></li>
+            <li><a href="#fragment-1"><span>Alles</span></a></li>
+            <li><a href="#fragment-2"><span>Artikel</span></a></li>
+            <li><a href="#fragment-3"><span>Benutzer</span></a></li>
         </ul>
-        <div id="fragment-1">
-            Artikel
+        <script>$( "#tabs" ).tabs();</script>
+        <div value="jk" id="fragment-1">
             <?php
-            $dataObj = new QueryForm(); 
-            $dataProvider = $dataObj->getData();
-            Pjax::begin();               
-            ?>
             
-            <?= GridView::widget([
+            
+            Pjax::begin();               
+            $dataObj = new QueryForm();
+            $dataProvider = $dataObj->getData();
+            //echo VarDumper::dumpAsString($dataProvider->models[0]['fhnwNumber'])               
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
                 
-            'dataProvider' => $dataProvider,
+                'responsive'=> true,
+                'hover'=> true,
+                'export' => false,
                 
-            'columns' => 
-                [
-                    [
-                        'class' => ActionColumn::className(),
-                        'template'=>'{view}',
-                        'buttons' => 
-                        [
-                            'view' => function ($url, $model) 
-                            {
-                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, 
-                            [
-                            'title' => Yii::t('app', 'Artikel Bearbeiten'),
-                            ]);
-                            }
-                        ],
-                                'urlCreator' => function ($action, $model, $key, $index)
-                                {
-                                    if ($action === 'view') 
-                                    {
-                                        return Url::to(['artikel']);
-                                    }
-                                }
-                        
-                    ],
-                    [
-                        'header' => 'Typ',
+                
+                'rowOptions' => function ($model, $index, $widget, $grid) {
+                     return ['id' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['site/artikel']).'&id="+(this.id);'];
+                },
+                'columns' => [
+                    ['class' => '\kartik\grid\SerialColumn'],
+
+                    // Simple columns defined by the data contained in $dataProvider.
+                    // Data from the model's column will be used.
+                    // More complex one.
+                    [    
                         'attribute' => 'articleTypeName',
+                        'label' => 'ArtikelTyp',
                     ],
                     [
-                        'header' => 'Hersteller',
+                        
+                        'label' => 'Hersteller',
                         'attribute' => 'articleproducerName',
                     ],
                     [
-                        'header' => 'Artikelname',
+                       
+                        'label' => 'Artikelname',
                         'attribute' => 'articleName',
+             
                     ],
                     [
-                        'header' => 'FHNW Nummer',
+                        
+                        'label' => 'FHNW Nummer',
                         'attribute' => 'fhnwNumber',
                     ],
                     [
-                        'header' => 'Ausgeliehen bis',
+                        
+                        'label' => 'Ausgeliehen bis',
                         'attribute' => 'lvLoanReturnDate',
-                    ],                    
-                    'name', 
-                    'population',                  
-                ] 
-            ]);        
-            Pjax::end();
-            
-            ?>
-            <!-- Gridview widget which can be filled with data -->
-            
+                    ],],                                                   
+                        
+          ]);   
+                Pjax::end();
+                //$this->registerJsFile('');
+            ?>       
         </div>
         <div id="fragment-2">
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
         </div>
-        <div id="fragment-3">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-        </div>
     </div>
-
-    <script>$( "#tabs" ).tabs();</script>
     
 
-    <code><?= __FILE__ ?></code>
-    
 </div>
 

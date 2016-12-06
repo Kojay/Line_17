@@ -5,6 +5,7 @@
 use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\widgets\Menu;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\bootstrap\ActiveForm;
@@ -15,12 +16,20 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-statistic">
     <h1><?= Html::encode($this->title) ?></h1>
     <div>   
-    <?php
+    <?php       
+    
         echo Menu::widget([
             'items' => 
             [
                 ['label' => 'Zurück', 'url' => ['site/return']],
-                ['label' => 'Artikel Bearbeiten', 'url' => ['site/artikelbearbeiten']],
+                ['label' => 'Artikel Bearbeiten','url' => ['site/artikelbearbeiten', [$model['fhnwNumber']]], 'htmlOptions' => [
+                    'onclick' =>
+                    function($model){
+                             return ['id' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['site/artikel']).'&id="+(this.id);'];
+                    }
+                                
+                                ],
+                 ],
                 ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
                 ['label' => 'Ausleihen', 'url' => ['site/index']],
             ],
@@ -29,7 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
     </div>
     <div style="margin-top:20px">
-    <?php $form = ActiveForm::begin
+    <?php 
+    
+    
+    $form = ActiveForm::begin
     ([
         'id' => 'article-form',
         'layout' => 'horizontal',
@@ -53,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Artikeltyp:
                 </label>
                 <div class="col-lg-3">
-                    <?= VarDumper::dumpAsString($model['articleType'])?>        
+                    <?= VarDumper::dumpAsString($model['articleTypeName'])?>        
                 </div>
                 <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
             </div>
@@ -62,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Hersteller:
                 </label>
                 <div class="col-lg-3">
-                    <?= VarDumper::dumpAsString($model['articleManufacturer'])?>        
+                    <?= VarDumper::dumpAsString($model['articleproducerName'])?>        
                 </div>
                 <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
             </div>
@@ -71,16 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Seriennummer:
                 </label>
                 <div class="col-lg-3">
-                    <?= VarDumper::dumpAsString($model['articleSerialnumber'])?>        
-                </div>
-                <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
-            </div>
-            <div class="form-group field-artikelform-articleInstitute">
-                <label class="col-sm-2" for="artikelform-articleInstitute">
-                    Institut:
-                </label>
-                <div class="col-lg-3">
-                    <?= VarDumper::dumpAsString($model['articleInstitute'])?>        
+                    <?= VarDumper::dumpAsString($model['serialNumber'])?>        
                 </div>
                 <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
             </div>
@@ -89,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Kaufdatum:
                 </label>
                 <div class="col-lg-3">
-                    <?= VarDumper::dumpAsString($model['articlePurchased'])?>        
+                    <?= VarDumper::dumpAsString($model['dateBought'])?>        
                 </div>
                 <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
             </div>
@@ -98,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Garantiedatum:
                 </label>
                 <div class="col-lg-3">
-                    <?= VarDumper::dumpAsString($model['articleGuarantee'])?>        
+                    <?= VarDumper::dumpAsString($model['dateWarranty'])?>        
                 </div>
                 <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
             </div>
@@ -116,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     FHNW Nummer:
                 </label>
                 <div class="col-lg-3">
-                    <?= VarDumper::dumpAsString($model['articleFHNW'])?>        
+                    <?= VarDumper::dumpAsString($model['fhnwNumber'])?>        
                 </div>
                 <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
             </div>

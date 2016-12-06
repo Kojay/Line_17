@@ -23,6 +23,7 @@ class ArtikelForm extends Model
     /**
      * @return array the validation rules.
      */
+    
     public function rules()
     {
         return 
