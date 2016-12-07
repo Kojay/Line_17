@@ -17,8 +17,9 @@ class QueryForm extends Model
     {
         Yii::$app->db->createCommand('SELECT SQL_CALC_FOUND_ROWS * FROM {{%lv_article}} LIMIT 1')->queryScalar();
         $totalCount = Yii::$app->db->createCommand('SELECT FOUND_ROWS()')->queryScalar();
-        
 
+        
+        
         $dataProvider = new SqlDataProvider([
         'sql' => 'SELECT articletype.articleTypeName, articleproducer.articleproducerName, article.articleName, article.fhnwNumber, loanitems.lvLoanReturnDate'.
         ' FROM lv_loanitems AS loanitems'.
@@ -26,10 +27,13 @@ class QueryForm extends Model
         ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID'.
         ' LEFT JOIN lv_articleproducer AS articleproducer ON article.lv_producer_producerID = articleproducer.articleproducerID'.
         ' GROUP BY article.fhnwNumber',
+
           'pagination' => [
                 'pageSize' => 3,
                 ],
         'totalCount' => $totalCount,
+
+            
         'sort' => [
             
         'attributes' => [
@@ -196,10 +200,10 @@ class QueryForm extends Model
 public function getDataArtikel($fhnwNumber)
     {
         $dataProvider = new SqlDataProvider([
-        'sql' => 'SELECT articletype.articleTypeName, articleproducer.articleproducerName, '.
-                        'article.articleName, article.fhnwNumber, '.
-                        'article.serialNumber, article.articlePrice, article.dateBought, '.
-                        'article.dateWarranty, article.articleDescription'.
+        'sql' => 'SELECT article.articleName, articletype.articleTypeName, '.
+                        'articleproducer.articleproducerName, article.serialNumber, '.
+                        'article.dateBought, article.dateWarranty, article.articlePrice, '.
+                        'article.fhnwNumber, article.articleDescription'.
                 ' FROM lv_loanitems AS loanitems'.           
                 ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID'.
                 ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID'.
@@ -271,6 +275,38 @@ public function getDataArtikel($fhnwNumber)
 
 	//return JSON Obj over Ajax
 	return $dataProvider;
+    }
+    
+    
+    
+public function setDataArtikel($paramArticleData)
+    {
+        Yii::$app->db->createCommand(
+         )->update(          
+            'lv_article',
+               ['articleName' => $paramArticleData['articleName'],
+                'serialNumber' => $paramArticleData['serialNumber'],
+                'dateBought' => $paramArticleData['dateBought'],
+                'dateWarranty' => $paramArticleData['dateWarranty'],
+                'articlePrice' => $paramArticleData['articlePrice'],
+                'fhnwNumber' => $paramArticleData['fhnwNumber'],
+                'articleDescription' => $paramArticleData['articleDescription']],
+               ['fhnwNumber' => $paramArticleData['fhnwNumberID']])->execute();
+        
+        Yii::$app->db->createCommand()->update
+        (
+        'lv_articletype', 
+        [
+            'articleTypeName' => $paramArticleData['articleTypeName'],
+        ]
+                )->execute();
+        Yii::$app->db->createCommand()->update
+        (
+        'lv_articleproducer', 
+        [
+            'articleproducerName' => $paramArticleData['articleproducerName'],
+        ]
+                 )->execute();
     }    
 }
 

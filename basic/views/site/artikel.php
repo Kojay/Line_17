@@ -6,12 +6,24 @@ use yii\helpers\Html;
 use yii\helpers\VarDumper;
 use yii\widgets\Menu;
 use yii\helpers\Url;
+use yii\widgets\Breadcrumbs;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Artikel Details';
-$this->params['breadcrumbs'][] = $this->title;
+
+echo Breadcrumbs::widget([
+    'links' => [
+        [
+            'label' => 'Artikelliste',
+            'url' => ['site/artikelliste'],
+            'template' => "<li>{link}</li>\n", // template for this link only
+        ],      
+        $this->title
+    ],
+]);
+
 ?>
 <div class="site-statistic">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -22,14 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'items' => 
             [
                 ['label' => 'Zurück', 'url' => ['site/return']],
-                ['label' => 'Artikel Bearbeiten','url' => ['site/artikelbearbeiten', [$model['fhnwNumber']]], 'htmlOptions' => [
-                    'onclick' =>
-                    function($model){
-                             return ['id' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['site/artikel']).'&id="+(this.id);'];
-                    }
-                                
-                                ],
-                 ],
+
+                ['label' => 'Artikel Bearbeiten', 'url' => ['site/artikelbearbeiten',['fhnwNumber' => $model['fhnwNumber']]]],
                 ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
                 ['label' => 'Ausleihen', 'url' => ['site/index']],
             ],
@@ -132,10 +138,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-lg-8"><div class="help-block help-block-error "></div></div>
             </div>
-
-   
-        <?= Html::submitButton('Artikel speichern', ['class' => 'btn btn-primary','col-sm-2', 'name' => 'save-button']) ?>
-    
     </div>       
         <div class='form-group">
            

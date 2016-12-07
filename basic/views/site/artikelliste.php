@@ -13,9 +13,6 @@ use yii\web\UrlManager;
 use yii\widgets\Pjax;
 use yii\data\SqlDataProvider;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
-use yii\helpers\toArray;
-use yii\web\AssetBundle;
 use kartik\grid\GridView;
 
 $this->title = 'Artikel';
@@ -45,20 +42,22 @@ $this->params['breadcrumbs'][] = $this->title;
         <script>$( "#tabs" ).tabs();</script>
         <div value="jk" id="fragment-1">
             <?php
+
             
             
             Pjax::begin();               
+
+            
             $dataObj = new QueryForm();
             $dataProvider = $dataObj->getData();
             //echo VarDumper::dumpAsString($dataProvider->models[0]['fhnwNumber'])               
             echo GridView::widget([
-                'dataProvider' => $dataProvider,
-                
+                'dataProvider' => $dataProvider,   
                 'responsive'=> true,
                 'hover'=> true,
                 'export' => false,
                 
-                
+               
                 'rowOptions' => function ($model, $index, $widget, $grid) {
                      return ['id' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['site/artikel']).'&id="+(this.id);'];
                 },
@@ -68,7 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     // Simple columns defined by the data contained in $dataProvider.
                     // Data from the model's column will be used.
                     // More complex one.
-                    [    
+
+                    [
                         'attribute' => 'articleTypeName',
                         'label' => 'ArtikelTyp',
                     ],
@@ -92,12 +92,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         
                         'label' => 'Ausgeliehen bis',
                         'attribute' => 'lvLoanReturnDate',
+
                     ],],                                                   
                         
           ]);   
                 Pjax::end();
                 //$this->registerJsFile('');
             ?>       
+
         </div>
         <div id="fragment-2">
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.

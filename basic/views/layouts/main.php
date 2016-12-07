@@ -15,6 +15,11 @@ AppAsset::register($this);
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
+    
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script> 
+    
+    
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,15 +39,19 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+	/* **********Suche als Eingabe möglich
 	?> "
+
        <form class='navbar-form navbar-right' role='search'>
             <div class='form-group has-feedback'>
-                <input id='searchbox' type='text' placeholder='Search' class='form-control'>
+                <input id='searchbox' type='text' placeholder='Suche' class='form-control'>
                 <span id='searchicon' class='fa fa-search form-control-feedback'></span>
             </div>
 	</form>";
-	<?php
 
+	
+	<?php
+*/
   echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
@@ -52,6 +61,7 @@ AppAsset::register($this);
             ['label' => 'Benutzerverwaltung', 'url' => ['/site/benutzerverwaltung']],
             ['label' => 'Statistik', 'url' => ['/site/statistik']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+			['label' => 'Suche', 'url' => ['/site/suche']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -64,6 +74,7 @@ AppAsset::register($this);
                 . Html::endForm()
                 . '</li>'
             )
+			
         ],
     ]);
 	

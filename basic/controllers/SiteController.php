@@ -175,8 +175,7 @@ class SiteController extends Controller
         </script>
         -->
         <?php
-        
-       
+
         $articleID = Yii::$app->request->get('id');
         
         $dataObj = new QueryForm();
@@ -185,43 +184,63 @@ class SiteController extends Controller
         $model = $models[0];
         
         
-        
         return $this->render('artikel', [
             'model' => $model,
         ]);
     }
-    public function actionArtikelbearbeiten($model)
+    public function actionArtikelbearbeiten()
+    {  
+        if(!Yii::$app->request->post() && Yii::$app->request->get())
+        {
+            $model = new ArtikelForm();
+            $articleID = Yii::$app->request->get(1);
+        
+            $dataObj = new QueryForm();
+            $dataProvider = $dataObj->getDataArtikel($articleID['fhnwNumber']);
+            
+            
+            $models = $dataProvider->getModels();
+            if(!empty($models)){
+            $modeldata = $models[0];
+        
+            return $this->render('artikelbearbeiten', [
+            'model' => $model,
+            'modeldata' => $modeldata,
+            ]); 
+            }
+            else {
+                //THROWEXCEPTION NO DATA PASSED IN GET
+            }
+        }
+        else
+        {
+            $model = new ArtikelForm();
+            $request = Yii::$app->request;
+            if ($request->isAjax) {
+                $tmpPOSTdata = Yii::$app->request->post();
+                $modeldata = $tmpPOSTdata['ArtikelForm'];
+                $dataObj = new QueryForm();
+                $dataObj->setDataArtikel($modeldata);
+
+                return $this->render('artikelbearbeiten', [
+                        'model' => $model,
+                        'modeldata' => $modeldata,
+                        ]);
+            }
+        }
+            
+    }
+    
+    public function actionSuche()
     {
-        $model = $model[0];
-        return $this->render('artikelbearbeiten', [
+		$model = new ArtikelForm();
+		
+		if ($model->load(Yii::$app->request->post())) {
+            return $this->goBack();
+        }
+		
+        return $this->render('Suche', [
             'model' => $model,
         ]);
     }
-    public function actionAjax()
-    {
-            echo alert('triggered');
-            /*$dataObj = new QueryForm(); 
-            $dataProvider = $dataObj->getData();
-            
-            $dataArray = \yii\helpers\ArrayHelper::toArray($dataProvider);
-            //echo json_encode($dataArray);
-            
-            
-            if (Yii::$app->request->isAjax) {
-                        $data = Yii::$app->request->post();                       
-                        //$log = new History();
-                        //$log->name = $filename;
-                        //$log->save();
-                
-                        $response = Yii::$app->response;
-                        $response->format = \yii\web\Response::FORMAT_JSON;
-                        $response->data = $dataArray;
-                        $response->statusCode = 200;
-                        
-                        return Json::encode($response);
-                }
-                else throw new \yii\web\BadRequestHttpException;*/
-    }       
-    
-    
 }
