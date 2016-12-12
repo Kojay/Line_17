@@ -7,7 +7,7 @@ $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'app\commands',
+    'controllerNamespace' => 'app\commands',   
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -29,8 +29,11 @@ $config = [
             'class' => 'yii\faker\FixtureController',
         ],
     ],
-    */
+    */ 
 ];
+
+Yii::setAlias('@controller', '/artikel/');
+
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment

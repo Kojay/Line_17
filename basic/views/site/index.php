@@ -8,9 +8,9 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use app\models\QueryForm;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use app\models\QueryRqst;
 use yii\web\UrlManager ;
 use yii\widgets\Pjax;
 use yii\data\SqlDataProvider;
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-artikelliste">
     <h1 font size="20"><?= Html::encode($this->title) ?>
-    <span style="float:right;"><?= Html::a('Erinnerungen verschicken', ['/site/neuerartikel'], ['class'=>'btn btn-danger']) ?></span></h1>
+    <span style="float:right;"><?= Html::a('Erinnerungen verschicken', ['/artikel/neuerartikel'], ['class'=>'btn btn-danger']) ?></span></h1>
       
     <?php
      /*   $this->registerJsFile(Yii::$app->request->baseUrl.'/js/ArticleList.js', ['depends' => [\yii\web\JqueryAsset::className()]]);*/
@@ -40,14 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </ul>
         <div id="fragment-1">
             <?php
-            $dataObj = new QueryForm(); 
-            $dataProvider = $dataObj->getDataAllfaelligeAusleihungen();
             Pjax::begin();               
             ?>
             
             <?= GridView::widget([
                 
-            'dataProvider' => $dataProvider,
+            'dataProvider' => (new QueryRqst())->getDataAllfaelligeAusleihungen(),
             'columns' => 
                 [
                     [
@@ -98,14 +96,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div id="fragment-2">
             <?php
-            $dataObj = new QueryForm(); 
-            $dataProvider = $dataObj->getData();
             Pjax::begin();               
             ?>
             
             <?= GridView::widget([
                 
-            'dataProvider' => $dataProvider,
+            'dataProvider' => (new QueryRqst())->getData(),
                 
             'columns' => 
                 [

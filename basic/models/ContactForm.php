@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\base;
 
 /**
  * ContactForm is the model behind the contact form.

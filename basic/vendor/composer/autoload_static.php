@@ -31,6 +31,8 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         ),
         'k' => 
         array (
+            'kartik\\tabs\\' => 12,
+            'kartik\\plugins\\tabs\\' => 20,
             'kartik\\grid\\' => 12,
             'kartik\\dialog\\' => 14,
             'kartik\\base\\' => 12,
@@ -114,6 +116,14 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'kartik\\tabs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-tabs-x',
+        ),
+        'kartik\\plugins\\tabs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-tabs-x',
         ),
         'kartik\\grid\\' => 
         array (

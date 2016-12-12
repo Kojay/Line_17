@@ -39,7 +39,7 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-	/* **********Suche als Eingabe möglich
+	/***********Suche als Eingabe möglich
 	?> "
 
        <form class='navbar-form navbar-right' role='search'>
@@ -57,8 +57,8 @@ AppAsset::register($this);
         'items' => [
             
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Artikel', 'url' => ['/site/artikelliste']],
-            ['label' => 'Benutzerverwaltung', 'url' => ['/site/benutzerverwaltung']],
+            ['label' => 'Artikel', 'url' => ['/artikel/artikelliste']],
+            ['label' => 'Benutzerverwaltung', 'url' => ['/benutzer/benutzerverwaltung']],
             ['label' => 'Statistik', 'url' => ['/site/statistik']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
 			['label' => 'Suche', 'url' => ['/site/suche']],

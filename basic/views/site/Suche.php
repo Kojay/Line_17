@@ -8,7 +8,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use app\models\QueryForm;
+use app\models\QueryRqst;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\web\UrlManager ;
@@ -57,14 +57,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="fragment-1">
             Artikel
             <?php
-            $dataObj = new QueryForm(); 
-            $dataProvider = $dataObj->getData();
             Pjax::begin();               
             ?>
             
             <?= GridView::widget([
                 
-            'dataProvider' => $dataProvider,
+            'dataProvider' => (new QueryRqst())->getData(),
                 
             'columns' => 
                 [
@@ -122,8 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="fragment-2">
                Artikel
             <?php
-            $dataObj = new QueryForm(); 
-            $dataProvider = $dataObj->getData();
+            $dataProvider = (new QueryRqst())->getData();
             Pjax::begin();               
             ?>
             
@@ -186,14 +183,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="fragment-3">
    Artikel
             <?php
-            $dataObj = new QueryForm(); 
-            $dataProvider = $dataObj->getData();
             Pjax::begin();               
             ?>
             
             <?= GridView::widget([
                 
-            'dataProvider' => $dataProvider,
+            'dataProvider' => (new QueryRqst())->getData(),
                 
             'columns' => 
                 [
