@@ -26,8 +26,8 @@ echo Html::tag('h1',Html::encode($this->title));
         echo Menu::widget([
             'items' => 
             [
-                ['label' => 'Zurück', 'url' => ['artikel/artikelliste','_rqstIDfhnwNumber' => yii::$app->session->get('_rqstIDfhnwNumber')]],
-                ['label' => 'Artikel Bearbeiten', 'url' => ['artikel/artikelbearbeiten','_rqstIDfhnwNumber' => yii::$app->session->get('_rqstIDfhnwNumber')]],
+                ['label' => 'Zurück', 'url' => ['artikel/artikelliste','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')]],
+                ['label' => 'Artikel Bearbeiten', 'url' => ['artikel/artikelbearbeiten','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')]],
                 ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
                 ['label' => 'Ausleihen', 'url' => ['site/index']],
             ],

@@ -23,34 +23,42 @@ echo Breadcrumbs::widget([
     ],
 ]);
 
-    echo Html::tag('h1',Html::encode($this->title));
+echo Html::tag('h1',Html::encode($this->title));
 
-        echo Menu::widget([
-            'items' => 
-            [
-                ['label' => 'Zurück', 'url' => ['benutzer/benutzer','_rqstIDUserID' => yii::$app->request->get('_rqstIDUserID')]],
-                ['label' => 'Benutzer Bearbeiten', 'url' => false],
-            ],
-            'options' => ['class' =>'nav nav-tabs'],
-        ]);
+echo Menu::widget([
+    'items' =>
+    [
+        ['label' => 'Zurück', 'url' => ['benutzer/benutzer','_rqstIDUserID' => yii::$app->request->get('_rqstIDUserID')]],
+        ['label' => 'Benutzer Bearbeiten', 'url' => false],
+    ],
+    'options' => ['class' =>'nav nav-tabs'],
+]);
+
 echo Html::beginTag('div');
     $form = ActiveForm::begin
     ([
         'id' => 'userupdate-form',
         'layout' => 'horizontal',
-        'fieldConfig' => 
+        'fieldConfig' =>
         [
             'template' => "{label}{input}",
             'labelOptions' => ['class' => 'col-md-2'],
             'inputOptions' => ['class' => 'col-md-4'],
         ],
     ]);
-    
-    echo Html::beginTag('div',['style' => 'margin-top:20px']);   
-    
-    //echo yii\helpers\VarDumper::dump($model);
-    //echo yii\helpers\VarDumper::dump($models);
-    //echo $form->errorSummary($model); 
+
+    if(Yii::$app->session->hasFlash('userDataUpdated'))
+    {
+        echo Html::beginTag('div',['style' => 'margin-top:20px']);
+        echo Alert::widget([
+            'options' => ['class' => 'alert-info'],
+            'body' => Yii::$app->session->getFlash('userDataUpdated'),
+        ]);
+        echo Html::endTag('div',['style' => 'margin-bottom:20px']);
+    }
+
+    echo Html::endTag('div');
+    echo Html::beginTag('div',['style' => 'margin-top:20px']);
     
     echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
     echo $form->field($model, 'personFirstname')->textInput(['value' => $model->personFirstname])->label(translateField('personFirstname'));  
@@ -62,15 +70,7 @@ echo Html::beginTag('div');
     
     echo Html::Button('Benutzer speichern', ['class' => 'btn btn-success','id' => 'btn-saveUser','style' => 'margin-right:20px']);    
     echo Html::Button('Benutzer löschen', ['class' => 'btn btn-danger','id' => 'btn-deleteUser']);
-    if(Yii::$app->session->hasFlash('userDataUpdated'))
-    {
-        echo Html::beginTag('div',['style' => 'margin-top:20px']);      
-            echo Alert::widget([
-                'options' => ['class' => 'alert-info'],
-                'body' => Yii::$app->session->getFlash('userDataUpdated'),
-            ]);   
-        echo Html::endTag('div',['style' => 'margin-bottom:20px']); 
-    }
+
     
     function translateFieldPermission($paramAdmin){
         if ($paramAdmin === 1): return 'Administrator'; else: return 'Benutzer'; endif;

@@ -58,5 +58,4 @@ class Benutzer extends Model
     {
         return \Yii::$app->getSecurity()->generatePasswordHash($paramPassword);
     }
-    
 }
