@@ -51,7 +51,7 @@ class BenutzerController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
+            ],  
         ];
     }
     public function actionBenutzerverwaltung()
@@ -68,15 +68,15 @@ class BenutzerController extends Controller
     {
         $model = new Benutzer();
         if(Yii::$app->request->get('_rqstIDUserID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax){
-            $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));                //ERRORHANDLING EINFÜGEN
-            $model->validate();                                                                                                 //Writes into model the attributes given as array from sqldataprovider->getmodels method
-                //$model->validate();                                                                                              //Must be updated ASAP after DB corrections
+            $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));                //@mention ERRORHANDLING EINFÜGEN
+            $model->validate();                                                                                                 //@mention Writes into model the attributes given as array from sqldataprovider->getmodels method
+                                                                                                                                //@mention Must be updated ASAP after DB corrections
             return $this->render('benutzerbearbeiten', ['model' => $model]);       
         }
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post('Benutzer') && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post());
             $model->validate();
-            //if($model->validate()){                                                                                               //Must be updated ASAP after DB corrections
+            //if($model->validate()){                                                                                               //@mention Must be updated ASAP after DB corrections
                 (new QueryRqst())->updateDataBenutzer($model,$model->getPasswordHash($model->userPassword)); 
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gespeichert.');
@@ -87,7 +87,7 @@ class BenutzerController extends Controller
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post('Benutzer') && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post());
             $model->validate();
-            //if($model->validate()){                                                                                               //Must be updated ASAP after DB corrections
+            //if($model->validate()){                                                                                               //@mention Must be updated ASAP after DB corrections
                 (new QueryRqst())->deleteDataBenutzer($model); 
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gelöscht.');
@@ -103,7 +103,7 @@ class BenutzerController extends Controller
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post('Benutzer'));
             $model->validate();
-            //if(!$model->validate()){                                                                                    //Must be updated ASAP after DB corrections
+            //if(!$model->validate()){                                                                                    //@mention Must be updated ASAP after DB corrections
                 (new QueryRqst())->createDataBenutzer($model); 
                 yii::$app->session->open();
                 yii::$app->session->setFlash('articleDataCreated', 'Sie haben den Bneutzer erfolgreich erstellt.');
