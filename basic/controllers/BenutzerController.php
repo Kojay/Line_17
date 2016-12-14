@@ -70,7 +70,7 @@ class BenutzerController extends Controller
         if(Yii::$app->request->get('_rqstIDUserID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax){
             $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));                //@mention ERRORHANDLING EINFÜGEN
             $model->validate();                                                                                                 //@mention Writes into model the attributes given as array from sqldataprovider->getmodels method
-                                                                                                                                //@mention Must be updated ASAP after DB corrections
+
             return $this->render('benutzerbearbeiten', ['model' => $model]);       
         }
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post('Benutzer') && yii::$app->request->isAjax){
@@ -97,16 +97,16 @@ class BenutzerController extends Controller
         } 
         //throw new \yii\web\HttpException(404, 'Die angeforderte Seite konnte nicht geladen werden, haben Sie versucht über die Addresszeile zu navigieren?');      
     }  
-    public function actionNeuerBenutzer()
+    public function actionNeuerbenutzer()
     {
         $model = new Benutzer();
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post('Benutzer'));
             $model->validate();
-            //if(!$model->validate()){                                                                                    //@mention Must be updated ASAP after DB corrections
-                (new QueryRqst())->createDataBenutzer($model); 
+            //if(!$model->validate()){                                                                                              //@mention Must be updated ASAP after DB corrections
+                (new QueryRqst())->createDataBenutzer($model, Yii::$app->getSecurity()->generatePasswordHash($model->userPassword));
                 yii::$app->session->open();
-                yii::$app->session->setFlash('articleDataCreated', 'Sie haben den Bneutzer erfolgreich erstellt.');
+                yii::$app->session->setFlash('userDataCreated', 'Sie haben den Bneutzer erfolgreich erstellt.');
             //}
             $this->refresh(Url::current());
         }

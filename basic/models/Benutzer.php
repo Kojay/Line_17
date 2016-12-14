@@ -39,10 +39,11 @@ class Benutzer extends Model
             'requiredRule' => [['personFirstname', 'personLastname','personMail', 'isUserAdmin', 'userPassword'], 'required'],
             
             'personFirstnameRule'   => [
-                                    ['personFirstname'],
-                                    'string',
-                                    'max' => self::USERNAME_MAXLENGTH,
-                                    'message' => 'Bitte geben Sie einen gültigen Namen ein, Sonderzeichen sind zu vermeiden sowie mehr als '.self::USERNAME_MAXLENGTH.' Zeichen'],      
+                                            ['personFirstname'],
+                                            'string',
+                                            'max' => self::USERNAME_MAXLENGTH,
+                                            'message' => 'Bitte geben Sie einen gültigen Namen ein, Sonderzeichen sind zu vermeiden sowie mehr als '.self::USERNAME_MAXLENGTH.' Zeichen'
+                                        ],
             
             [['isUserAdmin'], 'boolean', 'message' => 'Bitte wählen sie eine Berechtigung.'],
             [['personLastname'],'string' ,'max' => 40 ,'message' => 'Bitte geben Sie einen gültigen Namen ein, der Name ist lang'],
@@ -58,5 +59,4 @@ class Benutzer extends Model
     {
         return \Yii::$app->getSecurity()->generatePasswordHash($paramPassword);
     }
-    
 }

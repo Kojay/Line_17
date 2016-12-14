@@ -8,13 +8,13 @@ use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 
-$this->title = 'Artikel erstellen';
+$this->title = 'Benutzer erstellen';
 
 echo Breadcrumbs::widget([
     'links' => [
         [
-            'label' => 'Artikelliste',
-            'url' => ['artikel/artikelliste'],
+            'label' => 'Benutzer erstellen',
+            'url' => ['benutzer/benutzerverwaltung'],
             'template' => "<li>{link}</li>\n", // template for this link only
         ],      
         $this->title
@@ -27,22 +27,19 @@ echo Menu::widget([
             'items' => 
             [
                 ['label' => 'Zurück', 'url' => ['benutzer/benutzerverwaltung','_rqstIDUserID' => yii::$app->request->get('_rqstIDUserID')]],
-                ['label' => 'Artikel Bearbeiten', 'url' => false],
-                ['label' => 'Etikette Drucken', 'url' => false],
-                ['label' => 'Ausleihen', 'url' => false],
-                
+                ['label' => 'Benutzer Bearbeiten', 'url' => false],
             ],
             'options' => ['class' =>'nav nav-tabs'],
         ]);
 
-Yii::$app->session->setFlash('articleDataCreated', 'Der Artikel wurde erfolgreich erstellt!');
+Yii::$app->session->setFlash('benutzerDataCreated', 'Der Benutzer wurde erfolgreich erstellt!');
 
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
     $form = ActiveForm::begin
     ([
-        'id' => 'artikelspeichern-formActive',
-        'action' => 'artikel/artikelbearbeiten',
+        'id' => 'createbenutzer-formActive',
+        'action' => 'benutzer/benutzerbearbeiten',
         'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => 
         [
@@ -52,8 +49,18 @@ echo Html::beginTag('div',['style' => 'margin-top:20px']);
             'errorOptions' => ['class' => 'col-md-4'],
         ],
     ]);
-    
-    echo $form->field($model, 'userID')->textInput(['value' => $model->userID])->label(translateField('userID'));
+
+if(Yii::$app->session->hasFlash('userDataCreated'))
+{
+    echo Html::beginTag('div',['style' => 'margin-top:20px']);
+    echo Alert::widget([
+        'options' => ['class' => 'alert-info'],
+        'body' => Yii::$app->session->getFlash('userDataCreated'),
+    ]);
+    echo Html::endTag('div',['style' => 'margin-bottom:20px']);
+}
+
+   // echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
     echo $form->field($model, 'personFirstname')->textInput(['value' => $model->personFirstname])->label(translateField('personFirstname'));  
     echo $form->field($model, 'personLastname')->textInput(['value' => $model->personLastname])->label(translateField('personLastname'));  
     echo $form->field($model, 'personMail')->textInput(['value' => $model->personMail])->label(translateField('personMail'));  
@@ -84,17 +91,16 @@ echo Html::endTag('div', ['style' => 'margin-bottom:50px']);
 
 $script = <<< JS
 $( document ).ready(function() {
-        var form=$("#artikelspeichern-formActive");
     $(function(){
        $("#btn-createUser").click(function(e){
-        krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel erstellen wollen?", function (result) {
+        krajeeDialog.confirm("Sind sie sicher, dass sie den Benutzer erstellen wollen?", function (result) {
             if (result) {
-                        //$("#artikelspeichern-formActive").submit();
                         e.preventDefault();
                         $.ajax({
                                 url: urlAjax,
                                 type:'post',
-                                data:$('#artikelspeichern-formActive').serialize(),
+                                headers: { '_rqstAjaxFnc': 'create' },
+                                data:$('#createbenutzer-formActive').serialize(),
                         success:function(){
                                 //execute changes if needed ...
         
