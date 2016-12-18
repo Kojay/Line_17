@@ -38,15 +38,15 @@ echo Menu::widget([
     'options' => ['class' =>'nav nav-tabs'],
 ]);
 
-    if(Yii::$app->session->hasFlash('articleDataUpdated')){
-        echo Html::beginTag('div');    
-            echo Alert::widget([
-                'options' => ['class' => 'alert-info'],
-                'body' => Yii::$app->session->getFlash('articleDataUpdated'),
-            ]);
-        echo Html::endTag('div');
-    }
-echo Html::beginTag('div',['style' => 'margin-top:20px']);
+
+if(Yii::$app->session->hasFlash('articleDataUpdated')){
+    echo Html::beginTag('div');
+        echo Alert::widget([
+            'options' => ['class' => 'alert-info'],
+            'body' => Yii::$app->session->getFlash('articleDataUpdated'),
+        ]);
+}
+
     $form = ActiveForm::begin
     ([
         'id' => 'articleupdate-form',
@@ -114,7 +114,6 @@ echo Html::beginTag('div',['style' => 'margin-top:20px']);
     ActiveForm::end();
 
 echo Html::endTag('div');
-
 $script = <<< JS
 $( document ).ready(function() { 
     

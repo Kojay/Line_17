@@ -71,6 +71,7 @@ class BenutzerController extends Controller
             $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));                    //TODO: ERRORHANDLING EINFÜGEN
             $model->validate();                                                                                                     //TODO: Writes into model the attributes given as array from sqldataprovider->getmodels method
             //$model->validate();                                                                                                   //TODO: Must be updated ASAP after DB corrections
+
             return $this->render('benutzerbearbeiten', ['model' => $model]);       
         }
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post('Benutzer') && yii::$app->request->isAjax){

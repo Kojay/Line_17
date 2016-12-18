@@ -279,7 +279,7 @@ class QueryRqst extends Model
         $query = 'UPDATE  lv_article article, lv_articletype articletype, lv_articleproducer articleproducer 
                         
                 SET     article.articleName="' . $paramArticleData['articleName'] . '",
-                        article.serialNumber="' . $paramArticleData['serialNumber'] . '",
+                        article.serialNumber="' . $paramArticleData1['serialNumber'] . '",
                         article.dateBought="' . $paramArticleData['dateBought'] . '",
                         article.dateWarranty="' . $paramArticleData['dateWarranty'] . '",
                         article.articlePrice="' . $paramArticleData['articlePrice'] . '",
@@ -346,7 +346,7 @@ class QueryRqst extends Model
 
     public function deleteDataArtikel($paramArticleData)
     {
-        $preConditionSQL = 'SET FOREIGN_KEY_CHECKS=0';
+        //$preConditionSQL = 'SET FOREIGN_KEY_CHECKS=0';
 
         $qry1 = 'DELETE article, articletype, articleproducer, loanitems ' .
             'FROM lv_loanItems AS loanitems ' .
@@ -362,16 +362,16 @@ class QueryRqst extends Model
                         articletype.articleTypeName="' . $paramArticleData['articleTypeName'] . '" AND
                         articleproducer.articleproducerName="' . $paramArticleData['articleproducerName'] . '"';
 
-        $postConditionSQL = 'SET FOREIGN_KEY_CHECKS=1';
+        //$postConditionSQL = 'SET FOREIGN_KEY_CHECKS=1';
 
         // INSERT VALIDATION AND ERROR HANDLING
 
         $transaction = Yii::$app->db->beginTransaction();
-        Yii::$app->db->createCommand($preConditionSQL)->execute();
+        //Yii::$app->db->createCommand($preConditionSQL)->execute();
         Yii::$app->db->createCommand($qry1)->execute();
 //        Yii::$app->db->createCommand($query2)->execute();
 //        Yii::$app->db->createCommand($query3)->execute();
-        Yii::$app->db->createCommand($postConditionSQL)->execute();
+        //Yii::$app->db->createCommand($postConditionSQL)->execute();
         $transaction->commit();
     }
 
@@ -380,7 +380,7 @@ class QueryRqst extends Model
         $query1 = ' DELETE FROM lv_user ' .
             ' WHERE  lv_user.userID="' . $paramUserData['userID'] . '" AND
                            lv_user.isUserAdmin="' . $paramUserData['isUserAdmin'] . '" AND
-                           lv_user.userPersonsID="' . $paramUserData['userPersonsID'];
+                           lv_user.userPersonsID="' . $paramUserData['userPersonsID'].'"';
         $query2 = ' DELETE FROM lv_persons ' .
             ' WHERE  lv_persons.personsID="' . $paramUserData['articleTypeName'] . '" AND
                            lv_persons.personFirstname=lv_articletype.articleTypeID AND

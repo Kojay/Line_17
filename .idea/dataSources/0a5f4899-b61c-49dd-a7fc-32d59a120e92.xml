@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - @localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+    <schema id="1" name="hwausleihe">
+      <visible>1</visible>
+    </schema>
+    <schema id="2" name="hwinventar"/>
+    <schema id="3" name="information_schema"/>
+    <schema id="4" name="mysql"/>
+    <schema id="5" name="performance_schema"/>
+    <schema id="6" name="phpmyadmin"/>
+    <schema id="7" name="test"/>
+    <schema id="8" name="yii2basic"/>
+    <table id="9" parent="1" name="lv_article"/>
+    <table id="10" parent="1" name="lv_articleproducer"/>
+    <table id="11" parent="1" name="lv_articletype"/>
+    <table id="12" parent="1" name="lv_loanitems"/>
+    <table id="13" parent="1" name="lv_loanprofile"/>
+    <table id="14" parent="1" name="lv_persons"/>
+    <table id="15" parent="1" name="lv_user"/>
+    <column id="16" parent="9" name="articleID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="17" parent="9" name="lv_producer_producerID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="18" parent="9" name="lv_articletype_articleTypeID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="19" parent="9" name="articleName">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="20" parent="9" name="fhnwNumber">
+      <mandatory>1</mandatory>
+      <data-type>varchar(16)|0</data-type>
+    </column>
+    <column id="21" parent="9" name="serialNumber">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="22" parent="9" name="articlePrice">
+      <mandatory>1</mandatory>
+      <data-type>decimal(10)|0</data-type>
+    </column>
+    <column id="23" parent="9" name="dateBought">
+      <mandatory>1</mandatory>
+      <data-type>date|0</data-type>
+    </column>
+    <column id="24" parent="9" name="dateWarranty">
+      <mandatory>1</mandatory>
+      <data-type>date|0</data-type>
+    </column>
+    <column id="25" parent="9" name="articleDescription">
+      <data-type>text|0</data-type>
+    </column>
+    <column id="26" parent="9" name="status">
+      <data-type>varchar(32)|0</data-type>
+    </column>
+    <index id="27" parent="9" name="fhnwNumber">
+      <columns>fhnwNumber</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <index id="28" parent="9" name="fk_lv_article_lv_articletype1_idx">
+      <columns>lv_articletype_articleTypeID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="29" parent="9" name="fk_lv_article_lv_producer1_idx">
+      <columns>lv_producer_producerID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="30" parent="9" name="PRIMARY">
+      <columns>articleID</columns>
+      <primary>1</primary>
+    </key>
+    <key id="31" parent="9" name="fhnwNumber">
+      <columns>fhnwNumber</columns>
+      <underlying-index>fhnwNumber</underlying-index>
+    </key>
+    <foreign-key id="32" parent="9" name="fk_lv_article_lv_producer1">
+      <columns>lv_producer_producerID</columns>
+      <ref-key>~.lv_articleproducer.PRIMARY</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
+    <foreign-key id="33" parent="9" name="fk_lv_article_lv_articletype1">
+      <columns>lv_articletype_articleTypeID</columns>
+      <ref-key>~.lv_articletype.PRIMARY</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
+    <column id="34" parent="10" name="articleproducerID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="35" parent="10" name="articleproducerName">
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="36" parent="10" name="articleproducerDescription">
+      <data-type>text|0</data-type>
+    </column>
+    <key id="37" parent="10" name="PRIMARY">
+      <columns>articleproducerID</columns>
+      <primary>1</primary>
+    </key>
+    <column id="38" parent="11" name="articleTypeID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="39" parent="11" name="articleTypeName">
+      <mandatory>1</mandatory>
+      <data-type>varchar(128)|0</data-type>
+    </column>
+    <column id="40" parent="11" name="articleTypeDescription">
+      <data-type>text|0</data-type>
+    </column>
+    <key id="41" parent="11" name="PRIMARY">
+      <columns>articleTypeID</columns>
+      <primary>1</primary>
+    </key>
+    <column id="42" parent="12" name="loanPositionID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="43" parent="12" name="lv_article_deviceID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="44" parent="12" name="lv_loan_loanID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="45" parent="12" name="lvLoanLendingDate">
+      <mandatory>1</mandatory>
+      <data-type>date|0</data-type>
+    </column>
+    <column id="46" parent="12" name="lvLoanReturnDate">
+      <mandatory>1</mandatory>
+      <data-type>date|0</data-type>
+    </column>
+    <column id="47" parent="12" name="lv_loanAuthority">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="48" parent="12" name="return">
+      <mandatory>1</mandatory>
+      <data-type>tinyint(1)|0</data-type>
+    </column>
+    <index id="49" parent="12" name="fk_lv_article_has_lv_loan_lv_article1_idx">
+      <columns>lv_article_deviceID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="50" parent="12" name="fk_lv_article_has_lv_loan_lv_loan1_idx">
+      <columns>lv_loan_loanID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="51" parent="12" name="fk_lv_loanItems_lv_persons1_idx">
+      <columns>lv_loanAuthority</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="52" parent="12" name="PRIMARY">
+      <columns>loanPositionID</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="53" parent="12" name="fk_lv_article_has_lv_loan_lv_article1">
+      <columns>lv_article_deviceID</columns>
+      <ref-key>~.lv_article.PRIMARY</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
+    <foreign-key id="54" parent="12" name="fk_lv_article_has_lv_loan_lv_loan1">
+      <columns>lv_loan_loanID</columns>
+      <ref-key>~.lv_loanprofile.PRIMARY</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
+    <foreign-key id="55" parent="12" name="fk_lv_loanItems_lv_persons1">
+      <columns>lv_loanAuthority</columns>
+      <ref-key>~.lv_persons.PRIMARY</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
+    <column id="56" parent="13" name="loanID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="57" parent="13" name="loanLocation">
+      <mandatory>1</mandatory>
+      <data-type>varchar(16)|0</data-type>
+    </column>
+    <column id="58" parent="13" name="loanDescription">
+      <data-type>text|0</data-type>
+    </column>
+    <column id="59" parent="13" name="loanPerson">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <index id="60" parent="13" name="fk_lv_loan_lv_persons1_idx">
+      <columns>loanPerson</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="61" parent="13" name="PRIMARY">
+      <columns>loanID</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="62" parent="13" name="fk_lv_loan_lv_persons1">
+      <columns>loanPerson</columns>
+      <ref-key>~.lv_persons.PRIMARY</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
+    <column id="63" parent="14" name="personsID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="64" parent="14" name="personFirstname">
+      <mandatory>1</mandatory>
+      <data-type>varchar(128)|0</data-type>
+    </column>
+    <column id="65" parent="14" name="personLastname">
+      <mandatory>1</mandatory>
+      <data-type>varchar(128)|0</data-type>
+    </column>
+    <column id="66" parent="14" name="personMail">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <key id="67" parent="14" name="PRIMARY">
+      <columns>personsID</columns>
+      <primary>1</primary>
+    </key>
+    <column id="68" parent="15" name="userID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="69" parent="15" name="isUserAdmin">
+      <mandatory>1</mandatory>
+      <data-type>tinyint(1)|0</data-type>
+    </column>
+    <column id="70" parent="15" name="userPersonsID">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="71" parent="15" name="userPassword">
+      <data-type>text|0</data-type>
+    </column>
+    <index id="72" parent="15" name="fk_lv_user_lv_persons1_idx">
+      <columns>userPersonsID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="73" parent="15" name="PRIMARY">
+      <columns>userID</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="74" parent="15" name="fk_lv_user_lv_persons1">
+      <columns>userPersonsID</columns>
+      <ref-key>~.lv_persons.PRIMARY</ref-key>
+      <cascade-update-rule>no_action</cascade-update-rule>
+      <cascade-delete-rule>no_action</cascade-delete-rule>
+    </foreign-key>
+  </database-model>
+</dataSource>
