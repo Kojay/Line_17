@@ -9,19 +9,21 @@ use kartik\dialog\Dialog;
 use yii\helpers\Url;
 use yii\bootstrap\Alert;
 
-
 $this->title = 'Benutzer bearbeiten';
 
 echo Breadcrumbs::widget([
     'links' => [
         [
             'label' => 'Benutzerliste',
-            'url' => ['benutzer/benutzerverwaltung'],
+            'url' => [false],
             'template' => "<li>{link}</li>\n", // template for this link only
         ],      
         $this->title
     ],
 ]);
+
+
+
 
 echo Html::tag('h1',Html::encode($this->title));
 
@@ -34,31 +36,26 @@ echo Menu::widget([
     'options' => ['class' =>'nav nav-tabs'],
 ]);
 
-echo Html::beginTag('div');
-    $form = ActiveForm::begin
-    ([
-        'id' => 'userupdate-form',
-        'layout' => 'horizontal',
-        'fieldConfig' =>
-        [
-            'template' => "{label}{input}",
-            'labelOptions' => ['class' => 'col-md-2'],
-            'inputOptions' => ['class' => 'col-md-4'],
-        ],
+$form = ActiveForm::begin
+([
+    'id' => 'userupdate-form',
+    'layout' => 'horizontal',
+    'fieldConfig' =>
+    [
+        'template' => "{label}{input}",
+        'labelOptions' => ['class' => 'col-md-2'],
+        'inputOptions' => ['class' => 'col-md-4'],
+    ],
+]);
+
+if(Yii::$app->session->hasFlash('userDataUpdated'))
+{
+    echo Alert::widget([
+        'options' => ['class' => 'alert-info'],
+        'body' => Yii::$app->session->getFlash('userDataUpdated'),
     ]);
-
-    if(Yii::$app->session->hasFlash('userDataUpdated'))
-    {
-        echo Html::beginTag('div',['style' => 'margin-top:20px']);
-        echo Alert::widget([
-            'options' => ['class' => 'alert-info'],
-            'body' => Yii::$app->session->getFlash('userDataUpdated'),
-        ]);
-        echo Html::endTag('div',['style' => 'margin-bottom:20px']);
-    }
-
-    echo Html::endTag('div');
-    echo Html::beginTag('div',['style' => 'margin-top:20px']);
+}
+echo Html::beginTag('div',['style' => 'margin-top:20px']);
     
     echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
     echo $form->field($model, 'personFirstname')->textInput(['value' => $model->personFirstname])->label(translateField('personFirstname'));  
@@ -86,8 +83,7 @@ echo Html::beginTag('div');
         return $stringArray[$paramString];
     }
     echo Dialog::widget();
-    ActiveForm::end();
-echo Html::endTag('div');   
+
 
 $script = <<< JS
 $( document ).ready(function() { 
@@ -129,5 +125,6 @@ JS;
 //$url = Url::toRoute('benutzer/benutzerbearbeiten');
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");
 $this->registerJs($script);
+ActiveForm::end();
+echo Html::endTag('div');
 \yii\widgets\Pjax::end();
-        

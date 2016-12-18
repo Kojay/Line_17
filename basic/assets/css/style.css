@@ -1,0 +1,16 @@
+html, body {
+  width: 100%;
+}
+
+html {
+  background: url(../images/coc_background_cropped.jpg) no-repeat top center #1b1919;
+}
+
+nav {
+  background-color: transparent;
+}
+
+.main-content {
+  margin-top: 150px;
+  background-color: rgba(0,0,0,0.8);
+}

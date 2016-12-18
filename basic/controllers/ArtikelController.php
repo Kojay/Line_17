@@ -53,6 +53,10 @@ class ArtikelController extends Controller
             ],
         ];
     }
+    public function actionArtikelhersteller()
+    {
+        return $this->render('artikelhersteller');
+    }
     public function actionArtikelliste()
     {
         return $this->render('artikelliste');
@@ -87,35 +91,37 @@ class ArtikelController extends Controller
     public function actionArtikelbearbeiten()
     {     
         $model = new Artikel();
-        if(Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax){     
-            $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));                       //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
-            //if(!$model->validate()){  
-            $model->validate();                  
-            return $this->render('artikelbearbeiten', ['model' => $model]);
+        if(Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax)
+        {
+            $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
+            //if(!$model->validate()){
+            $dataProducer = (new QueryRqst())->getDataProducer();
+            $model->validate();
+            return $this->render('artikelbearbeiten', ['model' => $model, 'modelProducers' => $dataProducer]);
             //} 
-            //else{                                                                                                                     //ERRORHANDLING
+            //else{                                                                                                                         //TODO: ERRORHANDLING
             //}
         }
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post() && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post());
             $model->validate();
-            //if(!$model->validate()){                                                                                                  //Must be updated ASAP after DB corrections
+            //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
                 (new QueryRqst())->setDataArtikel($model); 
                 Yii::$app->session->setFlash('articleDataUpdated','Sie haben erfolgreich den Artikel gespeichert!');
                 $this->refresh(Url::current()); 
              //  }
-                //else{                                                                                                                     //ERRORHANDLING
+                //else{                                                                                                                     //TODO: ERRORHANDLING
             //}
         }
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post() && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post());
             $model->validate();
-            //if(!$model->validate()){                                                                                                  //Must be updated ASAP after DB corrections
+            //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
                 (new QueryRqst())->deleteDataArtikel($model); 
                 Yii::$app->session->setFlash('articleDataDeleted','Sie haben erfolgreich den Artikel gelöscht!');
                 $this->refresh(Url::current()); 
              //  } 
-                //else{                                                                                                                     //ERRORHANDLING
+                //else{                                                                                                                     //TODO: ERRORHANDLING
             //}
         }   
     }

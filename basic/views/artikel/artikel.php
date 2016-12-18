@@ -23,30 +23,30 @@ echo Breadcrumbs::widget([
 
 echo Html::tag('h1',Html::encode($this->title));
 
-        echo Menu::widget([
-            'items' => 
-            [
-                ['label' => 'Zurück', 'url' => ['artikel/artikelliste','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')]],
-                ['label' => 'Artikel Bearbeiten', 'url' => ['artikel/artikelbearbeiten','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')]],
-                ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
-                ['label' => 'Ausleihen', 'url' => ['site/index']],
-            ],
-            'options' => ['class' =>'nav nav-tabs'],
-        ]);
+echo Menu::widget([
+    'items' =>
+    [
+        ['label' => 'Zurück', 'url' => ['artikel/artikelliste','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')]],
+        ['label' => 'Artikel Bearbeiten', 'url' => ['artikel/artikelbearbeiten','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')]],
+        ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
+        ['label' => 'Ausleihen', 'url' => ['site/index']],
+    ],
+    'options' => ['class' =>'nav nav-tabs'],
+]);
 
-    $form = ActiveForm::begin
-    ([
-        'id' => 'article-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => 
-        [
-            'template' => "{label}{input}{error}",
-            'labelOptions' => ['class' => 'col-md-2'],
-            'inputOptions' => ['class' => 'col-md-4'],
-        ],
-    ]);
-    
-    echo Html::beginTag('div',['style' => 'margin-top:20px']);   
+$form = ActiveForm::begin
+([
+    'id' => 'article-form',
+    'layout' => 'horizontal',
+    'fieldConfig' =>
+    [
+        'template' => "{label}{input}{error}",
+        'labelOptions' => ['class' => 'col-md-2'],
+        'inputOptions' => ['class' => 'col-md-4'],
+    ],
+]);
+
+echo Html::beginTag('div',['style' => 'margin-top:20px']);
     
     //echo yii\helpers\VarDumper::dump($model);
     //echo yii\helpers\VarDumper::dump($models);
@@ -74,11 +74,13 @@ echo Html::tag('h1',Html::encode($this->title));
                              'fhnwNumber' => 'FHNW Nummer: ',
                              'articleDescription' => 'Beschreibung: '
                         ];
-        $result = $stringArray[$paramString];
-        return $result;
+        return $stringArray[$paramString];
     }
-    ActiveForm::end(); 
-    \yii\widgets\Pjax::end();
+    ActiveForm::end();
+echo Html::endTag('div');
+
+\yii\widgets\Pjax::end();
+
 $script = <<< JS
 $( document ).ready(function() { 
    $("#btn-updateArticle").click(function(e){

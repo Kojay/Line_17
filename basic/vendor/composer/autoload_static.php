@@ -32,9 +32,13 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         'k' => 
         array (
             'kartik\\tabs\\' => 12,
+            'kartik\\sidenav\\' => 15,
             'kartik\\plugins\\tabs\\' => 20,
+            'kartik\\plugins\\checkbox\\' => 24,
+            'kartik\\label\\' => 13,
             'kartik\\grid\\' => 12,
             'kartik\\dialog\\' => 14,
+            'kartik\\checkbox\\' => 16,
             'kartik\\base\\' => 12,
         ),
         'c' => 
@@ -121,9 +125,21 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-tabs-x',
         ),
+        'kartik\\sidenav\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-sidenav',
+        ),
         'kartik\\plugins\\tabs\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-tabs-x',
+        ),
+        'kartik\\plugins\\checkbox\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-checkbox-x',
+        ),
+        'kartik\\label\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-label-inplace',
         ),
         'kartik\\grid\\' => 
         array (
@@ -132,6 +148,10 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         'kartik\\dialog\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
+        ),
+        'kartik\\checkbox\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-checkbox-x',
         ),
         'kartik\\base\\' => 
         array (

@@ -8,6 +8,7 @@ use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\dialog\Dialog;
+use kartik\checkbox\CheckboxX;
 
 $this->title = 'Artikel bearbeiten';
 
@@ -24,6 +25,7 @@ echo Breadcrumbs::widget([
 
 echo Html::tag('h1',Html::encode($this->title));
 
+
 echo Menu::widget([
     'items' =>
     [
@@ -31,11 +33,11 @@ echo Menu::widget([
         ['label' => 'Artikel Bearbeiten', 'url' => false],
         ['label' => 'Etikette Drucken', 'url' => ['site/etikette']],
         ['label' => 'Ausleihen', 'url' => ['site/ausleihe']],
+        ['label' => 'Hersteller verwalten', 'url' => ['site/artikelhersteller']],
     ],
     'options' => ['class' =>'nav nav-tabs'],
 ]);
 
-echo Html::beginTag('div');
     if(Yii::$app->session->hasFlash('articleDataUpdated')){
         echo Html::beginTag('div');    
             echo Alert::widget([
@@ -44,35 +46,52 @@ echo Html::beginTag('div');
             ]);
         echo Html::endTag('div');
     }
-echo Html::endTag('div');
-
-echo Html::beginTag('div');
+echo Html::beginTag('div',['style' => 'margin-top:20px']);
     $form = ActiveForm::begin
     ([
         'id' => 'articleupdate-form',
         'action' => 'artikel/artikelbearbeiten',
-        'options' => ['class' => 'form-horizontal'],
+        'options' => ['class' => 'articleupdate-style'],
         'fieldConfig' =>
         [
             'template' => '{label}{input}{error}',
-            'labelOptions' => ['class' => 'col-md-2'],
-            'inputOptions' => ['class' => 'col-md-4'],
-            'errorOptions' => ['class' => 'col-md-4'],
+            'labelOptions' => ['class' => 'articleupdate-style col-md-2'],
+            'inputOptions' => ['class' => 'articleupdate-style col-md-4'],
+            'errorOptions' => ['class' => 'articleupdate-style col-md-4'],
         ],
     ]);
 
-    echo Html::beginTag('div',['style' => 'margin-top:20px']);
+    echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'checkBoxNewProducer', 'class' => 'col-md-2 fieldStyle unSelectable','unselectable' => 'on','style' => 'margin-left: 15px;']])
+        ->checkbox([ 'options' => ['style' => 'width:10px; height:10px;']])->label('Neuer Hersteller',['options' => ['unselectable' => 'on','class' => 'unSelectable']]);
+    echo $form->field($model, 'articleName',        [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textInput(['value' => $model->articleName])->label(translateField('articleName'));
 
-    echo $form->field($model, 'articleName')->textInput(['value' => $model->articleName])->label(translateField('articleName'));
-    echo $form->field($model, 'articleTypeName')->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
-    echo $form->field($model, 'articleproducerName')->textInput(['value' => $model['articleproducerName']])->label(translateField('articleproducerName'));
-    echo $form->field($model, 'serialNumber')->textInput(['value' => $model['serialNumber']])->label(translateField('serialNumber'));
-    echo $form->field($model, 'dateBought')->textInput(['value' => $model['dateBought']])->label(translateField('dateBought'));
-    echo $form->field($model, 'dateWarranty')->textInput(['value' => $model['dateWarranty']])->label(translateField('dateWarranty'));
-    echo $form->field($model, 'articlePrice')->textInput(['value' => $model['articlePrice']])->label(translateField('articlePrice'));
-    echo $form->field($model, 'fhnwNumber')->textInput(['value' => $model['fhnwNumber']])->label(translateField('fhnwNumber'));
-    echo $form->field($model, 'articleDescription')->textArea(['value' => $model['articleDescription']])->label(translateField('articleDescription'));
-    echo $form->field($model, 'param')->hiddenInput(['id' => 'fnc','value' => 'fnctn'])->label(false);
+    echo $form->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
+
+    echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
+         ->dropDownList($modelProducers,['style' => 'height: 26px;'])->label(translateField('articleproducerName'));
+
+    echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+         ->textInput(['value' => 'Herstellername'])->label('Neuer Hersteller: ');
+
+    echo $form->field($model, 'serialNumber',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textInput(['value' => $model['serialNumber']], ['class' => 'col-md-6'])->label(translateField('serialNumber'));
+
+    echo $form->field($model, 'dateBought',         [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textInput(['value' => $model['dateBought']])->label(translateField('dateBought'));
+
+    echo $form->field($model, 'dateWarranty',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textInput(['value' => $model['dateWarranty']])->label(translateField('dateWarranty'));
+
+    echo $form->field($model, 'articlePrice',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textInput(['value' => $model['articlePrice']])->label(translateField('articlePrice'));
+
+    echo $form->field($model, 'fhnwNumber',         [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textInput(['value' => $model['fhnwNumber']])->label(translateField('fhnwNumber'));
+
+    echo $form->field($model, 'articleDescription', [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+         ->textArea(['value' => $model['articleDescription']])->label(translateField('articleDescription'));
 
     function translateField($paramString){
         $stringArray = [
@@ -86,19 +105,22 @@ echo Html::beginTag('div');
                              'fhnwNumber' => 'FHNW Nummer: ',
                              'articleDescription' => 'Beschreibung: '
                         ];
-        $result = $stringArray[$paramString];
-        return $result;
+        return $stringArray[$paramString];
     }
-    echo Html::Button('Artikel bearbeiten', ['class' => 'btn btn-success','id' => 'btn-updateArticle','style' => 'margin-right:20px']);
-    echo Html::Button('Artikel löschen', ['class' => 'btn btn-danger','id' => 'btn-deleteArticle']);
+    echo Html::Button('Artikel bearbeiten', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateArticle','style' => 'margin-right:20px; margin-top:20px;']);
+    echo Html::Button('Artikel löschen', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-deleteArticle','style' => 'margin-right:20px; margin-top:20px;']);
     // widget with default options
     echo Dialog::widget();
-
     ActiveForm::end();
+
 echo Html::endTag('div');
 
 $script = <<< JS
 $( document ).ready(function() { 
+    
+   $('#textinputNewProducer').hide();
+   $('#dropdownProducers').show();
+   
    $("#btn-updateArticle").click(function(e){
     krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel bearbeiten wollen?", 
         function (result) {
@@ -132,8 +154,39 @@ $( document ).ready(function() {
             }
         });
     });
+    $(':checkbox').change(function() {   
+        if($(':checkbox').prop('checked')){
+           $('#textinputNewProducer').show();  
+           $('#dropdownProducers').hide();
+        }
+        else{
+           $('#textinputNewProducer').hide();
+           $('#dropdownProducers').show();
+        }               
+    });
+    /* Set the width of the side navigation to 250px */
+    function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    }
 });
 JS;
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");
 $this->registerJs($script);
+$this->registerCss("
+.unSelectable {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */     
+} 
+.fieldStyle {
+    margin-bottom:10px; 
+    margin-top:10px;
+} 
+");
 \yii\widgets\Pjax::end();

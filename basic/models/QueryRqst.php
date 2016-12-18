@@ -270,6 +270,7 @@ class QueryRqst extends Model
         ]);
 
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
+        //ArrayHelper::map($dataProvider->getModels(), 'articleName', 'articleTypeName', 'class') TODO: Evaluate if this is a better data processing method
     }
 
     public function setDataArtikel($paramArticleData)
@@ -392,6 +393,13 @@ class QueryRqst extends Model
         $transaction->commit();
     }
 
+    public function getDataProducer()
+    {
+        $dataProvider = new SqlDataProvider([
+            'sql' => ' SELECT articleproducerName FROM  lv_articleproducer'
+        ]);
+        return ArrayHelper::getColumn($dataProvider->getModels(), 'articleproducerName');                               //TODO: Errorhandling einfügen
+    }
     public function getDataBenutzer()
     {
         Yii::$app->db->createCommand('SELECT SQL_CALC_FOUND_ROWS * FROM {{%lv_user}} LIMIT 1')->queryScalar();
@@ -543,7 +551,7 @@ class QueryRqst extends Model
         catch(exception $e){
            return [false, $e];
         }
-        //@mention must be validated, if there is no result in index 0 an error occurs!
+        //TODO must be validated, if there is no result in index 0 an error occurs!
          return ArrayHelper::getValue($dataProvider->getModels(), 0);
     }
 }

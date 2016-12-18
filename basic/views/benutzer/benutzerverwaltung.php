@@ -11,13 +11,12 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
 use app\models\QueryRqst;
+use kartik\sidenav\SideNav;
 
 $this->title = 'Benutzer';
 $this->params['breadcrumbs'][] = $this->title;
 
 echo Html::tag('h1',Html::encode($this->title));
-
-echo Html::a('Neuer Benutzer', ['/benutzer/neuerbenutzer'], ['class'=>'btn btn-primary']);
 
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
@@ -66,5 +65,6 @@ echo GridView::widget([
                     ],
                 ]                    
           ]);
-                
+echo Html::endTag('div');
 
+echo Html::a('<i class="glyphicon glyphicon-plus"></i> Neuer Benutzer', ['/benutzer/neuerbenutzer'],['class' => 'btn btn-primary pull-left']);

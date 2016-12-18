@@ -20,12 +20,18 @@ class AppAsset extends AssetBundle
     
     public $css = [
         'css/site.css',
+		//Themes
+		//'themes/material-simple/css/materialize.css',
+		//'themes/material-simple/css/prism.css'
     ];
     public $js = [
         //'js/ajax.js'
+		//'themes/material-simple/js/materialize.js',
+		//'themes/material-simple/js/prism.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+
     ];
 }

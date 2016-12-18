@@ -68,15 +68,15 @@ class BenutzerController extends Controller
     {
         $model = new Benutzer();
         if(Yii::$app->request->get('_rqstIDUserID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax){
-            $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));                //@mention ERRORHANDLING EINFÜGEN
-            $model->validate();                                                                                                 //@mention Writes into model the attributes given as array from sqldataprovider->getmodels method
-            //$model->validate();                                                                                               //@mention Must be updated ASAP after DB corrections
+            $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));                    //TODO: ERRORHANDLING EINFÜGEN
+            $model->validate();                                                                                                     //TODO: Writes into model the attributes given as array from sqldataprovider->getmodels method
+            //$model->validate();                                                                                                   //TODO: Must be updated ASAP after DB corrections
             return $this->render('benutzerbearbeiten', ['model' => $model]);       
         }
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post('Benutzer') && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post());
             $model->validate();
-            //if($model->validate()){                                                                                               //@mention Must be updated ASAP after DB corrections
+            //if($model->validate()){                                                                                               //TODO: Must be updated ASAP after DB corrections
                 (new QueryRqst())->updateDataBenutzer($model,$model->getPasswordHash($model->userPassword)); 
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gespeichert.');
@@ -87,7 +87,7 @@ class BenutzerController extends Controller
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post('Benutzer') && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post());
             $model->validate();
-            //if($model->validate()){                                                                                               //@mention Must be updated ASAP after DB corrections
+            //if($model->validate()){                                                                                               //TODO: Must be updated ASAP after DB corrections
                 (new QueryRqst())->deleteDataBenutzer($model); 
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gelöscht.');
@@ -103,7 +103,7 @@ class BenutzerController extends Controller
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post('Benutzer'));
             $model->validate();
-            //if(!$model->validate()){                                                                                              //@mention Must be updated ASAP after DB corrections
+            //if(!$model->validate()){                                                                                              //TODO: Must be updated ASAP after DB corrections
                 (new QueryRqst())->createDataBenutzer($model, Yii::$app->getSecurity()->generatePasswordHash($model->userPassword));
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataCreated', 'Sie haben den Bneutzer erfolgreich erstellt.');

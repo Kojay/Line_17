@@ -63,8 +63,7 @@ function translateField($paramString){
                          'personMail' => 'E-Mail Adresse: ',
                          'isUserAdmin' => 'Berechtigungstyp: ',
                     ];
-    $result = $stringArray[$paramString];
-    return $result;
+    return $stringArray[$paramString];
 }
 ActiveForm::end();
 \yii\widgets\Pjax::end();

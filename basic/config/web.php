@@ -17,12 +17,7 @@ $config = [
         // 'i18n' => []
 			]
 		],
-	
-	
-	
-	
-	
-	
+
     'components' => [
         'request' => [		
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -54,6 +49,16 @@ $config = [
                 ],
             ],
         ],
+		//THEME_START
+		/*'view' => [
+			'class' => 'yii\web\View',
+			'theme' => [
+			'class' => 'yii\base\Theme',
+			'pathMap' => ['@app/views' => 'themes/material-default'],
+			'baseUrl'   => 'themes/material-default'
+			]
+		],*/
+		//THEME_END
         'db' => require(__DIR__ . '/db.php'),
         /*
         'urlManager' => [

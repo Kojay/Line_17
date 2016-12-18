@@ -52,7 +52,7 @@ class Artikel extends Model
                                     'message' => 'Bitte geben Sie einen gültigen Namen ein, Sonderzeichen sind zu vermeiden sowie mehr als '.self::ARTICLENAME_MAX_LENGTH.' Zeichen'],      
             
             [['fhnwNumber'], 'number', 'message' => 'Bitte geben Sie eine gültige FHNWNummer ein, bestehend aus Zahlen.'],
-            [['articleproducerName'],'string' ,'max' => 40,  'message' => 'Bitte geben Sie einen gültigen Namen ein, der Name ist lang'],
+            //[['articleproducerName'],'required'],
             [['dateBought'],'date' ,'max' => 40 ,'message' => 'Bitte geben Sie einen gültigen Namen ein'],
             [['articleTypeName'],'string' ,'max' => 40],
             [['articlePrice'], 'string', 'max' => 40],
