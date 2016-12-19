@@ -32,7 +32,6 @@ class QueryRqst extends Model
             ],
             'totalCount' => $totalCount,
 
-
             'sort' => [
 
                 'attributes' => [
@@ -71,35 +70,38 @@ class QueryRqst extends Model
 
             ],
         ]);
-        //return $dataProvider;
-
-        //return JSON Obj over Ajax
         return $dataProvider;
     }
 
     public function getDataAllfaelligeAusleihungen()
     {
+        Yii::$app->db->createCommand('SELECT SQL_CALC_FOUND_ROWS * FROM {{%lv_article}} LIMIT 1')->queryScalar();
+        $totalCount = Yii::$app->db->createCommand('SELECT FOUND_ROWS()')->queryScalar();
+
         $dataProvider = new SqlDataProvider([
             //'sql' => 'SELECT * FROM lv_loanitems WHERE lvLoanReturnDate >= CURDATE()',
-            'sql' => 'SELECT persons.personFirstname, persons.personLastname, loanitems.lvLoanReturnDate, loanprofile.loanLocation, article.articleName' .
+            'sql' => 'SELECT persons.personFirstname, persons.personLastname, loanitems.lvLoanReturnDate, loanprofile.loanLocation, article.articleName, article.fhnwNumber' .
                 ' FROM lv_loanprofile AS loanprofile' .
                 ' LEFT JOIN lv_persons AS persons ON loanprofile.loanPerson = persons.personsID' .
                 ' LEFT JOIN lv_loanitems AS loanitems ON loanprofile.loanID = loanitems.lv_loan_loanID' .
                 ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
                 ' WHERE loanitems.lvLoanReturnDate >= CURDATE() GROUP BY loanprofile.loanID;',
-
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'totalCount' => $totalCount,
             'sort' => [
                 'attributes' => [
                     'personFirstname' => [
                         'asc' => ['personFirstname' => SORT_ASC],
                         'desc' => ['personFirstname' => SORT_DESC],
-                        //'default' => SORT_DESC,
+                        'default' => SORT_DESC,
                         'label' => 'Post Title',
                     ],
                     'personLastname' => [
                         'asc' => ['personLastname' => SORT_ASC],
                         'desc' => ['personLastname' => SORT_DESC],
-                        //'default' => SORT_DESC,
+                        'default' => SORT_DESC,
                         'label' => 'Post Title',
                     ],
                     'loanLocation' => [
@@ -117,6 +119,12 @@ class QueryRqst extends Model
                     'lvLoanReturnDate' => [
                         'asc' => ['lvLoanReturnDate' => SORT_ASC],
                         'desc' => ['lvLoanReturnDate' => SORT_DESC],
+                        'default' => SORT_DESC,
+                        'label' => 'Name',
+                    ],
+                    'fhnwNumber' => [
+                        'asc' => ['fhnwNumber' => SORT_ASC],
+                        'desc' => ['fhnwNumber' => SORT_DESC],
                         'default' => SORT_DESC,
                         'label' => 'Name',
                     ],
@@ -279,7 +287,7 @@ class QueryRqst extends Model
         $query = 'UPDATE  lv_article article, lv_articletype articletype, lv_articleproducer articleproducer 
                         
                 SET     article.articleName="' . $paramArticleData['articleName'] . '",
-                        article.serialNumber="' . $paramArticleData1['serialNumber'] . '",
+                        article.serialNumber="' . $paramArticleData['serialNumber'] . '",
                         article.dateBought="' . $paramArticleData['dateBought'] . '",
                         article.dateWarranty="' . $paramArticleData['dateWarranty'] . '",
                         article.articlePrice="' . $paramArticleData['articlePrice'] . '",
@@ -409,32 +417,34 @@ class QueryRqst extends Model
             'sql' => 'SELECT persons.personFirstname, persons.personLastname, persons.personMail, users.isUserAdmin, users.userID' .
                 ' FROM lv_user AS users' .
                 ' LEFT JOIN lv_persons AS persons ON users.userID = persons.personsID' .
-                ' WHERE persons.personsID = users.userID GROUP BY users.userID;',
-
+                ' WHERE persons.personsID = users.userID GROUP BY users.userID',
             'totalCount' => $totalCount,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
             'sort' => [
                 'attributes' => [
                     'personMail' => [
-                        'asc' => ['userID' => SORT_ASC],
-                        'desc' => ['userID' => SORT_DESC],
-                        //'default' => SORT_DESC,
+                        'asc' => ['personMail' => SORT_ASC],
+                        'desc' => ['personMail' => SORT_DESC],
+                        'default' => SORT_DESC,
                         'label' => 'Post Title',
                     ],
                     'isUserAdmin' => [
                         'asc' => ['isUserAdmin' => SORT_ASC],
                         'desc' => ['isUserAdmin' => SORT_DESC],
-                        //'default' => SORT_DESC,
+                        'default' => SORT_DESC,
                         'label' => 'Post Title',
                     ],
                     'personFirstname' => [
-                        'asc' => ['articleName' => SORT_ASC],
-                        'desc' => ['articleName' => SORT_DESC],
+                        'asc' => ['personFirstname' => SORT_ASC],
+                        'desc' => ['personFirstname' => SORT_DESC],
                         'default' => SORT_DESC,
                         'label' => 'Name',
                     ],
                     'personLastname' => [
-                        'asc' => ['articleName' => SORT_ASC],
-                        'desc' => ['articleName' => SORT_DESC],
+                        'asc' => ['personLastname' => SORT_ASC],
+                        'desc' => ['personLastname' => SORT_DESC],
                         'default' => SORT_DESC,
                         'label' => 'Name',
                     ],

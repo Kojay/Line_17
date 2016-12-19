@@ -74,7 +74,9 @@ class ArtikelController extends Controller
             $this->refresh(Url::current());
         }
         else{
-            return $this->render('neuerartikel', ['model' => $model]);
+            $dataProducer = (new QueryRqst())->getDataProducer();
+            return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer]);
+
         }
     }
     public function actionReturn()

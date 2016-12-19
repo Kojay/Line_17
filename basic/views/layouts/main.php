@@ -1,23 +1,21 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\buttongroup;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use kartik\sidenav\SideNav;
 use yii\helpers\url;
 
 AppAsset::register($this);
+$this->registerCssFile('@web/css/site.css');
+$this->beginPage();
+
 ?>
-<?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
-
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
     <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +32,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="container-fluid">
+
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header navbar-right pull-right">
@@ -54,6 +53,7 @@ AppAsset::register($this);
               </ul>
             </li>
           </ul>
+
           <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -64,14 +64,58 @@ AppAsset::register($this);
         <div class="visible-xs-block clearfix"></div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-left">
-            <li><?php echo Html::img('@web/images/Logo_FHNW.svg_edited.png') ?></li>
+            <li class="logo"><?php echo Html::img('@web/images/Logo_FHNW.svg_edited.png',['class' => 'logo']) ?></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?= Url::toRoute('site/contact')?>">Kontakt</a></li>
-            <li><a href="<?= Url::toRoute('site/index')?>">Index</a></li>
-            <li><a href="<?= Url::toRoute('benutzer/benutzerverwaltung')?>">Benutzer</a></li>
-            <li><a href="<?= Url::toRoute('artikel/artikelliste')?>">Artikel</a></li>
-            <li><a href="<?= Url::toRoute('site/statistik')?>">Statistik</a></li>
+              <ul class="nav pull-left">
+                  <li class="dropdown pull-right">
+                      <a href="<?= Url::toRoute('site/index')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                          Home
+                          <span class="glyphicon glyphicon-home"></span>
+                      </a>
+                  </li>
+              </ul>
+              <ul class="nav pull-left">
+                  <li class="dropdown pull-right">
+                      <a href="<?= Url::toRoute('site/email')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                          Kontakt
+                          <span class="glyphicon glyphicon-envelope"></span>
+                      </a>
+                  </li>
+              </ul>
+              <ul class="nav pull-left">
+                  <li class="dropdown pull-right">
+                      <a href="<?= Url::toRoute('site/suche')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                          Suchfunktion
+                          <span class="glyphicon glyphicon-search"></span>
+                      </a>
+                  </li>
+              </ul>
+              <ul class="nav pull-left">
+                  <li class="dropdown pull-right">
+                      <a href="<?= Url::toRoute('site/statistik')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                          Statistik
+                          <span class="glyphicon glyphicon-stats"></span>
+                      </a>
+                  </li>
+              </ul>
+              <ul class="nav pull-left">
+                  <li class="dropdown pull-right">
+                      <a href="<?= Url::toRoute('artikel/artikelliste')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                          Artikel
+                          <span class="glyphicon glyphicon-tags"></span>
+                      </a>
+                  </li>
+              </ul>
+              <ul class="nav pull-left">
+                  <li class="dropdown pull-right">
+                      <a href="<?= Url::toRoute('benutzer/benutzerverwaltung')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                          Benutzer
+                          <span class="glyphicon glyphicon-user"></span>
+                      </a>
+                  </li>
+              </ul>
+            <li><a>     </a></li>
           </ul>
         </div>
       </div>
@@ -117,49 +161,7 @@ AppAsset::register($this);
 -->
 </div>
 <div class="wrap container-fluid">
-            <div class="col-md-2">
-                <?php
-                echo SideNav::widget([
-                    'type' => SideNav::TYPE_DEFAULT,
-                    'heading' => 'Navigation',
-                    'items' => [
-                        [
-                            'url' => '#',
-                            'label' => 'Home',
-                            'icon' => 'home'
-                        ],
-                        ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'Artikel', 'url' => ['/artikel/artikelliste']],
-                        ['label' => 'Benutzerverwaltung', 'url' => ['/benutzer/benutzerverwaltung']],
-                        ['label' => 'Statistik', 'url' => ['/site/statistik']],
-                        ['label' => 'Contact', 'url' => ['/site/contact']],
-                        ['label' => 'Suche', 'url' => ['/site/suche']],
-                        [
-                            'label' => 'Help',
-                            'icon' => 'question-sign',
-                            'items' => [
-                                ['label' => 'Home', 'url' => ['/site/index']],
-                                ['label' => 'Artikel', 'url' => ['/artikel/artikelliste']],
-                                ['label' => 'Benutzerverwaltung', 'url' => ['/benutzer/benutzerverwaltung']],
-                                ['label' => 'Statistik', 'url' => ['/site/statistik']],
-                                ['label' => 'Contact', 'url' => ['/site/contact']],
-                                ['label' => 'Suche', 'url' => ['/site/suche']],
-                            ],
-                        ],
-                    ],
-                ]);
-                ?>
-            </div>
-            <div class="col-md-8">
-                <?= $content ?>
-            </div>
-            <!-- OPTIONAL
-            <div class="col-md-2 bodyright">
-                <?php
-                echo Html::a('Neuer Artikel', ['/artikel/neuerartikel'], ['class'=>'btn btn-primary']);
-                ?>
-            </div>
-            -->
+    <?= $content ?>
 </div>
 <footer class="footer">
     <div class="container-fluid">
@@ -170,7 +172,8 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 </body>
 </html>
-<?php $this->endPage();
+<?php
+$this->endPage();
 $script = <<< JS
 $( document ).ready(function() { 
     /* Set the width of the side navigation to 250px */
