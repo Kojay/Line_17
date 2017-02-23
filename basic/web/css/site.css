@@ -15,6 +15,20 @@ html,
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;          /* Likely future */
 }
+
+.editSwitch {
+    display: none;
+}
+.editSwitchLoaded
+{
+    display: block;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
 .fieldStyle {
     margin-bottom:10px;
     margin-top:10px;
