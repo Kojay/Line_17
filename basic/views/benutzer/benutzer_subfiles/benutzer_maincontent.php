@@ -31,10 +31,10 @@ echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text
 echo $form->field($model, 'personFirstname')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personFirstname'));
 echo $form->field($model, 'personLastname')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personLastname'));
 echo $form->field($model, 'personMail')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personMail'));
-echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value' => translateFieldPermission($model), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('isUserAdmin'));
+echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value' => translateFieldPermission($model->isUserAdmin), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('isUserAdmin'));
 
 function translateFieldPermission($paramAdmin){
-    if ($paramAdmin === 1): return 'Administrator'; else: return 'Benutzer'; endif;
+    if ($paramAdmin): return 'Administrator'; else: return 'Benutzer'; endif;
 }
 function translateField($paramString){
     $stringArray = [

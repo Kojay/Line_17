@@ -88,7 +88,7 @@ class BenutzerController extends Controller
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post('Benutzer') && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post());
             $model->validate();
-            //if($model->validate()){                                                                                               //TODO: Must be updated ASAP after DB corrections
+            //if($model->validate()){                                                                                                   //TODO: Must be updated ASAP after DB corrections
                 (new QueryRqst())->deleteDataBenutzer($model); 
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gelöscht.');
@@ -104,8 +104,10 @@ class BenutzerController extends Controller
         if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax){
             $model->load(Yii::$app->request->post('Benutzer'));
             $model->validate();
-            //if(!$model->validate()){                                                                                              //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->createDataBenutzer($model, Yii::$app->getSecurity()->generatePasswordHash($model->userPassword));
+            //if(!$model->validate()){                                                                                                  //TODO: Must be updated ASAP after DB corrections -> Rule checking
+                (new QueryRqst())->createDataBenutzer($model, Yii::$app->getSecurity()->generatePasswordHash($model->userPassword));    //TODO: Deprecated will be instead with AD
+                //add user to RBAC
+                (new RBAC())->assign($model);
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataCreated', 'Sie haben den Bneutzer erfolgreich erstellt.');
             //}

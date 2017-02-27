@@ -51,12 +51,5 @@ class Benutzer extends Model
             [['personMail'],'email'],     
         ];
     }
-    public function validatePassword($password)
-    {
-        return $this->userPassword === $password;
-    }
-    public function getPasswordHash($paramPassword)
-    {
-        return \Yii::$app->getSecurity()->generatePasswordHash($paramPassword);
-    }
+
 }

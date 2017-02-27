@@ -37,23 +37,44 @@ $this->beginPage();
       <div class="container-fluid">
         <div class="navbar-header navbar-right pull-right">
           <ul class="nav pull-left">
-            <li class="navbar-text pull-left">Benutzername</li>
+            <li class="navbar-text pull-left">
+                <?php
+                if(!Yii::$app->user->isGuest){
+                    echo Yii::$app->user->identity->username;
+                }
+                else{
+                    echo 'Gast';
+                }
+                ?>
+            </li>
             <li class="dropdown pull-right">
               <a href="#" data-toggle="dropdown" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
                 <span class="glyphicon glyphicon-user"></span>
                 <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
-                <li>
-                  <a href="/users/id" title="Profile">Profile</a>
-                </li>
-                <li>
-                  <a href="/logout" title="Logout">Logout </a>
-                </li>
+                  <?php
+                  if (!Yii::$app->user->isGuest) {
+                      ?>
+                      <li>
+                          <a href="<?= Url::to(['site/logout'])?>" data-method="post" title="Logout">Logout</a>
+                      </li>
+                      <li>
+                          <a href="<?= Url::toRoute('site/profile')?>"  title="Profile">Profil</a>
+                      </li>
+                      <?php
+                  }
+                  if (Yii::$app->user->isGuest) {
+                      ?>
+                      <li>
+                          <a href="<?= Url::toRoute('site/login')?>"  title="Login">Login</a>
+                      </li>
+                      <?php
+                  }
+                  ?>
               </ul>
             </li>
           </ul>
-
           <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -66,6 +87,9 @@ $this->beginPage();
           <ul class="nav navbar-nav navbar-left">
             <li class="logo"><?php echo Html::img('@web/images/Logo_FHNW.svg_edited.png',['class' => 'logo']) ?></li>
           </ul>
+        <?php
+        if (!Yii::$app->user->isGuest) {
+            ?>
           <ul class="nav navbar-nav navbar-right">
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
@@ -115,7 +139,9 @@ $this->beginPage();
                       </a>
                   </li>
               </ul>
-            <li><a>     </a></li>
+              <?php
+              }
+              ?>
           </ul>
         </div>
       </div>

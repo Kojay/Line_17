@@ -552,7 +552,7 @@ class QueryRqst extends Model
     {
         try{
             $dataProvider = new SqlDataProvider([
-                'sql' => 'SELECT persons.personMail, users.isUserAdmin, users.userID, users.userPassword' .
+                'sql' => 'SELECT persons.personMail, users.isUserAdmin, users.userID' .
                     ' FROM lv_user AS users' .
                     ' LEFT JOIN lv_persons AS persons ON users.userID = persons.personsID' .
                     ' WHERE persons.personMail = "' . $paramUserMail . '"'

@@ -17,5 +17,5 @@
     <!-- OPTIONAL CONTENT RIGHT SIDEBAR END ------------------------------------------------------------------------------->
 </div>
 <?php
-\yii\widgets\Pjax::begin();
+\yii\widgets\Pjax::end();
 ?>

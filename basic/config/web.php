@@ -19,16 +19,24 @@ $config = [
 		],
 
     'components' => [
+        //Authorization manager for Role defining Admin/User/Guest etc...
+//        'authManager' => [
+//            'class' => 'yii\rbac\PhpManager',
+//        ],
         'request' => [		
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'kUTP9eWmvg8QUloi0AIG5w_-S5F4Zr2R',			
+        ],
+        'session' => [
+            'class' => 'yii\web\Session',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\UserDB',
             'enableAutoLogin' => true,
+            'enableSession' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -49,6 +57,7 @@ $config = [
                 ],
             ],
         ],
+
 		//THEME_START
 		/*'view' => [
 			'class' => 'yii\web\View',

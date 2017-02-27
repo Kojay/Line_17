@@ -1,8 +1,6 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Html;
-use yii\widgets\Menu;
-use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 use yii\helpers\Url;

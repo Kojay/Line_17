@@ -4,13 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
+class ComposerStaticInita4410865e44c1d72c490d64b28945d5f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
     );
 
@@ -74,6 +74,10 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         array (
             'Faker\\' => 6,
         ),
+        'E' => 
+        array (
+            'Edvlerblog\\' => 11,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -83,6 +87,10 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         array (
             'Codeception\\Extension\\' => 22,
             'Codeception\\' => 12,
+        ),
+        'A' => 
+        array (
+            'Adldap\\' => 7,
         ),
     );
 
@@ -217,6 +225,10 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
         ),
+        'Edvlerblog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/edvlerblog/yii2-adldap-module/src',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -232,6 +244,10 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         'Codeception\\' => 
         array (
             0 => __DIR__ . '/..' . '/codeception/base/src/Codeception',
+        ),
+        'Adldap\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/adldap2/adldap2/src',
         ),
     );
 
@@ -252,6 +268,10 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Collections\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
@@ -339,7 +359,7 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         'PHPUnit_Framework_Constraint_TraversableContains' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/TraversableContains.php',
         'PHPUnit_Framework_Constraint_TraversableContainsOnly' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/TraversableContainsOnly.php',
         'PHPUnit_Framework_Constraint_Xor' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Xor.php',
-        'PHPUnit_Framework_CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/PHPUnit_Framework_CoveredCodeNotExecutedException.php',
+        'PHPUnit_Framework_CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/CoveredCodeNotExecutedException.php',
         'PHPUnit_Framework_Error' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Error.php',
         'PHPUnit_Framework_Error_Deprecated' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Error/Deprecated.php',
         'PHPUnit_Framework_Error_Notice' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Error/Notice.php',
@@ -351,7 +371,7 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         'PHPUnit_Framework_IncompleteTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/IncompleteTestCase.php',
         'PHPUnit_Framework_IncompleteTestError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/IncompleteTestError.php',
         'PHPUnit_Framework_InvalidCoversTargetException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/InvalidCoversTargetException.php',
-        'PHPUnit_Framework_MissingCoversAnnotationException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/PHPUnit_Framework_MissingCoversAnnotationException.php',
+        'PHPUnit_Framework_MissingCoversAnnotationException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/MissingCoversAnnotationException.php',
         'PHPUnit_Framework_MockObject_BadMethodCallException' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/Framework/MockObject/Exception/BadMethodCallException.php',
         'PHPUnit_Framework_MockObject_Builder_Identity' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/Framework/MockObject/Builder/Identity.php',
         'PHPUnit_Framework_MockObject_Builder_InvocationMocker' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/Framework/MockObject/Builder/InvocationMocker.php',
@@ -585,6 +605,7 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
         'PHP_Token_NEW' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_C' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_SEPARATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_NULLSAFE_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NUM_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -740,10 +761,10 @@ class ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitf50fcc37f9f4d5a2f55373e7aea604e4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita4410865e44c1d72c490d64b28945d5f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita4410865e44c1d72c490d64b28945d5f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita4410865e44c1d72c490d64b28945d5f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita4410865e44c1d72c490d64b28945d5f::$classMap;
 
         }, null, ClassLoader::class);
     }

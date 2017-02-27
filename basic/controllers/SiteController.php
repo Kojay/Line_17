@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Benutzer;
+use app\models\ldap;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -56,13 +58,13 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays homepage, which in our case is the "Gastsuche"
      *
      * @return string
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->redirect(Url::toRoute('site/gastsuche'));
     }
 
     /**
@@ -72,15 +74,12 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            //return $this->render('gastsuche');
+            return $this->redirect(Url::toRoute('site/gastsuche'));
         }
-        return $this->render('login', ['model' => $model ]);
+        return $this->render('login', ['model' => $model]);
     }
 
     /**
@@ -92,9 +91,8 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->render('gastsuche');
     }
-
     /**
      * Displays contact page.
      *
@@ -110,7 +108,6 @@ class SiteController extends Controller
         }
         return $this->render('contact', ['model' => $model]);
     }
-
     /**
      * Displays about page.
      *
@@ -119,6 +116,10 @@ class SiteController extends Controller
     public function actionStatistik()
     {
         return $this->render('statistik');
+    }
+    public function actionGastsuche()
+    {
+        return $this->render('gastsuche');
     }
     public function actionReturn()
     {
@@ -138,17 +139,28 @@ class SiteController extends Controller
             "articleTypeName" => true,
             "loanLocation" => true,
             "loanLendingDate" => true,
-            "fhnwNumber" => true,
-            "fhnwNumber" => true,
-            "fhnwNumber" => true,
-
         ];
 
 	$model = new Artikel();
         
-	if ($model->load(Yii::$app->request->post())) {
+	    if ($model->load(Yii::$app->request->post())) {
             return $this->goBack();
         }	
         return $this->render('Suche',['model' => $model]);
+    }
+    /**
+     * @return boolean
+     */
+    public function actionProfile()
+    {
+        $model = new Benutzer();
+        $model->userID = yii::$app->user->identity->userID;
+        //TODO: Needs to be implemented when there's a dedicated usertable for AFC
+        //$model->personMail = yii::$app->user->identity->personMail;
+        //$model->personFirstname = yii::$app->user->identity->personFirstname;
+        //$model->personLastname = yii::$app->user->identity->personLastname;
+        $model->isUserAdmin = yii::$app->user->identity->isUserAdmin;
+
+        return $this->render('profile',['model' => $model]);
     }
 }
