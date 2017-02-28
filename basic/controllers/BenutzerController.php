@@ -21,12 +21,12 @@ class BenutzerController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['benutzerverwaltung','benutzerbearbeiten','benutzer','neuerbenutzer'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['benutzerverwaltung','benutzerbearbeiten','benutzer','neuerbenutzer'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

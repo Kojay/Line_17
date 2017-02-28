@@ -23,12 +23,18 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout','profile','login'],
                 'rules' => [
+                    //Definition what users and guests and even RBAC role users can do and what not in case of Sitecontroller Actions
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','profile'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['login'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],

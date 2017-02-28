@@ -40,6 +40,8 @@ $this->beginPage();
             <li class="navbar-text pull-left">
                 <?php
                 if(!Yii::$app->user->isGuest){
+                    if(Yii::$app->user->can('usercontrol')) echo ' Administrator  ';
+                    else echo ' Benutzer  ';
                     echo Yii::$app->user->identity->username;
                 }
                 else{
@@ -54,7 +56,7 @@ $this->beginPage();
               </a>
               <ul class="dropdown-menu">
                   <?php
-                  if (!Yii::$app->user->isGuest) {
+                  if (!Yii::$app->user->isGuest):
                       ?>
                       <li>
                           <a href="<?= Url::to(['site/logout'])?>" data-method="post" title="Logout">Logout</a>
@@ -63,14 +65,14 @@ $this->beginPage();
                           <a href="<?= Url::toRoute('site/profile')?>"  title="Profile">Profil</a>
                       </li>
                       <?php
-                  }
-                  if (Yii::$app->user->isGuest) {
+                  endif;
+                  if (Yii::$app->user->isGuest):
                       ?>
                       <li>
                           <a href="<?= Url::toRoute('site/login')?>"  title="Login">Login</a>
                       </li>
                       <?php
-                  }
+                  endif;
                   ?>
               </ul>
             </li>
@@ -88,7 +90,7 @@ $this->beginPage();
             <li class="logo"><?php echo Html::img('@web/images/Logo_FHNW.svg_edited.png',['class' => 'logo']) ?></li>
           </ul>
         <?php
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest):
             ?>
           <ul class="nav navbar-nav navbar-right">
               <ul class="nav pull-left">
@@ -131,6 +133,9 @@ $this->beginPage();
                       </a>
                   </li>
               </ul>
+              <?php
+              if(Yii::$app->user->can('usercontrol')):
+              ?>
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
                       <a href="<?= Url::toRoute('benutzer/benutzerverwaltung')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
@@ -140,7 +145,8 @@ $this->beginPage();
                   </li>
               </ul>
               <?php
-              }
+              endif;
+          endif;
               ?>
           </ul>
         </div>
