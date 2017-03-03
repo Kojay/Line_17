@@ -17,8 +17,8 @@ use kartik\checkbox\CheckboxX;
             <li class="list-group-item">
                 Neuer Hersteller?
                 <div class="material-switch pull-right">
-                    <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionDefault" class="label-primary"></label>
+                    <input id="someSwitchOptionDefaultProducer" name="someSwitchOptionProducer001" type="checkbox"/>
+                    <label for="someSwitchOptionDefaultProducer" class="label-primary"></label>
                 </div>
             </li>
         </ul>
@@ -30,6 +30,28 @@ use kartik\checkbox\CheckboxX;
                 <a href="<?= Url::toRoute('artikel/hersteller')?>" style="color: #3C578C" class="list-group-item">
                     <span class="glyphicon glyphicon-gift"></span>
                     Hersteller verwalten
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item">
+                Neuer Artikeltyp?
+                <div class="material-switch pull-right">
+                    <input id="someSwitchOptionDefaultArtikeltyp" name="someSwitchOptionArtikeltyp001" type="checkbox"/>
+                    <label for="someSwitchOptionDefaultArtikeltyp" class="label-primary"></label>
+                </div>
+            </li>
+        </ul>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Artikeltyp</h3>
+            </div>
+            <div class="">
+                <a href="<?= Url::toRoute('artikel/artikeltyp')?>" style="color: #3C578C" class="list-group-item">
+                    <span class="glyphicon glyphicon-gift"></span>
+                    Artikeltyp verwalten
                 </a>
             </div>
         </div>

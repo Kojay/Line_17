@@ -4,6 +4,11 @@
     use yii\widgets\Menu;
     use yii\widgets\Breadcrumbs;
     use yii\bootstrap\ActiveForm;
+    use app\models\QueryRqst;
+    use kartik\tabs\TabsX;
+    use kartik\grid\GridView;
+
+
 /**
  * Created by PhpStorm.
  * User: kwlski
@@ -43,6 +48,44 @@ echo $form->field($model, 'articlePrice')->textInput(['readonly' => true,'type' 
 echo $form->field($model, 'fhnwNumber')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('fhnwNumber'));
 echo $form->field($model, 'articleDescription')->textArea(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleDescription'));
 
+
+echo '<h3><b>Ausleihhistorie</b></h3>';
+echo GridView::widget([
+        'dataProvider' => (new QueryRqst())->getArtikelHistory($model['fhnwNumber']),
+        'responsive'=> true,
+        'hover'=> true,
+        'export' => false,
+        //'rowOptions' => function ($model, $index, $widget, $grid) {
+        //     return ['id' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['artikel/artikel']).'&_rqstIDfhnwNumber="+(this.id);','style' => 'cursor: pointer'];
+        //},
+        'columns' => [
+            ['class' => '\kartik\grid\SerialColumn'],
+            [
+                'label' => 'Vorname',
+                'attribute' => 'personFirstname',
+            ],
+            [
+
+                'label' => 'Nachname',
+                'attribute' => 'personLastname',
+            ],
+            [
+
+                'label' => 'Ausleihdatum',
+                'attribute' => 'lvLoanLendingDate',
+                'format' =>  ['date', 'php:d.m.Y'],
+
+            ],           
+            [
+
+                'label' => 'Rückgabedatum',
+                'attribute' => 'lvLoanReturnDate',
+                'format' =>  ['date', 'php:d.m.Y'],
+
+            ],],
+]);
+
+
 function translateField($paramString){
     $stringArray = [
         'articleName' => 'Artikelname: ',
@@ -52,7 +95,7 @@ function translateField($paramString){
         'dateBought' => 'Kaufdatum: ',
         'dateWarranty' => 'Garantiedatum: ',
         'articlePrice' => 'Artikelpreis: ',
-        'fhnwNumber' => 'FHNW Nummer: ',
+        'fhnwNumber' => 'Institut: ',
         'articleDescription' => 'Beschreibung: '
     ];
     return $stringArray[$paramString];

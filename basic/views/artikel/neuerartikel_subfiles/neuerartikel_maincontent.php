@@ -40,7 +40,13 @@ echo $form->field($model, 'articleName',        [ 'options' => ['class' => 'col-
 
 echo $form->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
+/*
+echo $form->field($model, 'articleTypeName',[ 'options' => ['id' => 'dropdownArtikeltyp','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])          //beim Aktivieren der Checkbox "Neuer Artikeltyp" und beim wieder deaktiveren, werden die Artikeltypen nicht geladen
+    ->dropDownList($modelArticletype,['style' => 'height: 26px;'])->label(translateField('articleTypeName'));
 
+echo $form->field($model, 'articleTypeName',[ 'options' => ['id' => 'textinputNewArtikeltyp','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+    ->textInput(['value' => 'Artikeltyp'])->label('Neuer Artikeltyp: ');
+*/
 echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
     ->dropDownList($modelProducers,['style' => 'height: 26px;'])->label(translateField('articleproducerName'));
 
@@ -74,7 +80,7 @@ function translateField($paramString){
         'dateBought' => 'Kaufdatum: ',
         'dateWarranty' => 'Garantiedatum: ',
         'articlePrice' => 'Artikelpreis: ',
-        'fhnwNumber' => 'FHNW Nummer: ',
+        'fhnwNumber' => 'Institut: ',
         'articleDescription' => 'Beschreibung: '
     ];
     $result = $stringArray[$paramString];
@@ -105,14 +111,24 @@ $( document ).ready(function() {
             });
         });
     });
-    $(':checkbox').change(function() {   
-        if($(':checkbox').prop('checked')){
+    $('#someSwitchOptionDefaultProducer').change(function() {   
+        if($('#someSwitchOptionDefaultProducer').prop('checked')){
            $('#textinputNewProducer').show();  
            $('#dropdownProducers').hide();
         }
         else{
            $('#textinputNewProducer').hide();
            $('#dropdownProducers').show();
+        }               
+    });  
+    $('#someSwitchOptionDefaultArtikeltyp').change(function() {   
+        if($('#someSwitchOptionDefaultArtikeltyp').prop('checked')){
+           $('#textinputNewArtikeltyp').show();  
+           $('#dropdownArtikeltyp').hide();
+        }
+        else{
+           $('#textinputNewArtikeltyp').hide();
+           $('#dropdownArtikeltyp').show();
         }               
     });  
 });

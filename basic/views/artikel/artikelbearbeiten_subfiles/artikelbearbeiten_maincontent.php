@@ -56,6 +56,9 @@ echo $form->field($model, 'articleName',        [ 'options' => ['class' => 'col-
 echo $form->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
 
+echo $form->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+    ->textInput(['value' => $model['lv_articletype_articleTypeID']])->label(translateField('lv_articletype_articleTypeID'));
+
 echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
     ->dropDownList($modelProducers,['style' => 'height: 26px;'])->label(translateField('articleproducerName'));
 
@@ -89,12 +92,14 @@ function translateField($paramString){
         'dateBought' => 'Kaufdatum: ',
         'dateWarranty' => 'Garantiedatum: ',
         'articlePrice' => 'Artikelpreis: ',
-        'fhnwNumber' => 'FHNW Nummer: ',
-        'articleDescription' => 'Beschreibung: '
+        'fhnwNumber' => 'Institut: ',
+        'articleDescription' => 'Beschreibung: ',
+        'lv_producer_producerID' => 'HerstellerID: ',
+        'lv_articletype_articleTypeID' => 'ArtikeltypID: '
     ];
     return $stringArray[$paramString];
 }
-echo Html::Button('Artikel bearbeiten', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateArticle','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Artikel übernehmen', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateArticle','style' => 'margin-right:20px; margin-top:20px;']);
 echo Html::Button('Artikel löschen', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-deleteArticle','style' => 'margin-right:20px; margin-top:20px;']);
 // widget with default options
 echo Dialog::widget();
@@ -108,7 +113,7 @@ $( document ).ready(function() {
    $('#dropdownProducers').show();
    
    $("#btn-updateArticle").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel bearbeiten wollen?", 
+    krajeeDialog.confirm("Sind sie sicher, dass sie die Änderungen übernehmen wollen?", 
         function (result) {
             $("#fnc").value = 'update';
             if (result) {                     

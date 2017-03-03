@@ -75,7 +75,8 @@ class ArtikelController extends Controller
         }
         else{
             $dataProducer = (new QueryRqst())->getDataProducer();
-            return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer]);
+            $dataArticletype = (new QueryRqst())->getDataArticletype();
+            return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer, 'modelArticletype' => $dataArticletype]);
 
         }
     }
@@ -98,8 +99,9 @@ class ArtikelController extends Controller
             $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
             //if(!$model->validate()){
             $dataProducer = (new QueryRqst())->getDataProducer();
+            $dataArticletype = (new QueryRqst())->getDataArticletype();
             $model->validate();
-            return $this->render('artikelbearbeiten', ['model' => $model, 'modelProducers' => $dataProducer]);
+            return $this->render('artikelbearbeiten', ['model' => $model, 'modelProducers' => $dataProducer, 'modelArticletype' => $dataArticletype]);
             //} 
             //else{                                                                                                                         //TODO: ERRORHANDLING
             //}
