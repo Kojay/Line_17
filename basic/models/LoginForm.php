@@ -9,7 +9,7 @@ use app\models\QueryRqst;
 
 /**
  * LoginForm is the model behind the login form.
- *
+ * @author Alexander Weinbeck
  * @property User|null $user This property is read-only.
  *
  */
@@ -22,6 +22,7 @@ class LoginForm extends Model
     private $_user = false;
 
     /**
+     * @author Alexander Weinbeck
      * @return array the validation rules.
      */
     public function rules()
@@ -34,11 +35,13 @@ class LoginForm extends Model
         ];
     }
     /**
+     *
      * Logs in a user using the provided username and password.
      * Following validations are being made:
      * ***model validation (user input into activeform) (->validate())
      * ***validation with application database (->validateLogin())
      * ***validation with Active Directory (->validateLogin())
+     * @author Alexander Weinbeck
      * @return bool whether the user is logged in successfully
      */
     public function login()
@@ -53,7 +56,7 @@ class LoginForm extends Model
     }
     /**
      * validates login credentials
-     *
+     * @author Alexander Weinbeck
      * @return User|null
      */
     public function validateLogin()

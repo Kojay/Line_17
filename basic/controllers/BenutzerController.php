@@ -14,7 +14,7 @@ use yii\web\Session;
 class BenutzerController extends Controller
 {
     /**
-     * @inheritdoc
+     * @author Alexander Weinbeck
      */
     public function behaviors()
     {
@@ -38,7 +38,6 @@ class BenutzerController extends Controller
             ],
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -54,16 +53,25 @@ class BenutzerController extends Controller
             ],  
         ];
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionBenutzerverwaltung()
     {
         return $this->render('benutzerverwaltung');
-    }  
+    }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionBenutzer()
     {
         $model = new Benutzer();
         $model->attributes  = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));
         return $this->render('benutzer', ['model' => $model]);
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionBenutzerbearbeiten()
     {
         $model = new Benutzer();
@@ -97,7 +105,10 @@ class BenutzerController extends Controller
             $this->refresh(Url::current());
         } 
         //throw new \yii\web\HttpException(404, 'Die angeforderte Seite konnte nicht geladen werden, haben Sie versucht über die Addresszeile zu navigieren?');      
-    }  
+    }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionNeuerbenutzer()
     {
         $model = new Benutzer();

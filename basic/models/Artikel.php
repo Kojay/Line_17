@@ -7,7 +7,7 @@ use yii\base\Model;
 
 /**
  * LoginForm is the model behind the login form.
- *
+ * @author Alexander Weinbeck
  * @property User|null $user This property is read-only.
  *
  */
@@ -36,6 +36,7 @@ class Artikel extends Model
     
     
     /**
+     * @author Alexander Weinbeck
      * @return array the validation rules.
      */
     public function rules()

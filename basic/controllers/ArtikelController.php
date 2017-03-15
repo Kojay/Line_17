@@ -13,7 +13,7 @@ use yii\helpers\Url;
 class ArtikelController extends Controller
 {
     /**
-     * @inheritdoc
+     * @author Alexander Weinbeck
      */
     public function behaviors()
     {
@@ -53,14 +53,23 @@ class ArtikelController extends Controller
             ],
         ];
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionArtikelhersteller()
     {
         return $this->render('artikelhersteller');
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionArtikelliste()
     {
         return $this->render('artikelliste');
-    } 
+    }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionNeuerartikel()
     {
         $model = new Artikel();
@@ -79,10 +88,16 @@ class ArtikelController extends Controller
 
         }
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionReturn()
     {
         $this->redirect(Url::toRoute('artikel/artikelliste'));
-    }  
+    }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionArtikel()
     {
         $model = new Artikel();                                                                   
@@ -90,6 +105,9 @@ class ArtikelController extends Controller
         
         return $this->render('artikel', ['model' => $model]);
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionArtikelbearbeiten()
     {     
         $model = new Artikel();

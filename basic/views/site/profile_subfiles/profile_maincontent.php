@@ -1,8 +1,9 @@
 <?php
+/**
+ * @author Alexander Weinbeck
+ */
 /* @var $this yii\web\View */
 use yii\helpers\Html;
-use yii\widgets\Menu;
-use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Benutzer Details';
@@ -27,16 +28,32 @@ echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
 echo $form->errorSummary($model);
 
+echo $form->field($model, 'name')->textInput(['readonly'=>true,'value' => $model->name, 'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
 echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
-//See Controller Action for info
-//echo $form->field($model, 'personFirstname')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personFirstname'));
-//echo $form->field($model, 'personLastname')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personLastname'));
-//echo $form->field($model, 'personMail')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personMail'));
 echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value' => translateFieldPermission($model['isUserAdmin']), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('isUserAdmin'));
+echo $form->field($model, 'personMail')->textInput(['readonly'=>true,'value' => $model->personMail,'type' => 'text', 'style' => 'border:0;'])->label('E-Mail');
+echo $form->field($model, 'department')->textInput(['readonly'=>true,'value' => $model->department,'type' => 'text', 'style' => 'border:0;'])->label('Abteilung');
+echo $form->field($model, 'company')->textInput(['readonly'=>true,'value' => $model->company,'type' => 'text', 'style' => 'border:0;'])->label('Firma');
 
+
+//$ad = (new \Adldap\Adldap((new ldap)->config));
+//$user = $ad->users()->find('sukey.adam@students.fhnw.ch');
+//$record = $ad->search()->find('Adam Sukey');
+//$adConnection = (new \Adldap\Adldap((new ldap)->config));
+//$adUser = $adConnection->users()->search()->find('alexander.weinbeck@students.fhnw.ch');
+
+//echo var_dump($adUser->getAttributes());
+//$users = $ad->users()->all();
+
+/**
+ * @author Alexander Weinbeck
+ */
 function translateFieldPermission($paramAdmin){
     if ($paramAdmin === 1): return 'Administrator'; else: return 'Benutzer'; endif;
 }
+/**
+ * @author Alexander Weinbeck
+ */
 function translateField($paramString){
     $stringArray = [
         'userID' => 'BenutzerID: ',

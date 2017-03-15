@@ -16,6 +16,7 @@ use yii\helpers\Url;
 class SiteController extends Controller
 {
     /**
+     * @author Alexander Weinbeck
      * @inheritdoc
      */
     public function behaviors()
@@ -48,6 +49,7 @@ class SiteController extends Controller
     }
 
     /**
+     *
      * @inheritdoc
      */
     public function actions()
@@ -65,7 +67,7 @@ class SiteController extends Controller
 
     /**
      * Displays homepage, which in our case is the "Gastsuche"
-     *
+     * @author Alexander Weinbeck
      * @return string
      */
     public function actionIndex()
@@ -75,7 +77,7 @@ class SiteController extends Controller
 
     /**
      * Login action.
-     *
+     * @author Alexander Weinbeck
      * @return string
      */
     public function actionLogin()
@@ -90,7 +92,7 @@ class SiteController extends Controller
 
     /**
      * Logout action.
-     *
+     * @author Alexander Weinbeck
      * @return string
      */
     public function actionLogout()
@@ -101,8 +103,7 @@ class SiteController extends Controller
     }
     /**
      * Displays contact page.
-     *
-     * @return string
+     * @author default template
      */
     public function actionContact()
     {
@@ -116,21 +117,30 @@ class SiteController extends Controller
     }
     /**
      * Displays about page.
-     *
+     * @author Alexander Weinbeck
      * @return string
      */
     public function actionStatistik()
     {
         return $this->render('statistik');
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionGastsuche()
     {
         return $this->render('gastsuche');
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionReturn()
     {
         $this->redirect(Url::toRoute('artikel/artikelliste'));
     }
+    /**
+     * @author Alexander Weinbeck
+     */
     public function actionSuche()
     {
         $columnSetting = [
@@ -147,7 +157,7 @@ class SiteController extends Controller
             "loanLendingDate" => true,
         ];
 
-	$model = new Artikel();
+	    $model = new Artikel();
         
 	    if ($model->load(Yii::$app->request->post())) {
             return $this->goBack();
@@ -155,17 +165,25 @@ class SiteController extends Controller
         return $this->render('Suche',['model' => $model]);
     }
     /**
-     * @return boolean
+     * @author Alexander Weinbeck
      */
     public function actionProfile()
     {
         $model = new Benutzer();
-        $model->userID = yii::$app->user->identity->userID;
+
         //TODO: Needs to be implemented when there's a dedicated usertable for AFC
-        //$model->personMail = yii::$app->user->identity->personMail;
-        //$model->personFirstname = yii::$app->user->identity->personFirstname;
-        //$model->personLastname = yii::$app->user->identity->personLastname;
+        $model->userID = yii::$app->user->identity->userID;
         $model->isUserAdmin = yii::$app->user->identity->isUserAdmin;
+        $model->personMail = yii::$app->user->identity->personMail;
+        //TODO: Testserver implementation
+        //Change EMail if Servermigration is done
+		$adUser = (new \Adldap\Adldap((new ldap)->config))->users()->search()->find('alexander.weinbeck@students.fhnw.ch');
+
+        $model->name = $adUser->getName();
+		$model->department = $adUser->department[0];
+		$model->title = $adUser->title[0];
+		$model->company = $adUser->company[0];
+
 
         return $this->render('profile',['model' => $model]);
     }

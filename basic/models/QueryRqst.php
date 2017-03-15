@@ -8,7 +8,11 @@ use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
- * ContactForm is the model behind the contact form.
+ * QueryRqst is the interface to the Database
+ * @author Rilind Gashi, Alexander Weinbeck
+ * @version 1.0
+ * @param data to set to DB
+ * @return data to get from DB
  */
 class QueryRqst extends Model
 {
@@ -72,7 +76,9 @@ class QueryRqst extends Model
         ]);
         return $dataProvider;
     }
-
+/*
+ *
+ */
     public function getDataAllfaelligeAusleihungen()
     {
         Yii::$app->db->createCommand('SELECT SQL_CALC_FOUND_ROWS * FROM {{%lv_article}} LIMIT 1')->queryScalar();
