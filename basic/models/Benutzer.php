@@ -4,19 +4,23 @@ namespace app\models;
 
 use yii\base\Model;
 
-
-
 /**
- * Benutzer is the model behind the "benutzer".
+ * Benutzer is the model behind the actual user.
  * @author Alexander Weinbeck
- *
  * @property User|null $user This property is read-only.
- *
  *
  */
 class Benutzer extends Model
 {
-    public $personFirstname, $personLastname, $personMail, $isUserAdmin, $userPassword, $userID, $department, $company, $title;
+    public $personFirstname,
+           $personLastname,
+           $personMail,
+           $isUserAdmin,
+           $userPassword,
+           $userID,
+           $department,
+           $company,
+           $title;
     
     //TODO: Datenbanknamen überarbeiten, darauf basierend Rules setzen! 
     
@@ -31,8 +35,9 @@ class Benutzer extends Model
     
     
     /**
+     * Rules
      * @author Alexander Weinbeck
-     * @return array the validation rules.
+     * @return array of the validation rules.
      */
     public function rules()
     {

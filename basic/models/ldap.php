@@ -10,6 +10,7 @@ use yii\base\Model;
  */
 class ldap extends Model
 {
+    //389 ldap port default
     //TODO: config array needs to be updated with all domain controllers!
     public $config = [
                         'domain_controllers' => ['edu.ds.fhnw.ch'/*,'adm.ds.fhnw.ch'*/], //only working on Testserver
@@ -31,7 +32,7 @@ class ldap extends Model
                         'use_tls' => false,
                         'use_sso' => false,
     ];
-    //389 Port default
+
 
 
     public function getAuthentication($username, $password){
@@ -41,46 +42,9 @@ class ldap extends Model
             return true;
         }
         else{
-            // Looks like the username or password is incorrect
+            // Username or password is incorrect
             return false;
         }
     }
-    /*
-    public function getUserDataArray($username){
-        //$ad = (new \Adldap\Adldap((new ldap)->config));
-        //$user = $ad->users()->find('sukey.adam@students.fhnw.ch');
-        //$record = $ad->search()->find('Adam Sukey');
-        //$adUser = (new \Adldap\Adldap((new ldap)->config))->users()->search()->find('alexander.weinbeck@students.fhnw.ch');
-        if((new \Adldap\Adldap($this->config))) {
-
-            $adUser = (new \Adldap\Adldap($this->config))->users()->search()->find($username);
-            if($adUser) {
-
-                $userDataArray = [
-                    'username' => $username,
-                    'department' => $adUser->department,
-                    'title' => $adUser->title,
-                    'company' => $adUser->company,
-                ];
-                return $userDataArray;
-            }
-            else{
-                return false;
-            }
-        }
-        else{
-            return false;
-        }
-        //$y->get
-        //$users = $ad->users()->all();
-        //echo var_dump($y->getDistinguishedName());
-        //echo var_dump($y->getAccountType());
-        //echo var_dump($y->getAttributes());
-        //echo var_dump($y->title);
-        //echo var_dump($y->department);
-        //echo var_dump($y->company);
-        //echo var_dump($users[392]);
-    }*/
-
 }
 ?>

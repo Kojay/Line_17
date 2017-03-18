@@ -570,6 +570,21 @@ class QueryRqst extends Model
         //TODO must be validated, if there is no result in index 0 an error occurs!
          return ArrayHelper::getValue($dataProvider->getModels(), 0);
     }
+    public function getSuperuser($paramUserMail){
+        try{
+            $dataProvider = new SqlDataProvider([
+                'sql' => 'SELECT superuser.superID, superuser.username, superuser.password, superuser.auth_key' .
+                    ' FROM lv_superuser AS superuser' .
+                    ' WHERE superuser.username = "' . $paramUserMail . '"'
+            ]);
+        }
+        catch(exception $e){
+            return [false, $e];
+        }
+        //TODO must be validated, if there is no result in index 0 an error occurs!
+        return ArrayHelper::getValue($dataProvider->getModels(), 0);
+
+    }
 }
 
 
