@@ -32,8 +32,7 @@ class Benutzer extends Model
     
     //Listing of minimum Lengths for Database input
     //const ARTICLENAME_MINLENGTH             = 40;
-    
-    
+
     /**
      * Rules
      * @author Alexander Weinbeck
