@@ -46,10 +46,7 @@ $form = ActiveForm::begin
             'errorOptions' => ['class' => 'articleupdate-style col-md-4'],
         ],
 ]);
-/*
-echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'checkBoxNewProducer', 'class' => 'col-md-2 fieldStyle unSelectable','unselectable' => 'on','style' => 'margin-left: 15px;']])
-    ->checkbox([ 'options' => ['style' => 'width:10px; height:10px;']])->label('Neuer Hersteller',['options' => ['unselectable' => 'on','class' => 'unSelectable']]);
-*/
+
 echo $form->field($model, 'articleName',        [ 'options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model->articleName])->label(translateField('articleName'));
 

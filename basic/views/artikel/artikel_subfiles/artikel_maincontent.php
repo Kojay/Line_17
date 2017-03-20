@@ -46,8 +46,17 @@ echo $form->field($model, 'dateBought')->textInput(['readonly' => true,'type' =>
 echo $form->field($model, 'dateWarranty')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('dateWarranty'));
 echo $form->field($model, 'articlePrice')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articlePrice'));
 echo $form->field($model, 'fhnwNumber')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('fhnwNumber'));
+echo $form->field($model, 'isArchive')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('isArchive'));
+echo $form->field($model, 'articleStatus')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleStatus'));
+echo $form->field($model, 'statusComment')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('statusComment'));
 echo $form->field($model, 'articleDescription')->textArea(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleDescription'));
 
+echo '<h5><b>Status ändern:</b></h5>';
+echo Html::Button('Artikel in Reperatur', ['class' => 'btn btn-warning col-md-4 btn-md btn-group','id' => 'btn-setArticleInRep','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Artikel ins Archiv verschieben', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-moveArticleToArchive','style' => 'margin-right:20px; margin-top:20px;']);
+echo '<br>';
+echo '<br>';
+echo '<br>';
 
 echo '<h3><b>Ausleihhistorie</b></h3>';
 echo GridView::widget([
@@ -96,6 +105,9 @@ function translateField($paramString){
         'dateWarranty' => 'Garantiedatum: ',
         'articlePrice' => 'Artikelpreis: ',
         'fhnwNumber' => 'Institut: ',
+        'isArchive' => 'Archiviert: ',
+        'articleStatus' => 'Status: ',
+        'statusComment' => 'Statuskommentar: ',
         'articleDescription' => 'Beschreibung: '
     ];
     return $stringArray[$paramString];
@@ -105,7 +117,7 @@ echo Html::endTag('div');
 
 $script = <<< JS
 $( document ).ready(function() { 
-   $("#btn-updateArticle").click(function(e){
+   $("#btn-setArticleInRep").click(function(e){
     krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel bearbeiten wollen?", 
         function (result) {
             $("#fnc").value = 'update';
@@ -122,7 +134,7 @@ $( document ).ready(function() {
             }
         });
     });
-    $("#btn-deleteArticle").click(function(e){
+    $("#btn-moveArticleToArchive").click(function(e){
     krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel löschen wollen?", 
         function (result) {
             if (result) {

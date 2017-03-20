@@ -135,15 +135,57 @@ class QueryRqst extends Model
         return $dataProvider;
     }
 
-     public function getArtikelListe()
-     {
+    public function getProducerListe()
+    {
          Yii::$app->db->createCommand('SELECT COUNT(fhnwNumber) FROM lv_article LIMIT 1')->queryScalar();
         $totalCount = Yii::$app->db->createCommand('SELECT COUNT(fhnwNumber) FROM lv_article LIMIT 1')->queryScalar();
 
         $dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT articleproducerID, articleproducerName, articleproducerDescription FROM lv_articleproducer',
+
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'totalCount' => $totalCount,
+
+            'sort' => [
+
+                'attributes' => [
+                    'articleproducerID' => [
+                        'asc' => ['articleproducerID' => SORT_ASC],
+                        'desc' => ['articleproducerID' => SORT_DESC],
+                        //'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ],
+                    'articleproducerName' => [
+                        'asc' => ['articleproducerName' => SORT_ASC],
+                        'desc' => ['articleproducerName' => SORT_DESC],
+                        //'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ],
+                    'articleproducerDescription' => [
+                        'asc' => ['articleproducerDescription' => SORT_ASC],
+                        'desc' => ['articleproducerDescription' => SORT_DESC],
+                        //'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ],
+                    'created_on'
+                ],
+
+            ],
+        ]);
+        return $dataProvider;
+        
+    }
+
+     public function getArtikelListe()
+     {
+        Yii::$app->db->createCommand('SELECT COUNT(fhnwNumber) FROM lv_article LIMIT 1')->queryScalar();
+        $totalCount = Yii::$app->db->createCommand('SELECT COUNT(fhnwNumber) FROM lv_article LIMIT 1')->queryScalar();
+        $dataProvider = new SqlDataProvider([
             'sql' => 'SELECT articletype.articleTypeName, articleproducer.articleproducerName, article.articleName, article.fhnwNumber, loanitems.lvLoanReturnDate' .
-                ' FROM lv_loanitems AS loanitems' .
-                ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
+                ' FROM lv_article AS article' .
+                ' LEFT JOIN lv_loanitems AS loanitems ON article.articleID = loanitems.lv_article_deviceID' .
                 ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID' .
                 ' LEFT JOIN lv_articleproducer AS articleproducer ON article.lv_producer_producerID = articleproducer.articleproducerID' 
                 ,
@@ -320,9 +362,9 @@ class QueryRqst extends Model
             'sql' => 'SELECT article.articleName, articletype.articleTypeName, ' .
                 'articleproducer.articleproducerName, article.serialNumber, ' .
                 'article.dateBought, article.dateWarranty, article.articlePrice, ' .
-                'article.fhnwNumber, article.articleDescription, article.lv_producer_producerID, article.lv_articletype_articleTypeID' .
-                ' FROM lv_loanitems AS loanitems' .
-                ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
+                'article.fhnwNumber, article.articleDescription, article.lv_producer_producerID, article.lv_articletype_articleTypeID, article.isArchive, article.articleStatus, article.statusComment' .
+                ' FROM lv_article AS article' .
+                ' LEFT JOIN lv_loanitems AS loanitems ON article.articleID = loanitems.lv_article_deviceID' .
                 ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID' .
                 ' LEFT JOIN lv_articleproducer AS articleproducer ON article.lv_producer_producerID = articleproducer.articleproducerID' .
                 ' WHERE article.fhnwNumber = "' . $fhnwNumber . '" GROUP BY article.fhnwNumber',
@@ -395,7 +437,60 @@ class QueryRqst extends Model
                         'default' => SORT_DESC,
                         'label' => 'Name',
                     ],
+                    'isArchive' => [
+                        'asc' => ['isArchive' => SORT_ASC],
+                        'desc' => ['isArchive' => SORT_DESC],
+                        'default' => SORT_DESC,
+                        'label' => 'Name',
+                    ],
+                    'articleStatus' => [
+                        'asc' => ['articleStatus' => SORT_ASC],
+                        'desc' => ['articleStatus' => SORT_DESC],
+                        'default' => SORT_DESC,
+                        'label' => 'Name',
+                    ],
+                    'statusComment' => [
+                        'asc' => ['statusComment' => SORT_ASC],
+                        'desc' => ['statusComment' => SORT_DESC],
+                        'default' => SORT_DESC,
+                        'label' => 'Name',
+                    ],
 
+                    'created_on'
+                ],
+            ],
+        ]);
+
+        return ArrayHelper::getValue($dataProvider->getModels(), 0);
+        //ArrayHelper::map($dataProvider->getModels(), 'articleName', 'articleTypeName', 'class') TODO: Evaluate if this is a better data processing method
+    }
+
+    public function getDataProducerDetails($articleproducerID)
+    {
+        $dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT articleproducerID, articleproducerName, articleproducerDescription FROM lv_articleproducer'.
+                ' WHERE articleproducerID = "' . $articleproducerID . '"',
+
+            'sort' => [
+                'attributes' => [
+                    'articleproducerID' => [
+                        'asc' => ['articleproducerID' => SORT_ASC],
+                        'desc' => ['articleproducerID' => SORT_DESC],
+                        //'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ],
+                    'articleproducerName' => [
+                        'asc' => ['articleproducerName' => SORT_ASC],
+                        'desc' => ['articleproducerName' => SORT_DESC],
+                        //'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ],
+                    'articleproducerDescription' => [
+                        'asc' => ['articleproducerDescription' => SORT_ASC],
+                        'desc' => ['articleproducerDescription' => SORT_DESC],
+                        //'default' => SORT_DESC,
+                        'label' => 'Post Title',
+                    ],
                     'created_on'
                 ],
             ],
@@ -423,6 +518,7 @@ class QueryRqst extends Model
                 WHERE   article.fhnwNumber="' . $paramArticleData['fhnwNumber'] . '" AND
                         article.lv_articletype_articleTypeID=articletype.articleTypeID AND
                         article.lv_producer_producerID=articleproducer.articleproducerID';
+        echo'<script>'.$query.'</script>';
 
         Yii::$app->db->createCommand($query)->execute();
     }
@@ -467,8 +563,8 @@ class QueryRqst extends Model
                         . $dateBoughtNew . '"," '
                         . $dateWarrantyNew . '"," '
                         . $paramArticleData['articleDescription'] . '", 
-                        (SELECT articletypeID FROM lv_articletype WHERE articleTypeName = "' . $paramArticleData['articleTypeName'] . '"), 
-                        articleproducerID FROM lv_articleproducer WHERE articleproducerName = "' . $paramArticleData['articleproducerName'] . '"';
+                        (SELECT articletypeID FROM lv_articletype WHERE articleTypeName = "' . $paramArticleData['articleTypeName'] . ' "), 
+                        articleproducerID FROM lv_articleproducer WHERE articleproducerName = "' . $paramArticleData['articleproducerName'] . ' "';
 
         $transaction = Yii::$app->db->beginTransaction();
         Yii::$app->db->createCommand($queryArtikeltyp)->execute();

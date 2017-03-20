@@ -84,6 +84,7 @@ class ArtikelController extends Controller
     {
         $this->redirect(Url::toRoute('artikel/artikelliste'));
     }  
+    
     public function actionArtikel()
     {
         $model = new Artikel();                                                                   

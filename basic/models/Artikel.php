@@ -6,15 +6,13 @@ use yii\base\Model;
 
 
 /**
- * LoginForm is the model behind the login form.
- *
- * @property User|null $user This property is read-only.
+ * 
  *
  */
 class Artikel extends Model
 {
     public $articleName, $dateBought, $articleTypeName, $articleproducerName, $serialNumber, 
-           $dateWarranty, $articlePrice, $fhnwNumber, $articleDescription, $lv_producer_producerID, $lv_articletype_articleTypeID;
+           $dateWarranty, $articlePrice, $fhnwNumber, $articleDescription, $articleStatus, $statusComment, $isArchive, $lv_producer_producerID, $lv_articletype_articleTypeID;
     
     //TODO: Datenbanknamen überarbeiten, darauf basierend Rules setzen! 
     
@@ -45,24 +43,77 @@ class Artikel extends Model
             //RULES must be validated and set according to prj team !DB dependencies!
             'requiredRule' => [['articleName', 'fhnwNumber'], 'required'],
             
-            'articleNameRule'   => [
-                                    ['articleName'],
-                                    'string',
-                                    'max' => self::ARTICLENAME_MAX_LENGTH,
-                                    'message' => 'Bitte geben Sie einen gültigen Namen ein, Sonderzeichen sind zu vermeiden sowie mehr als '.self::ARTICLENAME_MAX_LENGTH.' Zeichen'],      
-            
-            [['fhnwNumber'], 'string', 'max' => 4, 'message' => 'Bitte geben Sie ein FHNW Institut ein'],
+            'articleNameRule'   => 
+            [
+                ['articleName'],
+                'string',
+                'max' => self::ARTICLENAME_MAX_LENGTH,
+                'message' => 'Bitte geben Sie einen gültigen Namen ein, Sonderzeichen sind zu vermeiden sowie mehr als '.self::ARTICLENAME_MAX_LENGTH.' Zeichen'
+            ],      
+            [
+                ['fhnwNumber'], 
+                'string', 
+                'max' => 4, 
+                'message' => 'Bitte geben Sie ein FHNW Institut ein'
+            ],
             //[['articleproducerName'],'required'],
-            [['dateBought'],'date' ,'max' => 40 ,'message' => 'Bitte geben Sie ein gültiges Kaufdatum ein'],
-            [['articleTypeName'],'string' ,'max' => 40 ,'message' => 'Bitte geben Sie einen gültigen Artikelnamen ein'],
-            [['articlePrice'], 'number' ,'message' => 'Bitte geben Sie einen gültigen Preis ein'],
-            [['articleDescription'], 'string', 'max' => 90 ,'message' => 'Bitte geben Sie eine Beschreibung ein'],
-            [['dateWarranty'], 'date','message' => 'Bitte geben Sie ein gültiges Garantiedatum ein'],
-            [['serialNumber'],'number' ,'message' => 'Bitte geben Sie eine gültige Seriennummer ein'],
-            [['lv_articletype_articleTypeID'],'number'],
-            [['lv_producer_producerID'],'number'],
-            [['articleName', 'articleproducerName', 'fhnwNumber', 'dateBought', 'articleTypeName', 'articlePrice', 'articleDescription', 'dateWarranty', 'serialNumber', 'lv_articletype_articleTypeID', 'lv_producer_producerID'], 'safe'],
-           // ['rentedUntil', 'default', 'value' => self::DEFAULTVALUE_RENTED_UNTIL],
+            [
+                ['dateBought'],
+                'date' ,
+                'max' => 40 ,
+                'message' => 'Bitte geben Sie ein gültiges Kaufdatum ein'
+            ],
+            [
+                ['articleTypeName'],
+                'string' ,
+                'max' => 40 ,
+                'message' => 'Bitte geben Sie einen gültigen Artikelnamen ein'
+            ],
+            [
+                ['articlePrice'],
+                'number' ,
+                'message' => 'Bitte geben Sie einen gültigen Preis ein'
+            ],
+            [
+                ['articleDescription'], 
+                'string', 
+                'max' => 90 ,
+                'message' => 'Bitte geben Sie eine Beschreibung ein'
+            ],
+            [
+                ['dateWarranty'], 
+                'date',
+                'message' => 'Bitte geben Sie ein gültiges Garantiedatum ein'
+            ],
+            [
+                ['serialNumber'],
+                'number' ,
+                'message' => 'Bitte geben Sie eine gültige Seriennummer ein'
+            ],
+            [
+                ['lv_articletype_articleTypeID']
+                ,'number'
+            ],
+            [
+                ['lv_producer_producerID'],
+                'number'
+            ],
+            [
+                [
+                    'articleName', 
+                    'articleproducerName', 
+                    'fhnwNumber', 
+                    'dateBought', 
+                    'articleTypeName', 
+                    'articlePrice', 
+                    'articleDescription', 
+                    'dateWarranty', 
+                    'serialNumber', 
+                    'lv_articletype_articleTypeID', 
+                    'lv_producer_producerID'
+                ], 
+                'safe'
+            ],
         ];
     }
 
