@@ -26,8 +26,9 @@
 		"kartik-v/yii2-widget-sidenav": "*",
 		"kartik-v/bootstrap-checkbox-x": "*",
         "adldap2/adldap2": "*",
-        "edvlerblog/yii2-adldap-module": "^1.1.2"
-
+        "edvlerblog/yii2-adldap-module": "^1.1.2",
+        "components/jquery": "~3.2.0",
+        "yiisoft/yii2-jui": "~2.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

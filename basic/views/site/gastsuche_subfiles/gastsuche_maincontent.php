@@ -20,7 +20,7 @@ $items = [
         'pjax'=>true,
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getData(),
+                'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
                 'responsive'=> true,
                 'hover'=> true,
                 'export' => false,
@@ -58,7 +58,7 @@ $items = [
         'label'=>'<i class="glyphicon glyphicon-user"></i> Benutzer',
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getDataBenutzer(),
+                'dataProvider' => (new QueryRqst())->getDataBenutzerliste(),
                 'responsive'=> true,
                 'pjax'=>true,
                 'hover'=> true,
@@ -102,7 +102,7 @@ $items = [
         'label'=>'<i class="glyphicon glyphicon-tags"></i> Artikel',
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getData(),
+                'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
                 'responsive'=> true,
                 'pjax'=>true,
                 'hover'=> true,
@@ -199,3 +199,4 @@ echo TabsX::widget([
 ]);
 
 echo Html::endTag('div');
+?>

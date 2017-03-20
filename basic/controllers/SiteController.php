@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Adldap\Exceptions\AdldapException;
 use app\models\Benutzer;
 use app\models\ldap;
 use Yii;
@@ -177,14 +178,20 @@ class SiteController extends Controller
         $model->personMail = yii::$app->user->identity->personMail;
         //TODO: Testserver implementation
         //Change EMail if Servermigration is done
-		$adUser = (new \Adldap\Adldap((new ldap)->config))->users()->search()->find('alexander.weinbeck@students.fhnw.ch');
+        try {
+            $model->attributes = (new ldap())->getDataBenutzer('alexander.weinbeck@students.fhnw.ch');
 
-        $model->name = $adUser->getName();
-		$model->department = $adUser->department[0];
-		$model->title = $adUser->title[0];
-		$model->company = $adUser->company[0];
+            return $this->render('profile', ['model' => $model]);
+        }
+        catch(AdldapException $exLdap) {
+            $model->addError("Connection", "Active Directory meldet: " . $exLdap->getMessage());
+            $model->name = "N/A";
+            $model->department = "N/A";
+            $model->title = "N/A";
+            $model->company = "N/A";
 
+            return $this->render('profile', ['model' => $model]);
+        }
 
-        return $this->render('profile',['model' => $model]);
     }
 }

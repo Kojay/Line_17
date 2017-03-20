@@ -1,29 +1,21 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Menu;
-use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\dialog\Dialog;
-use kartik\checkbox\CheckboxX;
+use app\models\QueryRqst;
+use app\models\ldap;
 
+//TODO implement into ausleihebearbeiten
+//$this->registerJs("var dataADNames = ".json_encode((new ldap())->getDataADUsers()).";");
+//TODO
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJsFile('@web/js/artikelbearbeiten.js');
 
 $this->title = 'Artikel bearbeiten';
-/*
-echo Breadcrumbs::widget([
-    'links' => [
-        [
-            'label' => 'Artikelliste',
-            'url' => ['artikel/artikelliste','id' => yii::$app->request->get('_rqstIDfhnwNumber')],
-            'template' => "<li>{link}</li>\n", // template for this link only
-        ],
-        $this->title
-    ],
-]);
-*/
-echo Html::tag('h1',Html::encode($this->title));
 
+echo Html::tag('h1',Html::encode($this->title));
 
 if(Yii::$app->session->hasFlash('articleDataUpdated')){
     echo Html::beginTag('div');
@@ -46,15 +38,19 @@ $form = ActiveForm::begin
             'errorOptions' => ['class' => 'articleupdate-style col-md-4'],
         ],
 ]);
-/*
-echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'checkBoxNewProducer', 'class' => 'col-md-2 fieldStyle unSelectable','unselectable' => 'on','style' => 'margin-left: 15px;']])
-    ->checkbox([ 'options' => ['style' => 'width:10px; height:10px;']])->label('Neuer Hersteller',['options' => ['unselectable' => 'on','class' => 'unSelectable']]);
-*/
-echo $form->field($model, 'articleName',        [ 'options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model->articleName])->label(translateField('articleName'));
 
-echo $form->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
+echo $form
+    ->field($model, 'articleName')
+        ->label('Namen eingeben:',['for' => 'searchNamesAuto'])
+            ->input('',['id' => 'searchNamesAuto']);
+
+echo $form
+    ->field($model, 'articleName',['options' => ['class' => 'col-md-12 fieldStyle']])
+        ->textInput(['value' => $model->articleName])->label(translateField('articleName'));
+
+echo $form
+    ->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+        ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
 
 echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
     ->dropDownList($modelProducers,['style' => 'height: 26px;'])->label(translateField('articleproducerName'));
@@ -62,7 +58,7 @@ echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'dropdow
 echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
     ->textInput(['value' => 'Herstellername'])->label('Neuer Hersteller: ');
 
-echo $form->field($model, 'serialNumber',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'serialNumber',       [ 'options' => ['id' => 'textinputSerialnumber','class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['serialNumber']], ['class' => 'col-md-6'])->label(translateField('serialNumber'));
 
 echo $form->field($model, 'dateBought',         [ 'options' => ['class' => 'col-md-12 fieldStyle']])
@@ -96,74 +92,10 @@ function translateField($paramString){
 }
 echo Html::Button('Artikel bearbeiten', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateArticle','style' => 'margin-right:20px; margin-top:20px;']);
 echo Html::Button('Artikel löschen', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-deleteArticle','style' => 'margin-right:20px; margin-top:20px;']);
+
 // widget with default options
 echo Dialog::widget();
+
 ActiveForm::end();
-
 echo Html::endTag('div');
-$script = <<< JS
-$( document ).ready(function() { 
-    
-   $('#textinputNewProducer').hide();
-   $('#dropdownProducers').show();
-   
-   $("#btn-updateArticle").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel bearbeiten wollen?", 
-        function (result) {
-            $("#fnc").value = 'update';
-            if (result) {                     
-                e.preventDefault();
-                $.ajax({
-                    url: urlAjax,
-                    type:'post',
-                    headers: { '_rqstAjaxFnc': 'update' },
-                    data:$('#articleupdate-form').serialize(),
-                    success:function(){
-                    }
-                });
-            }
-        });
-    });
-    $("#btn-deleteArticle").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel löschen wollen?", 
-        function (result) {
-            if (result) {
-                e.preventDefault();
-                $.ajax({
-                    url: urlAjax,
-                    type:'post',
-                    headers: { '_rqstAjaxFnc': 'delete' },
-                    data:$('#articleupdate-form').serialize(),
-                    success:function(){
-                    }
-                });
-            }
-        });
-    });
-    $(':checkbox').change(function() {   
-        if($(':checkbox').prop('checked')){
-           $('#textinputNewProducer').show();  
-           $('#dropdownProducers').hide();
-        }
-        else{
-           $('#textinputNewProducer').hide();
-           $('#dropdownProducers').show();
-        }               
-    });
-    /* Set the width of the side navigation to 250px */
-    function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    }
-
-    /* Set the width of the side navigation to 0 */
-    function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    }
-});
-JS;
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJs($script);
-$this->registerCss("
-
-");
 ?>

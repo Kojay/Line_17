@@ -14,6 +14,7 @@ class Benutzer extends Model
 {
     public $personFirstname,
            $personLastname,
+           $name,
            $personMail,
            $isUserAdmin,
            $userPassword,

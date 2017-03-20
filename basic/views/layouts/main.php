@@ -1,26 +1,25 @@
 <?php
-
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\bootstrap\buttongroup;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-use kartik\sidenav\SideNav;
 use yii\helpers\url;
+use app\assets\AppAsset;
 
 AppAsset::register($this);
-$this->registerCssFile('@web/css/site.css');
-$this->beginPage();
+$this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => $this::POS_HEAD]);
 
+$this->beginPage();
 ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
-    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="path/to/css/checkbox-x.min.css" media="all" rel="stylesheet" type="text/css" />
-    <script src="path/to/js/checkbox-x.min.js" type="text/javascript"></script>
+
+<!--
+<script src="http://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script src='https://cdn.rawgit.com/pguso/jquery-plugin-circliful/master/js/jquery.circliful.min.js'></script>
+<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="path/to/css/checkbox-x.min.css" media="all" rel="stylesheet" type="text/css">
+<script src="path/to/js/checkbox-x.min.js" type="text/javascript"></script>
+-->
 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -32,7 +31,6 @@ $this->beginPage();
 <body>
 <?php $this->beginBody() ?>
 <div class="container-fluid">
-
     <nav role="navigation" class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header navbar-right pull-right">
@@ -44,9 +42,7 @@ $this->beginPage();
                     else echo ' Benutzer  ';
                     echo Yii::$app->user->identity->username;
                 }
-                else{
-                    echo 'Gast';
-                }
+                else echo 'Gast';
                 ?>
             </li>
             <li class="dropdown pull-right">
@@ -91,7 +87,7 @@ $this->beginPage();
           </ul>
         <?php
         if (!Yii::$app->user->isGuest):
-            ?>
+        ?>
           <ul class="nav navbar-nav navbar-right">
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
@@ -127,8 +123,16 @@ $this->beginPage();
               </ul>
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
+                      <a href="<?= Url::toRoute('ausleihe/ausleihliste')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                          Ausleihverwaltung
+                          <span class="glyphicon glyphicon-tags"></span>
+                      </a>
+                  </li>
+              </ul>
+              <ul class="nav pull-left">
+                  <li class="dropdown pull-right">
                       <a href="<?= Url::toRoute('artikel/artikelliste')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
-                          Artikel
+                          Artikelverwaltung
                           <span class="glyphicon glyphicon-tags"></span>
                       </a>
                   </li>
@@ -189,7 +193,6 @@ $this->beginPage();
             ],
         ]);
         NavBar::end();
-    ?>
 -->
 </div>
 <div class="wrap container-fluid">
@@ -204,27 +207,4 @@ $this->beginPage();
 <?php $this->endBody() ?>
 </body>
 </html>
-<?php
-$this->endPage();
-$script = <<< JS
-$( document ).ready(function() { 
-    /* Set the width of the side navigation to 250px */
-    function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    }
-
-    /* Set the width of the side navigation to 0 */
-    function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    }
-});
-JS;
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJs($script);
-
-$this->registerCss("
-
-");
-
-
-?>
+<?php $this->endPage() ?>

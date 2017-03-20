@@ -6,7 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Benutzer Details';
+$this->title = 'Benutzerprofil';
 
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -34,16 +34,6 @@ echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value'
 echo $form->field($model, 'personMail')->textInput(['readonly'=>true,'value' => $model->personMail,'type' => 'text', 'style' => 'border:0;'])->label('E-Mail');
 echo $form->field($model, 'department')->textInput(['readonly'=>true,'value' => $model->department,'type' => 'text', 'style' => 'border:0;'])->label('Abteilung');
 echo $form->field($model, 'company')->textInput(['readonly'=>true,'value' => $model->company,'type' => 'text', 'style' => 'border:0;'])->label('Firma');
-
-
-//$ad = (new \Adldap\Adldap((new ldap)->config));
-//$user = $ad->users()->find('sukey.adam@students.fhnw.ch');
-//$record = $ad->search()->find('Adam Sukey');
-//$adConnection = (new \Adldap\Adldap((new ldap)->config));
-//$adUser = $adConnection->users()->search()->find('alexander.weinbeck@students.fhnw.ch');
-
-//echo var_dump($adUser->getAttributes());
-//$users = $ad->users()->all();
 
 /**
  * @author Alexander Weinbeck

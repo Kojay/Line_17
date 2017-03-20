@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <?= GridView::widget([
                 
-            'dataProvider' => (new QueryRqst())->getData(),
+            'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
                 
             'columns' => 
                 [

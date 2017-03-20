@@ -1,5 +1,5 @@
 <?php
-    \yii\widgets\Pjax::begin();
+\yii\widgets\Pjax::begin();
 ?>
     <div class="col-md-2">
         <!-- CONTENT LEFT SIDEBAR START --------------------------------------------------------------------------------------->
@@ -17,5 +17,5 @@
         <!-- OPTIONAL CONTENT RIGHT SIDEBAR END ------------------------------------------------------------------------------->
     </div>
 <?php
-    \yii\widgets\Pjax::begin();
+\yii\widgets\Pjax::begin();
 ?>

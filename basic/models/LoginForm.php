@@ -35,7 +35,6 @@ class LoginForm extends Model
         ];
     }
     /**
-     *
      * Logs in a user using the provided username and password.
      * Following validations are being made:
      * ***model validation (user input into activeform) (->validate())
@@ -67,7 +66,7 @@ class LoginForm extends Model
             //TODO: AD Authentfication is always true now, while migrating into new environment this needs to be tested!
             return $this->username;
             //here's the ad authentification
-            if((new ldap())->getAuthentication($this->username,$this->password)){
+            if((new ldap(yii::$app->params['LDAPCFG']))->getAuthentication($this->username,$this->password)){
                 return $this->username;
             }
             //here's the superuser authentication

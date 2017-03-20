@@ -17,20 +17,24 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    
+    //public $sourcePath = '@app/assets/app';
+
+
     public $css = [
         'css/site.css',
 		//Themes
-		//'themes/material-simple/css/materialize.css',
-		//'themes/material-simple/css/prism.css'
+		'themes/material-simple/css/materialize.css',
+		'themes/material-simple/css/prism.css'
     ];
     public $js = [
-        //'js/ajax.js'
-		//'themes/material-simple/js/materialize.js',
-		//'themes/material-simple/js/prism.js',
+        //'js/artikelbearbeiten.js',
+        //'http://code.jquery.com/jquery-1.12.4.js'
+        //'js/jquery.mobile-1.4.2.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\jui\JuiAsset',
+        //'yii\bootstrap\BootstrapAsset'
+        'yii\bootstrap\BootstrapPluginAsset'
     ];
 }

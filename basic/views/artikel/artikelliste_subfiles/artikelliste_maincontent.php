@@ -13,12 +13,12 @@ echo Html::tag('h1',Html::encode($this->title));
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
         echo GridView::widget([
-                'dataProvider' => (new QueryRqst())->getData(),
+                'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
                 'responsive'=> true,
                 'hover'=> true,
                 'export' => false,
                 'rowOptions' => function ($model, $index, $widget, $grid) {
-                    return ['_rqstIDfhnwNumber' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['benutzer/benutzer']).'&_rqstIDfhnwNumber="+(this._rqstIDfhnwNumber);','style' => 'cursor: pointer'];
+                    return ['id' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['artikel/artikel']).'&_rqstIDfhnwNumber="+(this.id);','style' => 'cursor: pointer'];
                 },
                 'columns' => [
                     ['class' => '\kartik\grid\SerialColumn'],

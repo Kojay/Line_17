@@ -16,9 +16,7 @@ use yii\helpers\ArrayHelper;
  */
 class QueryRqst extends Model
 {
-    private $dataProvider;
-
-    public function getData()
+    public function getDataArtikelliste()
     {
         Yii::$app->db->createCommand('SELECT SQL_CALC_FOUND_ROWS * FROM {{%lv_article}} LIMIT 1')->queryScalar();
         $totalCount = Yii::$app->db->createCommand('SELECT FOUND_ROWS()')->queryScalar();
@@ -76,9 +74,6 @@ class QueryRqst extends Model
         ]);
         return $dataProvider;
     }
-/*
- *
- */
     public function getDataAllfaelligeAusleihungen()
     {
         Yii::$app->db->createCommand('SELECT SQL_CALC_FOUND_ROWS * FROM {{%lv_article}} LIMIT 1')->queryScalar();
@@ -140,78 +135,18 @@ class QueryRqst extends Model
         ]);
         return $dataProvider;
     }
-
-    public function getDataArtikellisteBearbeiten($paramFindRow)
+    /**
+     * Get Data for an article
+     * @author Alexander Weinbeck
+     * @param $paramFhnwNumber
+     * @return SqlDataProvider see YII2.0 Guide
+     */
+    public function getDataArtikel($paramFhnwNumber)
     {
-        $dataProvider = new SqlDataProvider([
-            //'sql' => 'SELECT * FROM lv_loanitems WHERE lvLoanReturnDate >= CURDATE()',
-            'sql' => 'SELECT article.articleName, article.fhnwNumber, article.serialNumber, article.articlePrice, article.articleDescription, articletype.articleTypeName, producer.articleproducerName' .
-                ' FROM lv_loanprofile AS loanprofile' .
-                ' LEFT JOIN lv_articleproducer AS producer ON producer.articleproducerID = article.articleID' .
-                ' LEFT JOIN lv_articletype AS articletype ON articletype.articleID = articletype.articleTypeID' .
-                ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
-                ' WHERE ' + $paramFindRow + ' GROUP BY article.articleID;',
-
-            'sort' => [
-                'attributes' => [
-                    'personFirstname' => [
-                        'asc' => ['personFirstname' => SORT_ASC],
-                        'desc' => ['personFirstname' => SORT_DESC],
-                        //'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ],
-                    'personLastname' => [
-                        'asc' => ['personLastname' => SORT_ASC],
-                        'desc' => ['personLastname' => SORT_DESC],
-                        //'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ],
-                    'loanLocation' => [
-                        'asc' => ['loanLocation' => SORT_ASC],
-                        'desc' => ['loanLocation' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'articleName' => [
-                        'asc' => ['articleName' => SORT_ASC],
-                        'desc' => ['articleName' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'lvLoanReturnDate' => [
-                        'asc' => ['lvLoanReturnDate' => SORT_ASC],
-                        'desc' => ['lvLoanReturnDate' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'lvLoanReturnDate' => [
-                        'asc' => ['lvLoanReturnDate' => SORT_ASC],
-                        'desc' => ['lvLoanReturnDate' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'lvLoanReturnDate' => [
-                        'asc' => ['lvLoanReturnDate' => SORT_ASC],
-                        'desc' => ['lvLoanReturnDate' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-
-                    'created_on'
-                ],
-            ],
-            'pagination' => [
-                'pagesize' => 80,
-            ],
-
-        ]);
-        return $dataProvider;
-    }
-
-    public function getDataArtikel($fhnwNumber)
-    {
-        $dataProvider = new SqlDataProvider([
-            'sql' => 'SELECT article.articleName, articletype.articleTypeName, ' .
+        $dataProvider = new SqlDataProvider
+        ([
+            'sql' =>
+                'SELECT article.articleName, articletype.articleTypeName, ' .
                 'articleproducer.articleproducerName, article.serialNumber, ' .
                 'article.dateBought, article.dateWarranty, article.articlePrice, ' .
                 'article.fhnwNumber, article.articleDescription' .
@@ -219,77 +154,41 @@ class QueryRqst extends Model
                 ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
                 ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID' .
                 ' LEFT JOIN lv_articleproducer AS articleproducer ON article.lv_producer_producerID = articleproducer.articleproducerID' .
-                ' WHERE article.fhnwNumber = "' . $fhnwNumber . '" GROUP BY article.fhnwNumber',
-
-            'sort' => [
-                'attributes' => [
-                    'articleTypeName' => [
-                        'asc' => ['articleTypeName' => SORT_ASC],
-                        'desc' => ['articleTypeName' => SORT_DESC],
-                        //'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ],
-                    'articleproducerName' => [
-                        'asc' => ['articleproducerName' => SORT_ASC],
-                        'desc' => ['articleproducerName' => SORT_DESC],
-                        //'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ],
-                    'articleName' => [
-                        'asc' => ['articleName' => SORT_ASC],
-                        'desc' => ['articleName' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'fhnwNumber' => [
-                        'asc' => ['fhnwNumber' => SORT_ASC],
-                        'desc' => ['fhnwNumber' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'serialNumber' => [
-                        'asc' => ['articleserialNumber' => SORT_ASC],
-                        'desc' => ['articleserialNumber' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'articlePrice' => [
-                        'asc' => ['articlePrice' => SORT_ASC],
-                        'desc' => ['articlePrice' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'dateBought' => [
-                        'asc' => ['dateBought' => SORT_ASC],
-                        'desc' => ['dateBought' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'dateWarranty' => [
-                        'asc' => ['dateWarranty' => SORT_ASC],
-                        'desc' => ['dateWarranty' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'articleDescription' => [
-                        'asc' => ['articleDescription' => SORT_ASC],
-                        'desc' => ['articleDescription' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-
-                    'created_on'
-                ],
-            ],
+                ' WHERE article.fhnwNumber = "' . $paramFhnwNumber . '" GROUP BY article.fhnwNumber'
         ]);
 
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
         //ArrayHelper::map($dataProvider->getModels(), 'articleName', 'articleTypeName', 'class') TODO: Evaluate if this is a better data processing method
     }
+    /**
+     * Get required data for a rental
+     * @author Alexander Weinbeck
+     * @param $paramFhnwNumber
+     * @return mixed -> SQLDataProvider value
+     */
+    public function getDataAusleihe($paramFhnwNumber)
+    {
+        $dataProvider = new SqlDataProvider([
+            'sql' =>
+                'SELECT loanitems.lvLoanReturnDate, loanitems.lvLoanLendingDate, loanitems.loanAuthorityMail, 
+                        loanprofile.loanLocation, loanprofile.loanDscription, loanprofile.loanPersonMail,
+                        article.articleName, article.fhnwNumber,
+                        articleproducer.articleTypeName'.
 
+                ' FROM lv_loanprofile AS loanprofile' .
+
+                ' LEFT JOIN lv_articletype AS articletype ON article.articleID = articletype.articleTypeID' .
+                ' LEFT JOIN lv_articleproducer AS articleproducer ON article.articleID = articleproducer.articleproducerID' .
+                ' LEFT JOIN lv_loanitems AS loanitems ON loanprofile.loanID = loanitems.lv_loan_loanID' .
+                ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
+
+                ' WHERE article.fhnwNumber = "' . $paramFhnwNumber . '" GROUP BY article.fhnwNumber',
+        ]);
+
+        return ArrayHelper::getValue($dataProvider->getModels(), 0);
+    }
     public function setDataArtikel($paramArticleData)
     {
-
         $query = 'UPDATE  lv_article article, lv_articletype articletype, lv_articleproducer articleproducer 
                         
                 SET     article.articleName="' . $paramArticleData['articleName'] . '",
@@ -311,6 +210,7 @@ class QueryRqst extends Model
 
     public function createDataArtikel($paramArticleData)
     {
+        //TODO write into one query and eliminate foreign key checks
         $preConditionSQL = 'SET FOREIGN_KEY_CHECKS=0';
         $query1 = ' 
 
@@ -360,8 +260,6 @@ class QueryRqst extends Model
 
     public function deleteDataArtikel($paramArticleData)
     {
-        //$preConditionSQL = 'SET FOREIGN_KEY_CHECKS=0';
-
         $qry1 = 'DELETE article, articletype, articleproducer, loanitems ' .
             'FROM lv_loanItems AS loanitems ' .
             'LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID ' .
@@ -376,21 +274,16 @@ class QueryRqst extends Model
                         articletype.articleTypeName="' . $paramArticleData['articleTypeName'] . '" AND
                         articleproducer.articleproducerName="' . $paramArticleData['articleproducerName'] . '"';
 
-        //$postConditionSQL = 'SET FOREIGN_KEY_CHECKS=1';
-
-        // INSERT VALIDATION AND ERROR HANDLING
+        //TODO Validation and error handling
 
         $transaction = Yii::$app->db->beginTransaction();
-        //Yii::$app->db->createCommand($preConditionSQL)->execute();
         Yii::$app->db->createCommand($qry1)->execute();
-//        Yii::$app->db->createCommand($query2)->execute();
-//        Yii::$app->db->createCommand($query3)->execute();
-        //Yii::$app->db->createCommand($postConditionSQL)->execute();
         $transaction->commit();
     }
 
     public function deleteDataBenutzer($paramUserData)
     {
+        //TODO write into one query
         $query1 = ' DELETE FROM lv_user ' .
             ' WHERE  lv_user.userID="' . $paramUserData['userID'] . '" AND
                            lv_user.isUserAdmin="' . $paramUserData['isUserAdmin'] . '" AND
@@ -406,7 +299,6 @@ class QueryRqst extends Model
         Yii::$app->db->createCommand($query2)->execute();
         $transaction->commit();
     }
-
     public function getDataProducer()
     {
         $dataProvider = new SqlDataProvider([
@@ -414,7 +306,7 @@ class QueryRqst extends Model
         ]);
         return ArrayHelper::getColumn($dataProvider->getModels(), 'articleproducerName');                               //TODO: Errorhandling einfügen
     }
-    public function getDataBenutzer()
+    public function getDataBenutzerliste()
     {
         Yii::$app->db->createCommand('SELECT SQL_CALC_FOUND_ROWS * FROM {{%lv_user}} LIMIT 1')->queryScalar();
         $totalCount = Yii::$app->db->createCommand('SELECT FOUND_ROWS()')->queryScalar();
@@ -464,39 +356,11 @@ class QueryRqst extends Model
     public function getDataBenutzerID($paramUserID)
     {
         $dataProvider = new SqlDataProvider([
-            'sql' => 'SELECT persons.personFirstname, persons.personLastname, persons.personMail, users.isUserAdmin, users.userID' .
+            'sql' =>
+                'SELECT persons.personFirstname, persons.personLastname, persons.personMail, users.isUserAdmin, users.userID' .
                 ' FROM lv_user AS users' .
                 ' LEFT JOIN lv_persons AS persons ON users.userID = persons.personsID' .
-                ' WHERE persons.personsID = ' . $paramUserID,
-            'sort' => [
-                'attributes' => [
-                    'personMail' => [
-                        'asc' => ['userID' => SORT_ASC],
-                        'desc' => ['userID' => SORT_DESC],
-                        //'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ],
-                    'isUserAdmin' => [
-                        'asc' => ['isUserAdmin' => SORT_ASC],
-                        'desc' => ['isUserAdmin' => SORT_DESC],
-                        //'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ],
-                    'personFirstname' => [
-                        'asc' => ['articleName' => SORT_ASC],
-                        'desc' => ['articleName' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'personLastname' => [
-                        'asc' => ['articleName' => SORT_ASC],
-                        'desc' => ['articleName' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Name',
-                    ],
-                    'created_on'
-                ],
-            ],
+                ' WHERE persons.personsID = ' . $paramUserID
         ]);
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
     }
@@ -520,6 +384,7 @@ class QueryRqst extends Model
 
     public function createDataBenutzer($paramUserModel, $paramUserPW)
     {
+        //TODO eliminate foreign key checks
         $preConditionSQL = 'SET FOREIGN_KEY_CHECKS=0';
         $query1 = ' 
                     INSERT INTO     lv_users (isUserAdmin, userPassword, userPersonsID, userID)
@@ -553,7 +418,6 @@ class QueryRqst extends Model
         $transaction->commit();
     }
 
-
     public function getLoginData($paramUserMail)
     {
         try{
@@ -586,6 +450,76 @@ class QueryRqst extends Model
 
     }
 }
+
+
+//****** OLD
+
+/*public function getDataArtikellisteBearbeiten($paramFindRow)
+{
+    $dataProvider = new SqlDataProvider([
+        //'sql' => 'SELECT * FROM lv_loanitems WHERE lvLoanReturnDate >= CURDATE()',
+        'sql' => 'SELECT article.articleName, article.fhnwNumber, article.serialNumber, article.articlePrice, article.articleDescription, articletype.articleTypeName, producer.articleproducerName' .
+            ' FROM lv_loanprofile AS loanprofile' .
+            ' LEFT JOIN lv_articleproducer AS producer ON producer.articleproducerID = article.articleID' .
+            ' LEFT JOIN lv_articletype AS articletype ON articletype.articleID = articletype.articleTypeID' .
+            ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
+            ' WHERE ' + $paramFindRow + ' GROUP BY article.articleID;',
+
+//            'sort' => [
+//                'attributes' => [
+//                    'personFirstname' => [
+//                        'asc' => ['personFirstname' => SORT_ASC],
+//                        'desc' => ['personFirstname' => SORT_DESC],
+//                        //'default' => SORT_DESC,
+//                        'label' => 'Post Title',
+//                    ],
+//                    'personLastname' => [
+//                        'asc' => ['personLastname' => SORT_ASC],
+//                        'desc' => ['personLastname' => SORT_DESC],
+//                        //'default' => SORT_DESC,
+//                        'label' => 'Post Title',
+//                    ],
+//                    'loanLocation' => [
+//                        'asc' => ['loanLocation' => SORT_ASC],
+//                        'desc' => ['loanLocation' => SORT_DESC],
+//                        'default' => SORT_DESC,
+//                        'label' => 'Name',
+//                    ],
+//                    'articleName' => [
+//                        'asc' => ['articleName' => SORT_ASC],
+//                        'desc' => ['articleName' => SORT_DESC],
+//                        'default' => SORT_DESC,
+//                        'label' => 'Name',
+//                    ],
+//                    'lvLoanReturnDate' => [
+//                        'asc' => ['lvLoanReturnDate' => SORT_ASC],
+//                        'desc' => ['lvLoanReturnDate' => SORT_DESC],
+//                        'default' => SORT_DESC,
+//                        'label' => 'Name',
+//                    ],
+//                    'lvLoanReturnDate' => [
+//                        'asc' => ['lvLoanReturnDate' => SORT_ASC],
+//                        'desc' => ['lvLoanReturnDate' => SORT_DESC],
+//                        'default' => SORT_DESC,
+//                        'label' => 'Name',
+//                    ],
+//                    'lvLoanReturnDate' => [
+//                        'asc' => ['lvLoanReturnDate' => SORT_ASC],
+//                        'desc' => ['lvLoanReturnDate' => SORT_DESC],
+//                        'default' => SORT_DESC,
+//                        'label' => 'Name',
+//                    ],
+//
+//                    'created_on'
+//                ],
+//            ],
+        'pagination' => [
+            'pagesize' => 80,
+        ],
+
+    ]);
+    return $dataProvider;
+}*/
 
 
 
