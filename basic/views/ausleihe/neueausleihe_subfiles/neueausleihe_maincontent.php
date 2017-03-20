@@ -11,6 +11,9 @@ use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJsFile('@web/js/neueausleihe.js');
+
 $this->title = 'Ausleihe erstellen';
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -62,6 +65,7 @@ echo $form->field($model, 'loanDescription', [ 'options' => ['class' => 'col-md-
 
 ActiveForm::end();
 /**
+ * Translates db column name to german readable word
  * @author Alexander Weinbeck
  * @param $paramString
  * @return mixed
@@ -80,48 +84,7 @@ function translateField($paramString){
     return $stringArray[$paramString];
 }
 echo Html::Button('Ausleihe erstellen', ['class' => 'btn btn-success','id' => 'btn-create']);
-// widget with default options
-echo Dialog::widget();
+
 echo Html::endTag('div');
 
-
-/**
- * Requesthandling
- * @author Alexander Weinbeck
- */
-$script = <<< JS
-$( document ).ready(function() {
-    $(function(){
-        $("#btn-create").click(function(e){
-            krajeeDialog.confirm("Sind sie sicher, dass sie die Ausleihe erstellen wollen?", 
-            function (result) {
-                if (result) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: urlAjax,
-                        type:'post',
-                        headers: { '_rqstAjaxFnc': 'create' },
-                        data:$('#createRental-formActive').serialize(),
-                        success:function(){
-                        //execute changes if needed ...         
-                        }
-                    });
-                }
-            });
-        });
-    });
-    $(':checkbox').change(function() {   
-        if($(':checkbox').prop('checked')){
-           $('#textinputNewProducer').show();  
-           $('#dropdownProducers').hide();
-        }
-        else{
-           $('#textinputNewProducer').hide();
-           $('#dropdownProducers').show();
-        }               
-    });  
-});
-JS;
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJs($script);
 ?>

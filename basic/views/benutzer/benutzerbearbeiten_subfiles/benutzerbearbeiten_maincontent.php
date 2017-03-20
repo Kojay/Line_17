@@ -6,6 +6,9 @@ use kartik\dialog\Dialog;
 use yii\helpers\Url;
 use yii\bootstrap\Alert;
 
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJsFile('@web/js/benutzerbearbeiten.js');
+
 $this->title = 'Benutzer bearbeiten';
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -42,10 +45,21 @@ echo $form->field($model, 'isUserAdmin')->inline()->radioList(['0' => 'Benutzer'
 echo Html::Button('Benutzer speichern', ['class' => 'btn btn-success','id' => 'btn-saveUser','style' => 'margin-right:20px']);
 echo Html::Button('Benutzer löschen', ['class' => 'btn btn-danger','id' => 'btn-deleteUser']);
 
-
+/**
+ * Translates db column name to german readable word
+ * @author Alexander Weinbeck
+ * @param $paramString
+ * @return mixed
+ */
 function translateFieldPermission($paramAdmin){
     if ($paramAdmin === 1): return 'Administrator'; else: return 'Benutzer'; endif;
 }
+/**
+ * Translates db column name to german readable word
+ * @author Alexander Weinbeck
+ * @param $paramString
+ * @return mixed
+ */
 function translateField($paramString){
     $stringArray = [
         'userID'           => 'BenutzerID: ',
@@ -56,49 +70,7 @@ function translateField($paramString){
     ];
     return $stringArray[$paramString];
 }
-echo Dialog::widget();
 
-
-$script = <<< JS
-$( document ).ready(function() { 
-   $("#btn-saveUser").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Benutzer bearbeiten wollen?", 
-        function (result) {
-            if (result) {                     
-                e.preventDefault();
-                $.ajax({
-                    url: urlAjax,
-                    type:'post',
-                    headers: { '_rqstAjaxFnc': 'update' },
-                    data:$('#userupdate-form').serialize(),
-                    success:function(){
-                    }
-                });
-            }
-        });
-    });
-    $("#btn-deleteUser").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Benutzer löschen wollen?", 
-        function (result) {
-            if (result) {
-                e.preventDefault();
-                $.ajax({
-                    url: urlAjax,
-                    type:'post',
-                    headers: { '_rqstAjaxFnc': 'delete' },
-                    data:$('#userupdate-form').serialize(),
-                    success:function(){
-                    }
-                });
-            }
-        });
-    });
-});
-JS;
-//Url::remember();
-//$url = Url::toRoute('benutzer/benutzerbearbeiten');
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJs($script);
 ActiveForm::end();
 echo Html::endTag('div');
 ?>

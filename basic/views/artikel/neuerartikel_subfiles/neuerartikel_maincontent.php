@@ -1,5 +1,9 @@
 <?php
-/* @var $this yii\web\View */
+/**
+ * New article view
+ * @author Alexander Weinbeck
+ * @var $this yii\web\View
+ */
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Menu;
@@ -7,6 +11,8 @@ use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJsFile('@web/js/neuerartikel.js');
 $this->title = 'Artikel erstellen';
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -81,45 +87,8 @@ function translateField($paramString){
     return $result;
 }
 echo Html::Button('Artikel erstellen', ['class' => 'btn btn-success','id' => 'btn-create']);
-// widget with default options
-echo Dialog::widget();
+
 echo Html::endTag('div');
-$script = <<< JS
-$( document ).ready(function() {
-    $(function(){
-        $("#btn-create").click(function(e){
-            krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel erstellen wollen?", 
-            function (result) {
-                if (result) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: urlAjax,
-                        type:'post',
-                        headers: { '_rqstAjaxFnc': 'create' },
-                        data:$('#createArticle-formActive').serialize(),
-                        success:function(){
-                        //execute changes if needed ...         
-                        }
-                    });
-                }
-            });
-        });
-    });
-    $(':checkbox').change(function() {   
-        if($(':checkbox').prop('checked')){
-           $('#textinputNewProducer').show();  
-           $('#dropdownProducers').hide();
-        }
-        else{
-           $('#textinputNewProducer').hide();
-           $('#dropdownProducers').show();
-        }               
-    });  
-});
-JS;
-//$url = Url::toRoute('artikel/neuerartikel');
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJs($script);
 
 ActiveForm::end();
 ?>

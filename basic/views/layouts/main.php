@@ -5,12 +5,10 @@ use app\assets\AppAsset;
 
 AppAsset::register($this);
 $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => $this::POS_HEAD]);
-
-$this->beginPage();
 ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
-
+<?php $this->beginPage() ?>
 <!--
 <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
@@ -156,7 +154,7 @@ $this->beginPage();
         </div>
       </div>
     </nav>
-<!--
+<!--TODO
         /***********Suche als Eingabe möglich
         "
 
@@ -193,7 +191,7 @@ $this->beginPage();
             ],
         ]);
         NavBar::end();
--->
+TODO-->
 </div>
 <div class="wrap container-fluid">
     <?= $content ?>
@@ -206,5 +204,5 @@ $this->beginPage();
 </footer>
 <?php $this->endBody() ?>
 </body>
-</html>
 <?php $this->endPage() ?>
+</html>

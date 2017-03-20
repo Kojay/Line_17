@@ -7,6 +7,9 @@ use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 
+$this->registerJs("var urlAjax = ".json_encode(Url::toRoute('benutzer/neuerbenutzer')).";");
+$this->registerJsFile('@web/js/neuerbenutzer.js');
+
 $this->title = 'Benutzer erstellen';
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -38,18 +41,50 @@ if(Yii::$app->session->hasFlash('userDataCreated'))
     ]);
     echo Html::endTag('div',['style' => 'margin-bottom:20px']);
 }
+echo $form->errorSummary($model);
 
-// echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
-echo $form->field($model, 'personFirstname')->textInput(['value' => $model->personFirstname])->label(translateField('personFirstname'));
-echo $form->field($model, 'personLastname')->textInput(['value' => $model->personLastname])->label(translateField('personLastname'));
-echo $form->field($model, 'personMail')->textInput(['value' => $model->personMail])->label(translateField('personMail'));
-echo $form->field($model, 'userPassword')->textInput(['value' => ''])->label('Neues Passwort:');
-echo $form->field($model, 'userPassword')->textInput(['value' => ''])->label('Passwort bestätigen:');
-echo $form->field($model, 'isUserAdmin')->inline()->radioList(['0' => 'Benutzer','1' => 'Administrator'])->label(translateField('isUserAdmin'));
+echo $form
+    ->field($model, 'personFirstname')
+    ->textInput(['value' => $model->personFirstname])
+    ->label(translateField('personFirstname'));
+echo $form
+    ->field($model, 'personLastname')
+    ->textInput(['value' => $model->personLastname])
+    ->label(translateField('personLastname'));
 
+echo $form
+    ->field($model, 'personMail')
+    ->textInput(['value' => $model->personMail])
+    ->label(translateField('personMail'));
+echo $form
+    ->field($model, 'userPassword')
+    ->textInput(['value' => ''])
+    ->label('Neues Passwort:');
+echo $form
+    ->field($model, 'userPassword')
+    ->textInput(['value' => ''])
+    ->label('Passwort bestätigen:');
+echo $form
+    ->field($model, 'isUserAdmin')
+    ->inline()
+    ->radioList(['0' => 'Benutzer','1' => 'Administrator'])
+    ->label(translateField('isUserAdmin'));
+
+/**
+ * Translates db column name to german readable word
+ * @author Alexander Weinbeck
+ * @param $paramString
+ * @return String
+ */
 function translateFieldPermission($paramAdmin){
     if ($paramAdmin === 1): return 'Administrator'; else: return 'Benutzer'; endif;
 }
+/**
+ * Translates db column name to german readable word
+ * @author Alexander Weinbeck
+ * @param $paramString
+ * @return mixed
+ */
 function translateField($paramString){
     $stringArray = [
         'userID'           => 'BenutzerID: ',
@@ -61,41 +96,10 @@ function translateField($paramString){
     return $stringArray[$paramString];
 }
 echo Html::Button('Benutzer erstellen', ['class' => 'btn btn-success','id' => 'btn-createUser']);
-// widget with default options
-echo Dialog::widget();
+
+
 ActiveForm::end();
 echo Html::Tag('div','',['style' => 'margin-bottom:20px']);
 echo Html::Tag('textfield','Artikel erfolgreich erstellt!',['id' => 'SuccessText','style' => 'display:none']);
 echo Html::endTag('div', ['style' => 'margin-bottom:50px']);
 
-$script = <<< JS
-$( document ).ready(function() {
-    $(function(){
-       $("#btn-createUser").click(function(e){
-        krajeeDialog.confirm("Sind sie sicher, dass sie den Benutzer erstellen wollen?", function (result) {
-            if (result) {
-                        e.preventDefault();
-                        $.ajax({
-                                url: urlAjax,
-                                type:'post',
-                                headers: { '_rqstAjaxFnc': 'create' },
-                                data:$('#createbenutzer-formActive').serialize(),
-                        success:function(){
-                                //execute changes if needed ...
-        
-                                    $('#SuccessText').delay(500).fadeIn("normal", function() {
-                                    $(this).delay(2500).fadeOut("normal");
-                                        });
-                                    
-                        }
-    });
-
-            }
-        });
-        });
-    });
-});
-JS;
-$url = Url::toRoute('benutzer/neuerbenutzer');
-$this->registerJs("var urlAjax = ".json_encode($url).";");
-$this->registerJs($script);

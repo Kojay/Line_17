@@ -33,9 +33,22 @@ echo $form->field($model, 'personLastname')->textInput(['readonly' => true,'type
 echo $form->field($model, 'personMail')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personMail'));
 echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value' => translateFieldPermission($model->isUserAdmin), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('isUserAdmin'));
 
+
+/**
+ * Translates db column name to german readable word
+ * @author Alexander Weinbeck
+ * @param $paramString
+ * @return mixed
+ */
 function translateFieldPermission($paramAdmin){
     if ($paramAdmin): return 'Administrator'; else: return 'Benutzer'; endif;
 }
+/**
+ * Translates db column name to german readable word
+ * @author Alexander Weinbeck
+ * @param $paramString
+ * @return mixed
+ */
 function translateField($paramString){
     $stringArray = [
         'userID' => 'BenutzerID: ',

@@ -5,12 +5,10 @@
     use yii\widgets\Breadcrumbs;
     use yii\bootstrap\ActiveForm;
 /**
- * Created by PhpStorm.
- * User: kwlski
- * Date: 18.12.2016
- * Time: 16:28
+ * Article view
+ * @author Alexander Weinbeck
+ * @var $this yii\web\View
  */
-
 $this->title = 'Artikel Details';
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -29,8 +27,6 @@ $form = ActiveForm::begin
 
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
-//echo yii\helpers\VarDumper::dump($model);
-//echo yii\helpers\VarDumper::dump($models);
 echo $form->errorSummary($model);
 
 echo $form->field($model, 'articleName')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleName'));
@@ -42,7 +38,12 @@ echo $form->field($model, 'dateWarranty')->textInput(['readonly' => true,'type' 
 echo $form->field($model, 'articlePrice')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articlePrice'));
 echo $form->field($model, 'fhnwNumber')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('fhnwNumber'));
 echo $form->field($model, 'articleDescription')->textArea(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleDescription'));
-
+/**
+ * Translate fields from db designators to
+ * @author Alexander Weinbeck
+ * @param $paramString
+ * @return mixed
+ */
 function translateField($paramString){
     $stringArray = [
         'articleName' => 'Artikelname: ',
@@ -59,44 +60,4 @@ function translateField($paramString){
 }
 ActiveForm::end();
 echo Html::endTag('div');
-
-$script = <<< JS
-$( document ).ready(function() { 
-   $("#btn-updateArticle").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel bearbeiten wollen?", 
-        function (result) {
-            $("#fnc").value = 'update';
-            if (result) {                     
-                e.preventDefault();
-                $.ajax({
-                    url: urlAjax,
-                    type:'post',
-                    headers: { 'REQUESTfnc': 'update' },
-                    data:$('#articleUpdate-form').serialize(),
-                    success:function(){
-                    }
-                });
-            }
-        });
-    });
-    $("#btn-deleteArticle").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel löschen wollen?", 
-        function (result) {
-            if (result) {
-                e.preventDefault();
-                $.ajax({
-                    url: urlAjax,
-                    type:'post',
-                    headers: { '_rqstAjaxFnc': 'delete' },
-                    data:$('#articleUpdate-form').serialize(),
-                    success:function(){
-                    }
-                });
-            }
-        });
-    });
-});
-JS;
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJs($script);
 ?>
