@@ -1,6 +1,6 @@
 <?php
 /**
- * New rental view
+ * New loan view
  * @author Alexander Weinbeck
  * @var $this yii\web\View
  */
@@ -13,6 +13,9 @@ use kartik\dialog\Dialog;
 
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");
 $this->registerJsFile('@web/js/neueausleihe.js');
+//init Krajee
+Dialog::widget();
+
 
 $this->title = 'Ausleihe erstellen';
 

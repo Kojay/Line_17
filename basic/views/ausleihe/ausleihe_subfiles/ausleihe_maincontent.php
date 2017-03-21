@@ -5,7 +5,7 @@
     use yii\widgets\Breadcrumbs;
     use yii\bootstrap\ActiveForm;
 /**
- * Lending details view
+ * Loan details view
  * @author Alexander Weinbeck
  * @date 18.12.2016
  */

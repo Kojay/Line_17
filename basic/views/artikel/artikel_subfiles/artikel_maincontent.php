@@ -4,6 +4,10 @@
     use yii\widgets\Menu;
     use yii\widgets\Breadcrumbs;
     use yii\bootstrap\ActiveForm;
+    use app\models\QueryRqst;
+    use kartik\tabs\TabsX;
+    use kartik\grid\GridView;
+
 /**
  * Article view
  * @author Alexander Weinbeck
@@ -37,13 +41,55 @@ echo $form->field($model, 'dateBought')->textInput(['readonly' => true,'type' =>
 echo $form->field($model, 'dateWarranty')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('dateWarranty'));
 echo $form->field($model, 'articlePrice')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articlePrice'));
 echo $form->field($model, 'fhnwNumber')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('fhnwNumber'));
+echo $form->field($model, 'isArchive')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('isArchive'));
+echo $form->field($model, 'articleStatus')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleStatus'));
+echo $form->field($model, 'statusComment')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('statusComment'));
 echo $form->field($model, 'articleDescription')->textArea(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleDescription'));
-/**
- * Translate fields from db designators to
- * @author Alexander Weinbeck
- * @param $paramString
- * @return mixed
- */
+
+echo '<h5><b>Status ändern:</b></h5>';
+echo Html::Button('Artikel in Reperatur', ['class' => 'btn btn-warning col-md-4 btn-md btn-group','id' => 'btn-setArticleInRep','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Artikel ins Archiv verschieben', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-moveArticleToArchive','style' => 'margin-right:20px; margin-top:20px;']);
+echo '<br>';
+echo '<br>';
+echo '<br>';
+
+echo '<h3><b>Ausleihhistorie</b></h3>';
+
+echo GridView::widget([
+        'dataProvider' => (new QueryRqst())->getArtikelHistory($model['fhnwNumber']),
+        'responsive'=> true,
+        'hover'=> true,
+        'export' => false,
+        //'rowOptions' => function ($model, $index, $widget, $grid) {
+        //     return ['id' => $model['fhnwNumber'], 'onclick' => 'location.href="'.Url::to(['artikel/artikel']).'&_rqstIDfhnwNumber="+(this.id);','style' => 'cursor: pointer'];
+        //},
+        'columns' => [
+            ['class' => '\kartik\grid\SerialColumn'],
+            [
+                'label' => 'Vorname',
+                'attribute' => 'personFirstname',
+            ],
+            [
+
+                'label' => 'Nachname',
+                'attribute' => 'personLastname',
+            ],
+            [
+
+                'label' => 'Ausleihdatum',
+                'attribute' => 'lvLoanLendingDate',
+                'format' =>  ['date', 'php:d.m.Y'],
+
+            ],           
+            [
+
+                'label' => 'Rückgabedatum',
+                'attribute' => 'lvLoanReturnDate',
+                'format' =>  ['date', 'php:d.m.Y'],
+
+            ],],
+]);
+
 function translateField($paramString){
     $stringArray = [
         'articleName' => 'Artikelname: ',
@@ -53,7 +99,10 @@ function translateField($paramString){
         'dateBought' => 'Kaufdatum: ',
         'dateWarranty' => 'Garantiedatum: ',
         'articlePrice' => 'Artikelpreis: ',
-        'fhnwNumber' => 'FHNW Nummer: ',
+        'fhnwNumber' => 'Institut: ',
+        'isArchive' => 'Archiviert: ',
+        'articleStatus' => 'Status: ',
+        'statusComment' => 'Statuskommentar: ',
         'articleDescription' => 'Beschreibung: '
     ];
     return $stringArray[$paramString];

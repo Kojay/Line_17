@@ -84,7 +84,8 @@ class ArtikelController extends Controller
                 $this->refresh(Url::current());
             } else {
                 $dataProducer = (new QueryRqst())->getDataProducer();
-                return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer]);
+                $dataArticletype = (new QueryRqst())->getDataArticletype();
+                return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer, 'modelArticletype' => $dataArticletype]);
             }
         }
         catch(AdldapException $exLdap) {
@@ -103,9 +104,6 @@ class ArtikelController extends Controller
     {
         $this->redirect(Url::toRoute('artikel/artikelliste'));
     }
-    /**
-     * @author Alexander Weinbeck
-     */
     public function actionArtikel()
     {
         try {

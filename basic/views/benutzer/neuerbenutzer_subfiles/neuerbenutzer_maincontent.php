@@ -5,16 +5,15 @@
  */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Menu;
-use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 
 $this->registerJs("var urlAjax = ".json_encode(Url::toRoute('benutzer/neuerbenutzer')).";");
-
 if(!$model->hasErrors('ConnectionAD')) $this->registerJs("var searchADNames = ".json_encode($adUsers).";");
-
 $this->registerJsFile('@web/js/neuerbenutzer.js');
+//init Krajee
+Dialog::widget();
+
 
 $this->title = 'Benutzer erstellen';
 

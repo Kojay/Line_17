@@ -196,12 +196,14 @@ TODO-->
 <div class="wrap container-fluid">
     <?php echo $content ?>
 </div>
-<footer class="footer">
+<!-- TODO: footer mithilfe von CSS einrichten. Aktuell (01.03.2017) verbugt und aus dem Grund auskommentiert.
+    <footer class="footer">
     <div class="container-fluid">
         <p class="pull-left">&copy;Team Lagerverwaltung <?= date('Y') ?></p>
         <p class="pull-right"><?php echo Yii::powered() ?></p>
     </div>
 </footer>
+-->
 <?php $this->endBody() ?>
 </body>
 <?php $this->endPage() ?>

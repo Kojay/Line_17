@@ -8,6 +8,8 @@ use yii\bootstrap\Alert;
 
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");
 $this->registerJsFile('@web/js/benutzerbearbeiten.js');
+//init Krajee
+Dialog::widget();
 
 $this->title = 'Benutzer bearbeiten';
 

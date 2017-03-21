@@ -34,7 +34,8 @@ class ldap extends Model
         'use_ssl' => false,
         'use_tls' => false,
         'use_sso' => false,
-    ];*/
+    ];
+    */
     public function getAuthentication($username, $password){
         //establish AD connection
         if((new Adldap(self::LDAPCFG))->authenticate($username, $password)){

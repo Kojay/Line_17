@@ -58,7 +58,7 @@ $items = [
         'label'=>'<i class="glyphicon glyphicon-user"></i> Benutzer',
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getDataBenutzerliste(),
+                'dataProvider' => (new QueryRqst())->getDataBenutzer(),
                 'responsive'=> true,
                 'pjax'=>true,
                 'hover'=> true,

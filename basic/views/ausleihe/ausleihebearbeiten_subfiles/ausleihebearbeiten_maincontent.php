@@ -14,6 +14,9 @@ use kartik\dialog\Dialog;
 use kartik\checkbox\CheckboxX;
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");
 $this->registerJsFile('@web/js/ausleihebearbeiten.js');
+//init Krajee
+Dialog::widget();
+
 
 $this->title = 'Ausleihe bearbeiten';
 

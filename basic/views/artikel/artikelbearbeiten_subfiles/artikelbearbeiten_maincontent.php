@@ -14,6 +14,11 @@ use app\models\ldap;
 //TODO implement into ausleihebearbeiten
 //$this->registerJs("var dataADNames = ".json_encode((new ldap())->getDataADUsers()).";");
 
+//init Krajee
+Dialog::widget();
+use kartik\dialog\DialogAsset;
+DialogAsset::register($this);
+
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");
 $this->registerJsFile('@web/js/artikelbearbeiten.js');
 
@@ -42,67 +47,43 @@ $form = ActiveForm::begin
             'errorOptions' => ['class' => 'articleupdate-style col-md-4'],
         ],
 ]);
-/*TODO verwenden in ausleihe
-echo $form
-    ->field($model, 'articleName')
-        ->label('Namen eingeben:',['for' => 'searchNamesAuto'])
-            ->input('',['id' => 'searchNamesAuto']);
-*/
-echo $form
-    ->field($model, 'articleName',['options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model->articleName])
-    ->label(translateField('articleName'));
+
+
+echo $form->field($model, 'articleName',        [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+    ->textInput(['value' => $model->articleName])->label(translateField('articleName'));
 
 echo $form
     ->field($model, 'articleTypeName',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
 
-echo $form
-    ->field($model, 'articleproducerName',['options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
-    ->dropDownList($modelProducers,['style' => 'height: 26px;'])
-    ->label(translateField('articleproducerName'));
+echo $form->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+    ->textInput(['value' => $model['lv_articletype_articleTypeID']])->label(translateField('lv_articletype_articleTypeID'));
 
-echo $form
-    ->field($model, 'articleproducerName',['options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
-    ->textInput(['value' => 'Herstellername'])
-    ->label('Neuer Hersteller: ');
+echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
+    ->dropDownList($modelProducers,['style' => 'height: 26px;'])->label(translateField('articleproducerName'));
 
-echo $form
-    ->field($model, 'serialNumber',['options' => ['id' => 'textinputSerialnumber','class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model['serialNumber']], ['class' => 'col-md-6'])
-    ->label(translateField('serialNumber'));
+echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+    ->textInput(['value' => 'Herstellername'])->label('Neuer Hersteller: ');
 
-echo $form
-    ->field($model, 'dateBought',['options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model['dateBought']])
-    ->label(translateField('dateBought'));
+echo $form->field($model, 'serialNumber',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+    ->textInput(['value' => $model['serialNumber']], ['class' => 'col-md-6'])->label(translateField('serialNumber'));
 
-echo $form
-    ->field($model, 'dateWarranty',['options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model['dateWarranty']])
-    ->label(translateField('dateWarranty'));
+echo $form->field($model, 'dateBought',         [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+    ->textInput(['value' => $model['dateBought']])->label(translateField('dateBought'));
 
-echo $form
-    ->field($model, 'articlePrice',['options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model['articlePrice']])
-    ->label(translateField('articlePrice'));
+echo $form->field($model, 'dateWarranty',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+    ->textInput(['value' => $model['dateWarranty']])->label(translateField('dateWarranty'));
 
-echo $form
-    ->field($model, 'fhnwNumber',['options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textInput(['value' => $model['fhnwNumber']])
-    ->label(translateField('fhnwNumber'));
+echo $form->field($model, 'articlePrice',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+    ->textInput(['value' => $model['articlePrice']])->label(translateField('articlePrice'));
 
-echo $form
-    ->field($model, 'articleDescription', [ 'options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textArea(['value' => $model['articleDescription']])
-    ->label(translateField('articleDescription'));
+echo $form->field($model, 'fhnwNumber',         [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+    ->textInput(['value' => $model['fhnwNumber']])->label(translateField('fhnwNumber'));
 
-/**
- * Translates db column name to german readable word
- * @author Alexander Weinbeck
- * @param $paramString
- * @return mixed
- */
+echo $form->field($model, 'articleDescription', [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+    ->textArea(['value' => $model['articleDescription']])->label(translateField('articleDescription'));
+
+
 function translateField($paramString){
     $stringArray = [
         'articleName' => 'Artikelname: ',
@@ -112,14 +93,15 @@ function translateField($paramString){
         'dateBought' => 'Kaufdatum: ',
         'dateWarranty' => 'Garantiedatum: ',
         'articlePrice' => 'Artikelpreis: ',
-        'fhnwNumber' => 'FHNW Nummer: ',
-        'articleDescription' => 'Beschreibung: '
+        'fhnwNumber' => 'Institut: ',
+        'articleDescription' => 'Beschreibung: ',
+        'lv_producer_producerID' => 'HerstellerID: ',
+        'lv_articletype_articleTypeID' => 'ArtikeltypID: '
     ];
     return $stringArray[$paramString];
 }
-echo Html::Button('Artikel bearbeiten', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateArticle','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Artikel übernehmen', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateArticle','style' => 'margin-right:20px; margin-top:20px;']);
 echo Html::Button('Artikel löschen', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-deleteArticle','style' => 'margin-right:20px; margin-top:20px;']);
-
 
 ActiveForm::end();
 echo Html::endTag('div');

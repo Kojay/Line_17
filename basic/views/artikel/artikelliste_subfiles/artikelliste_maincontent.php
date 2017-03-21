@@ -12,8 +12,8 @@ echo Html::tag('h1',Html::encode($this->title));
 
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
-        echo GridView::widget([
-                'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
+echo GridView::widget([
+                'dataProvider' => (new QueryRqst())->getArtikelListe(),
                 'responsive'=> true,
                 'hover'=> true,
                 'export' => false,
@@ -24,7 +24,7 @@ echo Html::beginTag('div',['style' => 'margin-top:20px']);
                     ['class' => '\kartik\grid\SerialColumn'],
                     [
                         'attribute' => 'articleTypeName',
-                        'label' => 'ArtikelTyp',
+                        'label' => 'Artikeltyp',
                     ],
                     [
 

@@ -5,6 +5,7 @@ namespace app\controllers;
 use Adldap\Exceptions\AdldapException;
 use app\models\Benutzer;
 use app\models\ldap;
+use app\models\QueryRqst;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -48,9 +49,7 @@ class SiteController extends Controller
             ],
         ];
     }
-
     /**
-     *
      * @inheritdoc
      */
     public function actions()
@@ -171,17 +170,22 @@ class SiteController extends Controller
     public function actionProfile()
     {
         $model = new Benutzer();
-
-        //TODO: Needs to be implemented when there's a dedicated usertable for AFC
-        $model->userID = yii::$app->user->identity->userID;
-        $model->isUserAdmin = yii::$app->user->identity->isUserAdmin;
-        $model->personMail = yii::$app->user->identity->personMail;
-        //TODO: Testserver implementation
-        //Change EMail if Servermigration is done
         try {
+            //TODO: Needs to be implemented when there's a dedicated usertable for AFC
+            $model->userID = yii::$app->user->identity->userID;
+            $model->isUserAdmin = yii::$app->user->identity->isUserAdmin;
+            $model->personMail = yii::$app->user->identity->personMail;
+            //TODO: Testserver implementation
+            //Change EMail if Servermigration is done
+
+            $model->attributes = (new QueryRqst())->getDataBenutzerID(yii::$app->user->identity->userID);
             $model->attributes = (new ldap())->getDataBenutzer('alexander.weinbeck@students.fhnw.ch');
 
             return $this->render('profile', ['model' => $model]);
+        }
+        catch(\yii\db\Exception $exDb) {
+            $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
+            return $this->render('//site/dberror', ['model' => $model]);
         }
         catch(AdldapException $exLdap) {
             $model->addError("Connection", "Active Directory meldet: " . $exLdap->getMessage());
