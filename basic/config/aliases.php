@@ -5,5 +5,5 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-Yii::setAlias(@articleController, @app\controllers\ArtikelController);
+Yii::setAlias(@articleController, @app\controllers\ArticleController);
 Yii::setAlias(@articleViews, @app\views\site);

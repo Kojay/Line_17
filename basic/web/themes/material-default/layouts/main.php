@@ -36,11 +36,11 @@ use yii\widgets\Breadcrumbs;
 						    'options' => ['id' => "nav-mobile", 'class' => 'right side-nav'],
 						    'items' => [
                                 ['label' => 'Home', 'url' => ['/site/index']],
-                                ['label' => 'Artikel', 'url' => ['/artikel/artikelliste']],
-                                ['label' => 'Benutzerverwaltung', 'url' => ['/benutzer/benutzerverwaltung']],
+                                ['label' => 'Artikel', 'url' => ['/article/articlelist']],
+                                ['label' => 'Benutzerverwaltung', 'url' => ['/user/usermanagement']],
                                 ['label' => 'Statistik', 'url' => ['/site/statistik']],
                                 ['label' => 'Contact', 'url' => ['/site/contact']],
-                                ['label' => 'Suche', 'url' => ['/site/suche']],
+                                ['label' => 'Suche', 'url' => ['/site/search']],
 						    ],
 						]);
 					?>

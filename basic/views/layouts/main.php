@@ -4,20 +4,13 @@ use yii\helpers\url;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+//TODO make relative path
 $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => $this::POS_HEAD]);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <?php $this->beginPage() ?>
-<!--
-<script src="http://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script src='https://cdn.rawgit.com/pguso/jquery-plugin-circliful/master/js/jquery.circliful.min.js'></script>
-<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="path/to/css/checkbox-x.min.css" media="all" rel="stylesheet" type="text/css">
-<script src="path/to/js/checkbox-x.min.js" type="text/javascript"></script>
--->
 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -121,7 +114,7 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
               </ul>
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
-                      <a href="<?= Url::toRoute('ausleihe/ausleihliste')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                      <a href="<?= Url::toRoute('loan/loanlist')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
                           Ausleihverwaltung
                           <span class="glyphicon glyphicon-inbox"></span>
                       </a>
@@ -129,7 +122,7 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
               </ul>
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
-                      <a href="<?= Url::toRoute('artikel/artikelliste')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                      <a href="<?= Url::toRoute('article/articlelist')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
                           Artikelverwaltung
                           <span class="glyphicon glyphicon-tags"></span>
                       </a>
@@ -140,7 +133,7 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
               ?>
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
-                      <a href="<?= Url::toRoute('benutzer/benutzerverwaltung')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                      <a href="<?= Url::toRoute('user/usermanagement')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
                           Benutzer
                           <span class="glyphicon glyphicon-user"></span>
                       </a>
@@ -171,7 +164,7 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
             'items' => [
 
                 ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'Artikel', 'url' => ['/artikel/artikelliste']],
+                ['label' => 'Artikel', 'url' => ['/artikel/article']],
                 ['label' => 'Benutzerverwaltung', 'url' => ['/benutzer/benutzerverwaltung']],
                 ['label' => 'Statistik', 'url' => ['/site/statistik']],
                 ['label' => 'Contact', 'url' => ['/site/contact']],

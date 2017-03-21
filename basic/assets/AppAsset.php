@@ -27,7 +27,7 @@ class AppAsset extends AssetBundle
 		'themes/material-simple/css/prism.css'
     ];
     public $js = [
-        //'js/artikelbearbeiten.js',
+        //'js/articleedit.js',
         //'http://code.jquery.com/jquery-1.12.4.js'
         //'js/jquery.mobile-1.4.2.min.js'
     ];

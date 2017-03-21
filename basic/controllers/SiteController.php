@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Adldap\Exceptions\AdldapException;
-use app\models\Benutzer;
+use app\models\User;
 use app\models\ldap;
 use app\models\QueryRqst;
 use Yii;
@@ -12,7 +12,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\Artikel;
+use app\models\Article;
 use yii\helpers\Url;
 
 class SiteController extends Controller
@@ -72,7 +72,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect(Url::toRoute('site/gastsuche'));
+        return $this->redirect(Url::toRoute('site/guestsearch'));
     }
 
     /**
@@ -85,7 +85,7 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             //return $this->render('gastsuche');
-            return $this->redirect(Url::toRoute('site/gastsuche'));
+            return $this->redirect(Url::toRoute('site/guestsearch'));
         }
         return $this->render('login', ['model' => $model]);
     }
@@ -99,7 +99,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->render('gastsuche');
+        return $this->render('guestsearch');
     }
     /**
      * Displays contact page.
@@ -127,21 +127,21 @@ class SiteController extends Controller
     /**
      * @author Alexander Weinbeck
      */
-    public function actionGastsuche()
+    public function actionGuestsearch()
     {
-        return $this->render('gastsuche');
+        return $this->render('guestsearch');
     }
     /**
      * @author Alexander Weinbeck
      */
     public function actionReturn()
     {
-        $this->redirect(Url::toRoute('artikel/artikelliste'));
+        $this->redirect(Url::toRoute('article/articlelist'));
     }
     /**
      * @author Alexander Weinbeck
      */
-    public function actionSuche()
+    public function actionSearch()
     {
         $columnSetting = [
             "articleName" => true,
@@ -157,19 +157,19 @@ class SiteController extends Controller
             "loanLendingDate" => true,
         ];
 
-	    $model = new Artikel();
+	    $model = new Article();
         
 	    if ($model->load(Yii::$app->request->post())) {
             return $this->goBack();
         }	
-        return $this->render('Suche',['model' => $model]);
+        return $this->render('search',['model' => $model]);
     }
     /**
      * @author Alexander Weinbeck
      */
     public function actionProfile()
     {
-        $model = new Benutzer();
+        $model = new User();
         try {
             //TODO: Needs to be implemented when there's a dedicated usertable for AFC
             $model->userID = yii::$app->user->identity->userID;
@@ -179,7 +179,7 @@ class SiteController extends Controller
             //Change EMail if Servermigration is done
 
             $model->attributes = (new QueryRqst())->getDataUserID(yii::$app->user->identity->userID);
-            $model->attributes = (new ldap())->getDataBenutzer('alexander.weinbeck@students.fhnw.ch');
+            $model->attributes = (new ldap())->getDataADUser('alexander.weinbeck@students.fhnw.ch');
 
             return $this->render('profile', ['model' => $model]);
         }

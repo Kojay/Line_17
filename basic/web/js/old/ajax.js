@@ -10,7 +10,7 @@ $( document ).ready(function() {
                         $.ajax({
                                 url: urlAjax,
                                 type:'post',
-                                data:$('#artikelspeichern-formActive').serialize(),
+                                data:$('#articlesave-formActive').serialize(),
                         success:function(){
                             alert("worked");
                         }

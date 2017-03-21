@@ -63,7 +63,7 @@ class ldap extends Model
             throw new AdldapException($exLdap->getMessage());
         }
     }
-    public function getDataBenutzer($paramMail){
+    public function getDataADUser($paramMail){
         try {
             //TODO insert paramMail into find when server is migrated
             if ($adUser = (new Adldap(self::LDAPCFG))->users()->search()->find($paramMail)) {

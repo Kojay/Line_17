@@ -3251,7 +3251,7 @@ ons best om te gelooven, dat wij er nog heel wat van terecht zouden
 brengen. Verbazen zouden wij de wereld, zoo kalm en onaanzienlijk
 als wij daar zaten met opgetrokken beenen en onze acht handen om
 onze knieën. Hoyer had zich voorgenomen allerlei gemeene dingen te
-schilderen. In een tijdschrift had-i een artikel gelezen over de
+schilderen. In een tijdschrift had-i een article gelezen over de
 sociale taak van den kunstenaar, hij was er nu achter. Hij begon een
 dispuut met Bekker over de hei. Het was mirakel geleerd. Hij probeerde
 Bekker te overtuigen, dat 't verkeerd was zich af te zonderen van
@@ -3281,7 +3281,7 @@ blauwige duisternis. Er was een geur van modder. In de verte, bij
 "Begrijp jij dat," vroeg Bavink, "van die sociale taak?"
 
 Ik haalde m'n schouders op. "Wat zou dat voor 'n vent zijn, die
-dat artikel geschreven heeft? Heb jij verantwoordelijkheidsgevoel,
+dat article geschreven heeft? Heb jij verantwoordelijkheidsgevoel,
 Koekebakker?" Daar had Hoyer 't ook over gehad.
 
 "Hoyer praat machtig mooi," zei Bavink. "Machtig mooi. Ik heb geen

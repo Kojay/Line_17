@@ -515,7 +515,7 @@ class QueryRqst extends Model
         ]);
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
     }
-    public function setUpdateDataBenutzer($paramUserModel, $paramUserPW)
+    public function setUpdateDataUser($paramUserModel, $paramUserPW)
     {
         $query = '
                 UPDATE  lv_user user, lv_persons person 
@@ -534,7 +534,9 @@ class QueryRqst extends Model
 
     public function createDataUser($paramUserModel, $paramUserPW)
     {
-        //TODO eliminate foreign key checks
+        //TODO eliminate foreign key checks and generate random authkey
+
+        //\yii::$app->security->generateRandomString();
         $preConditionSQL = 'SET FOREIGN_KEY_CHECKS=0';
         $query1 = ' 
                     INSERT INTO     lv_users (isUserAdmin, userPassword, userPersonsID, userID)

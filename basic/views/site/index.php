@@ -19,20 +19,20 @@ use yii\helpers\Url;
 $this->title = 'Dashboard';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-artikelliste">
+<div class="site-articlelist">
     <h1 font size="20"><?= Html::encode($this->title) ?>
-    <span style="float:right;"><?= Html::a('Erinnerungen verschicken', ['/artikel/neuerartikel'], ['class'=>'btn btn-danger']) ?></span></h1>
+    <span style="float:right;"><?= Html::a('Erinnerungen verschicken', ['/article/newarticle'], ['class'=>'btn btn-danger']) ?></span></h1>
       
     <?php
      /*   $this->registerJsFile(Yii::$app->request->baseUrl.'/js/ArticleList.js', ['depends' => [\yii\web\JqueryAsset::className()]]);*/
     
     // Following code is here to generate Tabs and in there a list.
     ?>
-
+<!--
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
     <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
+-->
     <div id="tabs">
         <ul>
             <li><a href="#fragment-1"><span>Überfällige Ausleihungen</span></a></li>
@@ -41,9 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div id="fragment-1">
             <?php
             Pjax::begin();               
-            ?>
-            
-            <?= GridView::widget([
+
+            echo GridView::widget([
                 
             'dataProvider' => (new QueryRqst())->getDataActualLoans(),
             'columns' => 
@@ -65,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 {
                                     if ($action === 'view') 
                                     {
-                                        return Url::to(['artikel']);
+                                        return Url::to(['article']);
                                     }
                                 }
                         
@@ -122,7 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 {
                                     if ($action === 'view') 
                                     {
-                                        return Url::to(['artikel']);
+                                        return Url::to(['article']);
                                     }
                                 }
                         

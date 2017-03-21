@@ -35,7 +35,7 @@ $config = [
     */ 
 ];
 
-Yii::setAlias('@controller', '/artikel/');
+Yii::setAlias('@controller', '/article/');
 
 
 if (YII_ENV_DEV) {
