@@ -3,8 +3,6 @@ namespace app\models;
 
 use yii\base\Model;
 
-
-
 /**
  * LoginForm is the model behind the login form.
  * @author Alexander Weinbeck

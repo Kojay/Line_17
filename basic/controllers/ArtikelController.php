@@ -72,20 +72,28 @@ class ArtikelController extends Controller
      */
     public function actionNeuerartikel()
     {
-        $model = new Artikel();
-        if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax){
-            $model->load(Yii::$app->request->post());
-            $model->validate();
-            //if(!$model->validate()){                                                                                    //Must be updated ASAP after DB corrections
-                (new QueryRqst())->createDataArtikel($model); 
+        try {
+            $model = new Artikel();
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax) {
+                $model->load(Yii::$app->request->post());
+                $model->validate();
+                //if(!$model->validate()){                                                                                    //Must be updated ASAP after DB corrections
+                (new QueryRqst())->createDataArtikel($model);
                 Yii::$app->session->setFlash('articleDataCreated', 'Sie haben den Artikel erfolgreich erstellt.');
-            //}
-            $this->refresh(Url::current());
+                //}
+                $this->refresh(Url::current());
+            } else {
+                $dataProducer = (new QueryRqst())->getDataProducer();
+                return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer]);
+            }
         }
-        else{
-            $dataProducer = (new QueryRqst())->getDataProducer();
-            return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer]);
-
+        catch(AdldapException $exLdap) {
+            $model->addError("ConnectionAD", "Active Directory meldet: " . $exLdap->getMessage());
+            return $this->render('neuerbenutzer', ['model' => $model]);
+        }
+        catch(\yii\db\Exception $exDb) {
+            $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
+            return $this->render('//site/dberror', ['model' => $model]);
         }
     }
     /**
@@ -100,49 +108,64 @@ class ArtikelController extends Controller
      */
     public function actionArtikel()
     {
-        $model = new Artikel();                                                                   
-        $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));   
-        
-        return $this->render('artikel', ['model' => $model]);
+        try {
+            $model = new Artikel();
+            $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));
+
+            return $this->render('artikel', ['model' => $model]);
+        }
+        catch(\yii\db\Exception $exDb) {
+            $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
+            return $this->render('//site/dberror', ['model' => $model]);
+        }
     }
     /**
      * @author Alexander Weinbeck
      */
     public function actionArtikelbearbeiten()
-    {     
-        $model = new Artikel();
-        if(Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax)
-        {
-            $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
-            //if(!$model->validate()){
-            $dataProducer = (new QueryRqst())->getDataProducer();
-            $model->validate();
-            return $this->render('artikelbearbeiten', ['model' => $model, 'modelProducers' => $dataProducer]);
-            //} 
-            //else{                                                                                                                         //TODO: ERRORHANDLING
-            //}
-        }
-        if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post() && yii::$app->request->isAjax){
-            $model->load(Yii::$app->request->post());
-            $model->validate();
-            //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->setDataArtikel($model); 
-                Yii::$app->session->setFlash('articleDataUpdated','Sie haben erfolgreich den Artikel gespeichert!');
-                $this->refresh(Url::current()); 
-             //  }
+    {
+        try {
+            $model = new Artikel();
+            if (Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
+                $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
+                //if(!$model->validate()){
+                $dataProducer = (new QueryRqst())->getDataProducer();
+                $model->validate();
+                return $this->render('artikelbearbeiten', ['model' => $model, 'modelProducers' => $dataProducer]);
+                //}
+                //else{                                                                                                                         //TODO: ERRORHANDLING
+                //}
+            }
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post() && yii::$app->request->isAjax) {
+                $model->load(Yii::$app->request->post());
+                $model->validate();
+                //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
+                (new QueryRqst())->setDataArtikel($model);
+                Yii::$app->session->setFlash('articleDataUpdated', 'Sie haben erfolgreich den Artikel gespeichert!');
+                $this->refresh(Url::current());
+                //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
-            //}
-        }
-        if(Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post() && yii::$app->request->isAjax){
-            $model->load(Yii::$app->request->post());
-            $model->validate();
-            //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataArtikel($model); 
-                Yii::$app->session->setFlash('articleDataDeleted','Sie haben erfolgreich den Artikel gelöscht!');
-                $this->refresh(Url::current()); 
-             //  } 
+                //}
+            }
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post() && yii::$app->request->isAjax) {
+                $model->load(Yii::$app->request->post());
+                $model->validate();
+                //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
+                (new QueryRqst())->deleteDataArtikel($model);
+                Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel gelöscht!');
+                $this->refresh(Url::current());
+                //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
-            //}
-        }   
+                //}
+            }
+        }
+        catch(AdldapException $exLdap) {
+            $model->addError("ConnectionAD", "Active Directory meldet: " . $exLdap->getMessage());
+            return $this->render('neuerbenutzer', ['model' => $model]);
+        }
+        catch(\yii\db\Exception $exDb) {
+            $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
+            return $this->render('//site/dberror', ['model' => $model]);
+        }
     }
 }

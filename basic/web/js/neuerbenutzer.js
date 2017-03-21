@@ -4,6 +4,18 @@
  */
 $(document).ready(function() {
     /**
+     * TODO Autocomplete element to search Active Directory users
+     * @Author Alexander Weinbeck
+     */
+    var availableTags = [
+        'ActionScript',
+        'AppleScript',
+        'Java'
+    ];
+    $("#searchNamesAD").autocomplete({
+        source: searchADNames,
+    });
+    /**
      * Function to handle onclick event to create "Benutzer"
      * @Author Alexander Weinbeck
      */

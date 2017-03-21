@@ -42,12 +42,12 @@ $form = ActiveForm::begin
             'errorOptions' => ['class' => 'articleupdate-style col-md-4'],
         ],
 ]);
-
+/*TODO verwenden in ausleihe
 echo $form
     ->field($model, 'articleName')
         ->label('Namen eingeben:',['for' => 'searchNamesAuto'])
             ->input('',['id' => 'searchNamesAuto']);
-
+*/
 echo $form
     ->field($model, 'articleName',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model->articleName])

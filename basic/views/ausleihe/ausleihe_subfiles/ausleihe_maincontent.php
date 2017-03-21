@@ -34,10 +34,9 @@ echo $form->field($model, 'loanPersonMail')->textInput(['readonly'=>true,'type' 
 echo $form->field($model, 'articleName')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('ArticleName'));
 echo $form->field($model, 'lvLoanLendingDate')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('lvLoanLendingDate'));
 echo $form->field($model, 'lvLoanReturnDate')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('lvLoanReturnDate'));
-//Requires ldap:
 echo $form->field($model, 'loanAuthorityMail')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('loanAuthorityMail'));
-//echo $form->field($model, 'loanPersonInstitute')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('serialNumber'));
-//echo $form->field($model, 'loanPersonDepartment')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('serialNumber'));
+echo $form->field($model, 'loanPersonInstitute')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('serialNumber'));
+echo $form->field($model, 'loanPersonDepartment')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('serialNumber'));
 
 echo $form->field($model, 'loanLocation')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('loanLocation'));
 echo $form->field($model, 'loanDescription')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('loanDescription'));

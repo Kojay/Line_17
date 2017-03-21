@@ -1,5 +1,8 @@
 <?php
-/* @var $this yii\web\View */
+/**
+ * New user view
+ * @author Alexander Weinbeck
+ */
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Menu;
@@ -8,6 +11,9 @@ use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 
 $this->registerJs("var urlAjax = ".json_encode(Url::toRoute('benutzer/neuerbenutzer')).";");
+
+if(!$model->hasErrors('ConnectionAD')) $this->registerJs("var searchADNames = ".json_encode($adUsers).";");
+
 $this->registerJsFile('@web/js/neuerbenutzer.js');
 
 $this->title = 'Benutzer erstellen';
@@ -44,13 +50,9 @@ if(Yii::$app->session->hasFlash('userDataCreated'))
 echo $form->errorSummary($model);
 
 echo $form
-    ->field($model, 'personFirstname')
-    ->textInput(['value' => $model->personFirstname])
-    ->label(translateField('personFirstname'));
-echo $form
-    ->field($model, 'personLastname')
-    ->textInput(['value' => $model->personLastname])
-    ->label(translateField('personLastname'));
+    ->field($model, 'name')
+    ->label('Namen eingeben:',['for' => 'searchNamesAD'])
+    ->input('',['id' => 'searchNamesAD','placeholder' => 'Name eingeben...']);
 
 echo $form
     ->field($model, 'personMail')

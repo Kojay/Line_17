@@ -192,6 +192,5 @@ class SiteController extends Controller
 
             return $this->render('profile', ['model' => $model]);
         }
-
     }
 }

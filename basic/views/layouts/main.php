@@ -23,7 +23,7 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?php Html::encode($this->title) ?></title>
     <?php $this->head()?>
 </head>
 <body>
@@ -123,7 +123,7 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
                   <li class="dropdown pull-right">
                       <a href="<?= Url::toRoute('ausleihe/ausleihliste')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
                           Ausleihverwaltung
-                          <span class="glyphicon glyphicon-tags"></span>
+                          <span class="glyphicon glyphicon-inbox"></span>
                       </a>
                   </li>
               </ul>
@@ -194,12 +194,12 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
 TODO-->
 </div>
 <div class="wrap container-fluid">
-    <?= $content ?>
+    <?php echo $content ?>
 </div>
 <footer class="footer">
     <div class="container-fluid">
         <p class="pull-left">&copy;Team Lagerverwaltung <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?php echo Yii::powered() ?></p>
     </div>
 </footer>
 <?php $this->endBody() ?>
