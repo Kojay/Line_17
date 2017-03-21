@@ -73,7 +73,7 @@ class AusleiheController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                    //TODO Must be updated ASAP after DB corrections
-                (new QueryRqst())->createDataArtikel($model);
+                (new QueryRqst())->createDataArticle($model);
                 Yii::$app->session->setFlash('RentalDataCreated', 'Sie haben die Ausleihe erfolgreich erstellt.');
                 //}
                 $this->refresh(Url::current());
@@ -105,7 +105,7 @@ class AusleiheController extends Controller
     {
         $model = new Ausleihe();
         try {
-            $model->attributes = (new QueryRqst())->getDataAusleihe(Yii::$app->request->get('_rqstIDfhnwNumber'));
+            $model->attributes = (new QueryRqst())->getDataLoan(Yii::$app->request->get('_rqstIDfhnwNumber'));
             //TODO: If running on server comment following line: so the actual user gets requested
             $model->loanPersonMail = 'alexander.weinbeck@students.fhnw.ch';
             $model->attributes = (new ldap())->getDataLoan($model->loanPersonMail);
@@ -129,7 +129,7 @@ class AusleiheController extends Controller
         try {
             $model = new Ausleihe();
             if (Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
-                $model->attributes = (new QueryRqst())->getDataAusleihe(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
+                $model->attributes = (new QueryRqst())->getDataLoan(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
                 //if(!$model->validate()){
                 $model->validate();
                 return $this->render('artikelbearbeiten', ['model' => $model]);
@@ -141,7 +141,7 @@ class AusleiheController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->setDataArtikel($model);
+                (new QueryRqst())->setDataArticle($model);
                 Yii::$app->session->setFlash('articleDataUpdated', 'Sie haben erfolgreich den Artikel gespeichert!');
                 $this->refresh(Url::current());
                 //  }
@@ -152,7 +152,7 @@ class AusleiheController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataArtikel($model);
+                (new QueryRqst())->deleteDataArticle($model);
                 Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel gelöscht!');
                 $this->refresh(Url::current());
                 //  }

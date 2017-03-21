@@ -78,11 +78,12 @@ class ArtikelController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                    //Must be updated ASAP after DB corrections
-                (new QueryRqst())->createDataArtikel($model);
+                (new QueryRqst())->createDataArticle($model);
                 Yii::$app->session->setFlash('articleDataCreated', 'Sie haben den Artikel erfolgreich erstellt.');
                 //}
                 $this->refresh(Url::current());
-            } else {
+            }
+            else {
                 $dataProducer = (new QueryRqst())->getDataProducer();
                 $dataArticletype = (new QueryRqst())->getDataArticletype();
                 return $this->render('neuerartikel', ['model' => $model, 'modelProducers' => $dataProducer, 'modelArticletype' => $dataArticletype]);
@@ -108,8 +109,30 @@ class ArtikelController extends Controller
     {
         try {
             $model = new Artikel();
-            $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));
+            $model->attributes = (new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber'));
 
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'repair' && Yii::$app->request->post() && yii::$app->request->isAjax) {
+                $model->load(Yii::$app->request->post());
+                $model->validate();
+                //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
+                //TODO Put here query for repair
+                Yii::$app->session->setFlash('articleDataRepaired', 'Sie haben erfolgreich den Artikel gespeichert!');
+                $this->refresh(Url::current());
+                //  }
+                //else{                                                                                                                     //TODO: ERRORHANDLING
+                //}
+            }
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'archive' && Yii::$app->request->post() && yii::$app->request->isAjax) {
+                $model->load(Yii::$app->request->post());
+                $model->validate();
+                //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
+                //TODO Put here query for archive
+                Yii::$app->session->setFlash('articleDataArchived', 'Sie haben erfolgreich den Artikel gelöscht!');
+                $this->refresh(Url::current());
+                //  }
+                //else{                                                                                                                     //TODO: ERRORHANDLING
+                //}
+            }
             return $this->render('artikel', ['model' => $model]);
         }
         catch(\yii\db\Exception $exDb) {
@@ -125,7 +148,7 @@ class ArtikelController extends Controller
         try {
             $model = new Artikel();
             if (Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
-                $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
+                $model->attributes = (new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
                 //if(!$model->validate()){
                 $dataProducer = (new QueryRqst())->getDataProducer();
                 $model->validate();
@@ -138,7 +161,7 @@ class ArtikelController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->setDataArtikel($model);
+                (new QueryRqst())->setDataArticle($model);
                 Yii::$app->session->setFlash('articleDataUpdated', 'Sie haben erfolgreich den Artikel gespeichert!');
                 $this->refresh(Url::current());
                 //  }
@@ -149,7 +172,7 @@ class ArtikelController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataArtikel($model);
+                (new QueryRqst())->deleteDataArticle($model);
                 Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel gelöscht!');
                 $this->refresh(Url::current());
                 //  }

@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <?= GridView::widget([
                 
-            'dataProvider' => (new QueryRqst())->getDataAllfaelligeAusleihungen(),
+            'dataProvider' => (new QueryRqst())->getDataActualLoans(),
             'columns' => 
                 [
                     [
@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <?= GridView::widget([
                 
-            'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
+            'dataProvider' => (new QueryRqst())->getDataArticlelist(),
                 
             'columns' => 
                 [

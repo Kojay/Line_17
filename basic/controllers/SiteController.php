@@ -178,7 +178,7 @@ class SiteController extends Controller
             //TODO: Testserver implementation
             //Change EMail if Servermigration is done
 
-            $model->attributes = (new QueryRqst())->getDataBenutzerID(yii::$app->user->identity->userID);
+            $model->attributes = (new QueryRqst())->getDataUserID(yii::$app->user->identity->userID);
             $model->attributes = (new ldap())->getDataBenutzer('alexander.weinbeck@students.fhnw.ch');
 
             return $this->render('profile', ['model' => $model]);

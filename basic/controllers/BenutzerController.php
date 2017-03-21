@@ -68,7 +68,7 @@ class BenutzerController extends Controller
     {
         try {
             $model = new Benutzer();
-            $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));
+            $model->attributes = (new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID'));
             return $this->render('benutzer', ['model' => $model]);
         }
         catch(AdldapException $exLdap) {
@@ -89,7 +89,7 @@ class BenutzerController extends Controller
             $model = new Benutzer();
 
             if (Yii::$app->request->get('_rqstIDUserID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
-                $model->attributes = (new QueryRqst())->getDataBenutzerID(Yii::$app->request->get('_rqstIDUserID'));                    //TODO: ERRORHANDLING EINFÜGEN
+                $model->attributes = (new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID'));                    //TODO: ERRORHANDLING EINFÜGEN
                 $model->validate();                                                                                                     //TODO: Writes into model the attributes given as array from sqldataprovider->getmodels method
                 return $this->render('benutzerbearbeiten', ['model' => $model]);
             }
@@ -97,7 +97,7 @@ class BenutzerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if($model->validate()){                                                                                               //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->updateDataBenutzer($model, $model->getPasswordHash($model->userPassword));
+                (new QueryRqst())->setUpdateDataBenutzer($model, $model->getPasswordHash($model->userPassword));
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gespeichert.');
                 //}
@@ -108,7 +108,7 @@ class BenutzerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if($model->validate()){                                                                                                   //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataBenutzer($model);
+                (new QueryRqst())->deleteDataUser($model);
                 yii::$app->session->open();
                 yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gelöscht.');
                 //}
@@ -138,11 +138,11 @@ class BenutzerController extends Controller
                 $model->load(Yii::$app->request->post('Benutzer'));
                 $model->validate();
                 //if(!$model->validate()){                                                                                                  //TODO: Must be updated ASAP after DB corrections -> Rule checking
-                (new QueryRqst())->createDataBenutzer($model, Yii::$app->getSecurity()->generatePasswordHash($model->userPassword));        //TODO: Deprecated will be instead with AD
+                (new QueryRqst())->createDataUser($model, Yii::$app->getSecurity()->generatePasswordHash($model->userPassword));        //TODO: Deprecated will be instead with AD
                 //add user to RBAC
                 (new RBAC())->assign($model);
                 yii::$app->session->open();
-                yii::$app->session->setFlash('userDataCreated', 'Sie haben den Bneutzer erfolgreich erstellt.');
+                yii::$app->session->setFlash('userDataCreated', 'Sie haben den Benutzer erfolgreich erstellt.');
                 //}
                 $this->refresh(Url::current());
             }

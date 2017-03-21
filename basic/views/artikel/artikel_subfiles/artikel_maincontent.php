@@ -1,18 +1,21 @@
 <?php
-    use yii\helpers\Url;
-    use yii\helpers\Html;
-    use yii\widgets\Menu;
-    use yii\widgets\Breadcrumbs;
-    use yii\bootstrap\ActiveForm;
-    use app\models\QueryRqst;
-    use kartik\tabs\TabsX;
-    use kartik\grid\GridView;
-
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+use app\models\QueryRqst;
+use kartik\grid\GridView;
+use kartik\dialog\Dialog;
 /**
  * Article view
  * @author Alexander Weinbeck
  * @var $this yii\web\View
  */
+//init Krajee
+Dialog::widget();
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJsFile('@web/js/artikel.js');
+
+
 $this->title = 'Artikel Details';
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -47,8 +50,8 @@ echo $form->field($model, 'statusComment')->textInput(['readonly' => true,'type'
 echo $form->field($model, 'articleDescription')->textArea(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleDescription'));
 
 echo '<h5><b>Status ändern:</b></h5>';
-echo Html::Button('Artikel in Reperatur', ['class' => 'btn btn-warning col-md-4 btn-md btn-group','id' => 'btn-setArticleInRep','style' => 'margin-right:20px; margin-top:20px;']);
-echo Html::Button('Artikel ins Archiv verschieben', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-moveArticleToArchive','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Artikel in Reperatur', ['class' => 'btn btn-warning col-md-4 btn-md btn-group','id' => 'btn-repairArticle','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Artikel ins Archiv verschieben', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-archiveArticle','style' => 'margin-right:20px; margin-top:20px;']);
 echo '<br>';
 echo '<br>';
 echo '<br>';
@@ -56,7 +59,7 @@ echo '<br>';
 echo '<h3><b>Ausleihhistorie</b></h3>';
 
 echo GridView::widget([
-        'dataProvider' => (new QueryRqst())->getArtikelHistory($model['fhnwNumber']),
+        'dataProvider' => (new QueryRqst())->getArticleHistory($model['fhnwNumber']),
         'responsive'=> true,
         'hover'=> true,
         'export' => false,

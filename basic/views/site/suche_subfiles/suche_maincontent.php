@@ -20,7 +20,7 @@ $items = [
         'pjax'=>true,
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
+                'dataProvider' => (new QueryRqst())->getDataArticlelist(),
                 'responsive'=> true,
                 'hover'=> true,
                 'export' => false,
@@ -58,7 +58,7 @@ $items = [
         'label'=>'<i class="glyphicon glyphicon-user"></i> Benutzer',
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getDataBenutzer(),
+                'dataProvider' => (new QueryRqst())->getDataUser(),
                 'responsive'=> true,
                 'pjax'=>true,
                 'hover'=> true,
@@ -102,7 +102,7 @@ $items = [
         'label'=>'<i class="glyphicon glyphicon-tags"></i> Artikel',
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getDataArtikelliste(),
+                'dataProvider' => (new QueryRqst())->getDataArticlelist(),
                 'responsive'=> true,
                 'pjax'=>true,
                 'hover'=> true,
@@ -144,7 +144,7 @@ $items = [
         'label'=>'<i class="glyphicon glyphicon-inbox"></i> Ausleihungen',
         'content'=>
             GridView::widget([
-                'dataProvider' => (new QueryRqst())->getDataAllfaelligeAusleihungen(),
+                'dataProvider' => (new QueryRqst())->getDataActualLoans(),
                 'responsive'=> true,
                 'pjax'=>true,
                 'hover'=> true,

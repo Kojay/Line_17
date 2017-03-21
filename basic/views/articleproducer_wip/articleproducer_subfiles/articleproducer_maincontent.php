@@ -51,7 +51,7 @@ echo $form->field($model, 'articleDescription')->textArea(['readonly' => true,'t
 
 echo '<h3><b>Ausleihhistorie</b></h3>';
 echo GridView::widget([
-        'dataProvider' => (new QueryRqst())->getArtikelHistory($model['fhnwNumber']),
+        'dataProvider' => (new QueryRqst())->getArticleHistory($model['fhnwNumber']),
         'responsive'=> true,
         'hover'=> true,
         'export' => false,

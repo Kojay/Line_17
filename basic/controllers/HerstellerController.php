@@ -72,7 +72,7 @@ class HerstellerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                    //TODO Must be updated ASAP after DB corrections
-                (new QueryRqst())->createDataArtikel($model);
+                (new QueryRqst())->createDataArticle($model);
                 Yii::$app->session->setFlash('articleDataCreated', 'Sie haben den Artikel erfolgreich erstellt.');
                 //}
                 $this->refresh(Url::current());
@@ -122,7 +122,7 @@ class HerstellerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->setDataArtikel($model);
+                (new QueryRqst())->setDataArticle($model);
                 Yii::$app->session->setFlash('herstellerDataUpdated', 'Sie haben erfolgreich den Hersteller gespeichert!');
                 $this->refresh(Url::current());
                 //  }
@@ -133,7 +133,7 @@ class HerstellerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataArtikel($model);
+                (new QueryRqst())->deleteDataArticle($model);
                 Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel gelöscht!');
                 $this->refresh(Url::current());
                 //  }

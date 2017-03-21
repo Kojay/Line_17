@@ -69,7 +69,7 @@ class ArticleproducerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                    //Must be updated ASAP after DB corrections
-                (new QueryRqst())->createDataArtikel($model);
+                (new QueryRqst())->createDataArticle($model);
                 Yii::$app->session->setFlash('articleDataCreated', 'Sie haben den Artikel erfolgreich erstellt.');
                 //}
                 $this->refresh(Url::current());
@@ -93,7 +93,7 @@ class ArticleproducerController extends Controller
     {
         try {
             $model = new Artikel();
-            $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));
+            $model->attributes = (new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber'));
 
             return $this->render('artikel', ['model' => $model]);
         }
@@ -107,7 +107,7 @@ class ArticleproducerController extends Controller
         $model = new Artikel();
         try {
             if (Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
-                $model->attributes = (new QueryRqst())->getDataArtikel(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
+                $model->attributes = (new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
                 //if(!$model->validate()){
                 $dataProducer = (new QueryRqst())->getDataProducer();
                 $dataArticletype = (new QueryRqst())->getDataArticletype();
@@ -121,7 +121,7 @@ class ArticleproducerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->setDataArtikel($model);
+                (new QueryRqst())->setDataArticle($model);
                 Yii::$app->session->setFlash('articleDataUpdated', 'Sie haben erfolgreich den Artikel gespeichert!');
                 $this->refresh(Url::current());
                 //  }
@@ -132,7 +132,7 @@ class ArticleproducerController extends Controller
                 $model->load(Yii::$app->request->post());
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataArtikel($model);
+                (new QueryRqst())->deleteDataArticle($model);
                 Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel gelöscht!');
                 $this->refresh(Url::current());
                 //  }

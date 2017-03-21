@@ -13,7 +13,7 @@ echo Html::tag('h1',Html::encode($this->title));
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
 echo GridView::widget([
-                'dataProvider' => (new QueryRqst())->getArtikelListe(),
+                'dataProvider' => (new QueryRqst())->getDataArticlelist(),
                 'responsive'=> true,
                 'hover'=> true,
                 'export' => false,

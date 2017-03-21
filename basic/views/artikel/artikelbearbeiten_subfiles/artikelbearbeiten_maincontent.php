@@ -9,15 +9,13 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\dialog\Dialog;
-use app\models\QueryRqst;
-use app\models\ldap;
 //TODO implement into ausleihebearbeiten
 //$this->registerJs("var dataADNames = ".json_encode((new ldap())->getDataADUsers()).";");
 
 //init Krajee
 Dialog::widget();
-use kartik\dialog\DialogAsset;
-DialogAsset::register($this);
+//use kartik\dialog\DialogAsset;
+//DialogAsset::register($this);
 
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");
 $this->registerJsFile('@web/js/artikelbearbeiten.js');
