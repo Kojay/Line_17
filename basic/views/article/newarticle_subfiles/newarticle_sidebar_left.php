@@ -2,7 +2,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['article/article'],['class' => 'btn btn-primary pull-left']);
+echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['article/articlelist'],['class' => 'btn btn-primary pull-left']);
 ?>
 <div class="panel panel-info" style="margin-top: 50px">
     <div class="panel-heading">

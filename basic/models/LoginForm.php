@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Adldap\Adldap;
 use Adldap\Models\User;
 use Yii;
 use yii\base\Model;
@@ -15,7 +16,7 @@ use app\models\QueryRqst;
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $mail;
     public $password;
     public $rememberMe = true;
 
@@ -29,7 +30,7 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['mail', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
         ];
@@ -46,9 +47,9 @@ class LoginForm extends Model
     public function login()
     {
         if($this->validate() && $this->validateLogin()) {
-           Yii::$app->user->login((new UserDB())->getIdentityByID((new QueryRqst())->getLoginData($this->username)['userID']), $this->rememberMe ? 3600 * 30 * 24 : 0);
+           Yii::$app->user->login((new UserDB())->getIdentityByID((new QueryRqst())->getLoginData($this->mail)['userID']), $this->rememberMe ? 3600 * 30 * 24 : 0);
             //assigns RBAC role to user if isUserAdmin is set to true
-           if((new QueryRqst())->getLoginData($this->username)['isUserAdmin'] && !Yii::$app->user->can('usercontrol')) {
+           if((new QueryRqst())->getLoginData($this->mail)['isUserAdmin'] && !Yii::$app->user->can('usercontrol')) {
                Yii::$app->authManager->assign(Yii::$app->authManager->getRole('admin'), Yii::$app->user->getId());
            }
            return true;
@@ -62,18 +63,18 @@ class LoginForm extends Model
      */
     public function validateLogin()
     {
-        if((new QueryRqst())->getLoginData($this->username)['personMail'] === $this->username){
+        if((new QueryRqst())->getLoginData($this->mail)['email'] === $this->mail){
             //TODO: AD Authentfication is always true now, while migrating into new environment this needs to be tested!
-            return $this->username;
+            return $this->mail;
             //here's the ad authentification
-            if((new ldap(yii::$app->params['LDAPCFG']))->getAuthentication($this->username,$this->password)){
-                return $this->username;
+            if((new Adldap((new ldap)->LDAPCFGEDU))->getAuthentication($this->email,$this->password)){
+                return $this->mail;
             }
             //here's the superuser authentication
             else{
-                $user = (new QueryRqst())->getSuperuser($this->username);
-                if($user && $user->password == $this->password){
-                    return $this->username;
+                $user = (new QueryRqst())->getSuperuser($this->mail);
+                if($user && $user->password === $this->password){
+                    return $this->mail;
                 }
             }
             $this->addError('login', 'Falscher Benutzername oder Passwort (Active Directory Zugang)');

@@ -507,11 +507,9 @@ class QueryRqst extends Model
     public function getDataUserID($paramUserID)
     {
         $dataProvider = new SqlDataProvider([
-            'sql' =>
-                'SELECT persons.personFirstname, persons.personLastname, persons.personMail, users.isUserAdmin, users.userID' .
-                ' FROM lv_user AS users' .
-                ' LEFT JOIN lv_persons AS persons ON users.userID = persons.personsID' .
-                ' WHERE persons.personsID = ' . $paramUserID
+            'sql' => 'SELECT user.email, user.isUserAdmin, user.userID' .
+                ' FROM lv_user AS user' .
+                ' WHERE user.userID = "' . $paramUserID . '"'
         ]);
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
     }
@@ -532,52 +530,26 @@ class QueryRqst extends Model
         Yii::$app->db->createCommand($query)->execute();
     }
 
-    public function createDataUser($paramUserModel, $paramUserPW)
+    public function createDataUser($paramEmail, $paramIsUserAdmin)
     {
-        //TODO eliminate foreign key checks and generate random authkey
+        $escEmail = \Yii::$app->db->quoteValue($paramEmail);
+        $escIsUserAdmin = \Yii::$app->db->quoteValue($paramIsUserAdmin);
 
-        //\yii::$app->security->generateRandomString();
-        $preConditionSQL = 'SET FOREIGN_KEY_CHECKS=0';
-        $query1 = ' 
-                    INSERT INTO     lv_users (isUserAdmin, userPassword, userPersonsID, userID)
-                    
-                    VALUES         (
-                                   "' . $paramUserModel['isUserAdmin'] . '"," '
-            . $paramUserPW . '"
-                                    (SELECT AUTO_INCREMENT
-                                        FROM INFORMATION_SCHEMA.TABLES
-                                        WHERE TABLE_NAME="lv_user"),
-                                    (SELECT AUTO_INCREMENT
-                                        FROM INFORMATION_SCHEMA.TABLES
-                                        WHERE TABLE_NAME="lv_user")                                
-                                    );';
-        $query2 = '    
-                    INSERT INTO     lv_persons (personFirstname, personLastname, personMail)
+        $query = 'INSERT INTO lv_user (email,auth_key,isUserAdmin) 
+                   VALUES ('.$escEmail.','.yii::$app->security->generateRandomString().','.$escIsUserAdmin.')';
 
-                    VALUES         (
-                                    "' . $paramUserModel['personFirstname'] . '","'
-            . $paramUserModel['personLastname'] . '","'
-            . $paramUserModel['isUserAdmin'] . '"
-                                    );';
-
-        $postConditionSQL = 'SET FOREIGN_KEY_CHECKS=1';
-
-        $transaction = Yii::$app->db->beginTransaction();
-        Yii::$app->db->createCommand($preConditionSQL)->execute();
-        Yii::$app->db->createCommand($query1)->execute();
-        Yii::$app->db->createCommand($query2)->execute();
-        Yii::$app->db->createCommand($postConditionSQL)->execute();
-        $transaction->commit();
+        //$transaction = Yii::$app->db->beginTransaction();
+        Yii::$app->db->createCommand($query)->execute();
+        //$transaction->commit();
     }
 
     public function getLoginData($paramUserMail)
     {
         try{
             $dataProvider = new SqlDataProvider([
-                'sql' => 'SELECT persons.personMail, users.isUserAdmin, users.userID' .
-                    ' FROM lv_user AS users' .
-                    ' LEFT JOIN lv_persons AS persons ON users.userID = persons.personsID' .
-                    ' WHERE persons.personMail = "' . $paramUserMail . '"'
+                'sql' => 'SELECT user.email, user.isUserAdmin, user.userID' .
+                    ' FROM lv_user AS user' .
+                    ' WHERE user.email = "' . $paramUserMail . '"'
             ]);
         }
         catch(exception $e){

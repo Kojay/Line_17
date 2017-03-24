@@ -10,17 +10,6 @@ use yii\helpers\Html;
     <div class="panel-body">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Benutzer</h3>
-            </div>
-            <div class="">
-                <a href="<?php echo Url::toRoute('user/useredit').'&_rqstIDUserID='.yii::$app->request->get('_rqstIDUserID');?>" style="color: #3C578C" class="list-group-item">
-                    <span class="glyphicon glyphicon-edit"></span>
-                    Benutzer bearbeiten
-                </a>
-            </div>
-        </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
                 <h3 class="panel-title">Seite</h3>
             </div>
             <div class="">

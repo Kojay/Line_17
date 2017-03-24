@@ -12,12 +12,9 @@ use yii\base\Model;
  */
 class User extends Model
 {
-    public $personFirstname,
-           $personLastname,
+    public $mail,
            $name,
-           $personMail,
            $isUserAdmin,
-           $userPassword,
            $userID,
            $department,
            $company,

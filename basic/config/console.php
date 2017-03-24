@@ -7,7 +7,7 @@ $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'app\commands',   
+    'controllerNamespace' => 'app\commands',
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\PhpManager',
@@ -19,6 +19,7 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
+                    'logFile' => 'test.txt',
                     'levels' => ['error', 'warning'],
                 ],
             ],

@@ -2,10 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\url;
 use app\assets\AppAsset;
-
+//Register Assetbundles
 AppAsset::register($this);
-//TODO make relative path
-$this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => $this::POS_HEAD]);
 
 ?>
 <!DOCTYPE html>
@@ -31,7 +29,7 @@ $this->registerJsFile('http://code.jquery.com/jquery-1.12.4.js', ['position' => 
                 if(!Yii::$app->user->isGuest){
                     if(Yii::$app->user->can('usercontrol')) echo ' Administrator  ';
                     else echo ' Benutzer  ';
-                    echo Yii::$app->user->identity->username;
+                    echo Html::encode(Yii::$app->user->identity->email);
                 }
                 else echo 'Gast';
                 ?>

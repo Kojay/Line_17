@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Adldap\Exceptions\AdldapException;
+use yii\base\Exception;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -11,6 +12,7 @@ use app\models\User;
 use app\models\QueryRqst;
 use yii\helpers\Url;
 use app\models\ldap;
+
 
 class UserController extends Controller
 {
@@ -88,7 +90,7 @@ class UserController extends Controller
         try {
             $model = new User();
 
-            if (Yii::$app->request->get('_rqstIDUserID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
+            if (Yii::$app->request->get('_rqstIDUserID') && !Yii::$app->request->isPost && !Yii::$app->request->isAjax) {
                 $model->attributes = (new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID'));                    //TODO: ERRORHANDLING EINFÜGEN
                 $model->validate();                                                                                                     //TODO: Writes into model the attributes given as array from sqldataprovider->getmodels method
                 return $this->render('useredit', ['model' => $model]);
@@ -132,13 +134,13 @@ class UserController extends Controller
     {
         try {
             $model = new User();
-            if (!$adUsers = (new ldap())->getDataADUsers()) throw new Exception(AdldapException);
+            $adUsers = (new ldap())->getDataADUsers();
 
-            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax) {
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->isPost && yii::$app->request->isAjax) {
                 $model->load(Yii::$app->request->post());
-                $model->validate();
+                //$model->validate();
                 //if(!$model->validate()){                                                                                                  //TODO: Must be updated ASAP after DB corrections -> Rule checking
-                (new QueryRqst())->createDataUser($model, Yii::$app->getSecurity()->generatePasswordHash($model->userPassword));        //TODO: Deprecated will be instead with AD
+                (new QueryRqst())->createDataUser($model->mail, $model->isUserAdmin);
                 //add user to RBAC
                 (new RBAC())->assign($model);
                 yii::$app->session->open();

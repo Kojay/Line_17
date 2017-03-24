@@ -169,17 +169,18 @@ class SiteController extends Controller
      */
     public function actionProfile()
     {
-        $model = new User();
         try {
+            $model = new User();
             //TODO: Needs to be implemented when there's a dedicated usertable for AFC
-            $model->userID = yii::$app->user->identity->userID;
-            $model->isUserAdmin = yii::$app->user->identity->isUserAdmin;
-            $model->personMail = yii::$app->user->identity->personMail;
+            //$model->userID = ;
+            //$model->isUserAdmin = yii::$app->user->identity->isUserAdmin;
+            //$model->email = yii::$app->user->identity->email;
             //TODO: Testserver implementation
             //Change EMail if Servermigration is done
 
-            $model->attributes = (new QueryRqst())->getDataUserID(yii::$app->user->identity->userID);
-            $model->attributes = (new ldap())->getDataADUser('alexander.weinbeck@students.fhnw.ch');
+            //$model->attributes = (new QueryRqst())->getDataUserID(yii::$app->user->identity->userID);
+            $userIdentity = yii::$app->user->identity;
+            $model->setAttributes((new ldap())->getDataADUser($userIdentity->email,$userIdentity->userID),false);
 
             return $this->render('profile', ['model' => $model]);
         }
@@ -193,7 +194,8 @@ class SiteController extends Controller
             $model->department = "N/A";
             $model->title = "N/A";
             $model->company = "N/A";
-
+            $model->mail = isset(yii::$app->user->identity->email)?yii::$app->user->identity->email:'N/A';
+            $model->userID = isset(yii::$app->user->identity->userID)?yii::$app->user->identity->userID:'N/A';
             return $this->render('profile', ['model' => $model]);
         }
     }

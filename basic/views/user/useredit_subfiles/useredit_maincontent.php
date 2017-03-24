@@ -35,13 +35,9 @@ if(Yii::$app->session->hasFlash('userDataUpdated'))
     ]);
 }
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
-
-echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
-echo $form->field($model, 'personFirstname')->textInput(['value' => $model->personFirstname])->label(translateField('personFirstname'));
-echo $form->field($model, 'personLastname')->textInput(['value' => $model->personLastname])->label(translateField('personLastname'));
-echo $form->field($model, 'personMail')->textInput(['value' => $model->personMail])->label(translateField('personMail'));
-echo $form->field($model, 'userPassword')->textInput(['value' => ''])->label('Neues Passwort:');
-echo $form->field($model, 'userPassword')->textInput(['value' => ''])->label('Passwort bestätigen:');
+//TODO after db migration uncomment this:
+//echo $form->field($model, 'name')->textInput(['value' => $model->personLastname])->label(translateField('personLastname'));
+//echo $form->field($model, 'mail')->textInput(['value' => $model->personMail])->label(translateField('personMail'));
 echo $form->field($model, 'isUserAdmin')->inline()->radioList(['0' => 'Benutzer','1' => 'Administrator'])->label(translateField('isUserAdmin'));
 
 echo Html::Button('Benutzer speichern', ['class' => 'btn btn-success','id' => 'btn-saveUser','style' => 'margin-right:20px']);

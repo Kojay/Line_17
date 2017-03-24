@@ -13,7 +13,7 @@ use kartik\grid\GridView;
 use app\models\QueryRqst;
 use kartik\sidenav\SideNav;
 
-$this->title = 'Benutzer';
+$this->title = 'Benutzerübersicht';
 $this->params['breadcrumbs'][] = $this->title;
 
 echo Html::tag('h1',Html::encode($this->title));
@@ -32,35 +32,16 @@ echo GridView::widget([
     'columns' => [
         ['class' => '\kartik\grid\SerialColumn'],
         [
-
-            'label' => 'Vorname',
-            'attribute' => 'personFirstname',
-
-        ],
-        [
-
-            'label' => 'Nachname',
-            'attribute' => 'personLastname',
-        ],
-        [
-
             'label' => 'E-Mail adresse',
             'attribute' => 'personMail',
-
         ],
         [
             'label' => 'Berechtigungstyp',
             'attribute' => 'isUserAdmin',
             'format' => 'raw',
             'value' => function ($data) {
-                if($data['isUserAdmin'] == 1)
-                {
-                    return 'Administrator';
-                }
-                else
-                {
-                    return 'Benutzer';
-                }
+                if($data['isUserAdmin'] == 1) return 'Administrator';
+                else return 'Benutzer';
             }
         ],
     ]
