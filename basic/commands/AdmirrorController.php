@@ -16,17 +16,16 @@ use yii\console\Controller;
 use yii\helpers\Console;
 use yii\helpers\ArrayHelper;
 
-
+/**
+ * This class is an executable script on command line.
+ * It is stored in file "mirrorAD.sh" in folder "basic"
+ * to execute it type following: "sudo sh ./mirrorAD.sh"
+ * @author Alexander Weinbeck
+ * @version 0.10
+ * @return progress and information of AD and SQL usage and progress.
+ */
 class AdmirrorController extends Controller
 {
-    /**
-     * This class is an executable script on command line.
-     * It is stored in file "mirrorAD.sh" in folder "basic"
-     * to execute it type following: "sudo sh ./mirrorAD.sh"
-     * @author Alexander Weinbeck
-     * @version 0.10
-     * @return progress and information of AD and SQL usage and progress.
-     */
     public $LDAPCFGEDU = [
         'domain_controllers' => ['edu.ds.fhnw.ch'],
         'base_dn' => 'ou=edu, ou=prod, dc=edu, dc=ds, dc=fhnw, dc=ch', // ou=edu,ou=prod,dc=edu,
@@ -49,6 +48,17 @@ class AdmirrorController extends Controller
         'use_sso' => false,
     ];
 
+    /**
+     * This is the function executed by command line
+     * 1. It gets all mails from the FHNW institutes
+     * 2. It collects the users mails
+     * 3. It writes in a DB transaction everythin to lv_ad,
+     * while doing that its making a copy to keep locktime as low as possible
+     * @author Alexander Weinbeck
+     * @return Success,failure
+     * @throws \Throwable
+     * @throws yii\base\Exception
+     */
     public function actionMirror()
     {
         echo "INFO: Database update from Active Directory \n";
