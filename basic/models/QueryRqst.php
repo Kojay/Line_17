@@ -52,19 +52,19 @@ class QueryRqst extends Model
                         'asc' => ['articleName' => SORT_ASC],
                         'desc' => ['articleName' => SORT_DESC],
                         'default' => SORT_DESC,
-                        'label' => 'Name',
+                        'label' => 'Post Title',
                     ],
                     'fhnwNumber' => [
                         'asc' => ['fhnwNumber' => SORT_ASC],
                         'desc' => ['fhnwNumber' => SORT_DESC],
                         'default' => SORT_DESC,
-                        'label' => 'Name',
+                        'label' => 'Post Title',
                     ],
                     'lvLoanReturnDate' => [
                         'asc' => ['lvLoanReturnDate' => SORT_ASC],
                         'desc' => ['lvLoanReturnDate' => SORT_DESC],
                         'default' => SORT_DESC,
-                        'label' => 'Name',
+                        'label' => 'Post Title',
                     ],
                     'created_on'
                 ],
@@ -463,42 +463,35 @@ class QueryRqst extends Model
     }
     public function getDataUsers()
     {
-        $totalCount = Yii::$app->db->createCommand('SELECT FOUND_ROWS()')->queryScalar();
+        $totalCount = Yii::$app->db->createCommand('SELECT COUNT(userID) FROM lv_user LIMIT 1')->queryScalar();
 
         $dataProvider = new SqlDataProvider([
-            'sql' => 'SELECT persons.personFirstname, persons.personLastname, persons.personMail, users.isUserAdmin, users.userID' .
-                ' FROM lv_user AS users' .
-                ' LEFT JOIN lv_persons AS persons ON users.userID = persons.personsID' .
-                ' WHERE persons.personsID = users.userID GROUP BY users.userID',
+            'sql' => 'SELECT users.mail, users.isUserAdmin, users.userID ' .
+                     'FROM lv_user AS users '.
+                     'GROUP BY users.userID',
             'totalCount' => $totalCount,
             'pagination' => [
                 'pageSize' => 10,
             ],
             'sort' => [
                 'attributes' => [
-                    'personMail' => [
-                        'asc' => ['personMail' => SORT_ASC],
-                        'desc' => ['personMail' => SORT_DESC],
-                        'default' => SORT_DESC,
-                        'label' => 'Post Title',
-                    ],
                     'isUserAdmin' => [
                         'asc' => ['isUserAdmin' => SORT_ASC],
                         'desc' => ['isUserAdmin' => SORT_DESC],
                         'default' => SORT_DESC,
                         'label' => 'Post Title',
                     ],
-                    'personFirstname' => [
-                        'asc' => ['personFirstname' => SORT_ASC],
-                        'desc' => ['personFirstname' => SORT_DESC],
+                    'mail' => [
+                        'asc' => ['mail' => SORT_ASC],
+                        'desc' => ['mail' => SORT_DESC],
                         'default' => SORT_DESC,
-                        'label' => 'Name',
+                        'label' => 'Post Title',
                     ],
-                    'personLastname' => [
-                        'asc' => ['personLastname' => SORT_ASC],
-                        'desc' => ['personLastname' => SORT_DESC],
+                    'userID' => [
+                        'asc' => ['userID' => SORT_ASC],
+                        'desc' => ['userID' => SORT_DESC],
                         'default' => SORT_DESC,
-                        'label' => 'Name',
+                        'label' => 'Post Title',
                     ],
                     'created_on'
                 ],

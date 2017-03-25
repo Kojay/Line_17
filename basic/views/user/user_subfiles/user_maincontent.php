@@ -31,7 +31,7 @@ echo $form->field($model, 'userID')->textInput(['readonly'=>true,'type' => 'text
 //echo $form->field($model, 'name')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personFirstname'));
 //echo $form->field($model, 'personFirstname')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personFirstname'));
 //echo $form->field($model, 'personLastname')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personLastname'));
-echo $form->field($model, 'mail')->textInput(['readonly' => true, 'value' => $model->mail,'type' => 'text', 'style' => 'border:0;'])->label(translateField('personMail'));
+echo $form->field($model, 'mail')->textInput(['readonly' => true, 'value' => $model->mail,'type' => 'text', 'style' => 'border:0;'])->label(translateField('mail'));
 echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value' => translateFieldPermission($model->isUserAdmin), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('isUserAdmin'));
 
 
@@ -53,9 +53,8 @@ function translateFieldPermission($paramAdmin){
 function translateField($paramString){
     $stringArray = [
         'userID' => 'BenutzerID: ',
-        'personFirstname' => 'Vorname: ',
-        'personLastname' => 'Nachname: ',
-        'personMail' => 'E-Mail Adresse: ',
+        'name' => 'Name: ',
+        'mail' => 'E-Mail Adresse: ',
         'isUserAdmin' => 'Berechtigungstyp: ',
     ];
     return $stringArray[$paramString];

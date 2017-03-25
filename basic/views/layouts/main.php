@@ -97,7 +97,7 @@ AppAsset::register($this);
               </ul>
               <ul class="nav pull-left">
                   <li class="dropdown pull-right">
-                      <a href="<?= Url::toRoute('site/suche')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
+                      <a href="<?= Url::toRoute('site/search')?>" style="color:#777; margin-top: 5px;" class="dropdown-toggle">
                           Suchfunktion
                           <span class="glyphicon glyphicon-search"></span>
                       </a>

@@ -29,7 +29,7 @@ class UserController extends Controller
                     [
                         'actions' => ['usermanagement','useredit','user','newuser'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['admin','supervisor'],
                     ],
                 ],
             ],
@@ -71,7 +71,7 @@ class UserController extends Controller
         try {
             $model = new User();
             $model->setAttributes((new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID')), false);
-            $model->setAttributes((new ldap())->getDataADUser($model->email,Yii::$app->request->get('_rqstIDUserID')),false);
+            $model->setAttributes((new ldap())->getDataADUser($model->mail,Yii::$app->request->get('_rqstIDUserID')),false);
             return $this->render('user', ['model' => $model]);
         }
         catch(AdldapException $exLdap) {
@@ -92,7 +92,7 @@ class UserController extends Controller
             $model = new User();
 
             if (Yii::$app->request->get('_rqstIDUserID') && !Yii::$app->request->isPost && !Yii::$app->request->isAjax) {
-                $model->attributes = (new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID'));                    //TODO: ERRORHANDLING EINFÜGEN
+                $model->setAttributes((new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID')),false);                    //TODO: ERRORHANDLING EINFÜGEN
                 $model->validate();                                                                                                     //TODO: Writes into model the attributes given as array from sqldataprovider->getmodels method
                 return $this->render('useredit', ['model' => $model]);
             }
@@ -139,13 +139,12 @@ class UserController extends Controller
 
             if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->isPost && yii::$app->request->isAjax) {
                 $model->load(Yii::$app->request->post());
-                //$model->validate();
-                //if(!$model->validate()){                                                                                                  //TODO: Must be updated ASAP after DB corrections -> Rule checking
-                (new QueryRqst())->createDataUser($model->mail, $model->isUserAdmin);
-                //add user to RBAC
-                (new RBAC())->assign($model);
-                yii::$app->session->open();
-                yii::$app->session->setFlash('userDataCreated', 'Sie haben den Benutzer erfolgreich erstellt.');
+                //if($model->validate()){                                                                                                  //TODO: Must be updated ASAP after DB corrections -> Rule checking
+                    (new QueryRqst())->createDataUser($model->mail, $model->isUserAdmin);
+                    //add user to RBAC
+                    (new RBAC())->assign($model);
+                    yii::$app->session->open();
+                    yii::$app->session->setFlash('userDataCreated', 'Sie haben den Benutzer erfolgreich erstellt.');
                 //}
                 $this->refresh(Url::current());
             }

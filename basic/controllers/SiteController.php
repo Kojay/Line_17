@@ -173,14 +173,7 @@ class SiteController extends Controller
     {
         try {
             $model = new User();
-            //TODO: Needs to be implemented when there's a dedicated usertable for AFC
-            //$model->userID = ;
-            //$model->isUserAdmin = yii::$app->user->identity->isUserAdmin;
-            //$model->email = yii::$app->user->identity->email;
-            //TODO: Testserver implementation
-            //Change EMail if Servermigration is done
 
-            //$model->attributes = (new QueryRqst())->getDataUserID(yii::$app->user->identity->userID);
             $userIdentity = yii::$app->user->identity;
             if(!yii::$app->user->can('all')) {
                 $model->setAttributes((new ldap())->getDataADUser($userIdentity->mail, $userIdentity->userID), false);

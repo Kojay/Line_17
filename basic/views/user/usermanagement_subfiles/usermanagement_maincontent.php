@@ -32,15 +32,20 @@ echo GridView::widget([
     'columns' => [
         ['class' => '\kartik\grid\SerialColumn'],
         [
-            'label' => 'E-Mail adresse',
-            'attribute' => 'personMail',
+            'label' => 'Benutzer ID',
+            'attribute' => 'userID',
+        ],
+        [
+            'label' => 'E-Mail Adresse',
+            'attribute' => 'mail',
         ],
         [
             'label' => 'Berechtigungstyp',
             'attribute' => 'isUserAdmin',
             'format' => 'raw',
             'value' => function ($data) {
-                if($data['isUserAdmin'] == 1) return 'Administrator';
+                if($data['isUserAdmin'] == 1 && $data['userID'] > 9900) return 'Supervisor';
+                elseif ($data['isUserAdmin'] == 1) return 'Administrator';
                 else return 'Benutzer';
             }
         ],
