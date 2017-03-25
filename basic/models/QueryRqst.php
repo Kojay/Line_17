@@ -300,7 +300,7 @@ class QueryRqst extends Model
                         'articleproducer.articleproducerName, article.serialNumber, ' .
                         'article.dateBought, article.dateWarranty, article.articlePrice, ' .
                 'article.fhnwNumber, article.articleDescription, article.lv_producer_producerID, 
-                 article.lv_articletype_articleTypeID, article.isArchive, article.articleStatus, article.articleComment' .
+                 article.lv_articletype_articleTypeID, article.isArchive, article.articleStatus, article.statusComment' .
                 ' FROM lv_article AS article' .
                 ' LEFT JOIN lv_loanitems AS loanitems ON article.articleID = loanitems.lv_article_deviceID' .
                 ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID' .

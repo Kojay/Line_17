@@ -109,7 +109,7 @@ class ArticleController extends Controller
     {
         try {
             $model = new Article();
-            $model->attributes = (new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber'));
+            $model->setAttributes((new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber')),false);
 
             if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'repair' && Yii::$app->request->post() && yii::$app->request->isAjax) {
                 $model->load(Yii::$app->request->post());

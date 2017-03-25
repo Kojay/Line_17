@@ -9,16 +9,11 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\dialog\Dialog;
-//TODO implement into ausleihebearbeiten
-//$this->registerJs("var dataADNames = ".json_encode((new ldap())->getDataADUsers()).";");
 
 //init Krajee
 Dialog::widget();
 //use kartik\dialog\DialogAsset;
 //DialogAsset::register($this);
-
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJsFile('@web/js/articleedit.js');
 
 $this->title = 'Artikel bearbeiten';
 
@@ -103,4 +98,73 @@ echo Html::Button('Artikel löschen', ['class' => 'btn btn-danger col-md-4 btn-m
 
 ActiveForm::end();
 echo Html::endTag('div');
+
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJs(<<<JS
+/**
+ * Javascript for page "artikelbearbeiten.php"
+ * @Author Alexander Weinbeck
+ */
+$(document).ready(function() {
+    /**
+     * Function to handle onclick event of edit "Artikel"
+     * @Author Alexander Weinbeck
+     */
+    $("#btn-updateArticle").click(function(e){
+        krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel bearbeiten wollen?",
+        function (result) {
+            $("#fnc").value = 'update';
+            if (result) {                     
+                e.preventDefault();
+                $.ajax({
+                    url: urlAjax,
+                    type:'post',
+                    headers: { '_rqstAjaxFnc': 'update' },
+                    data:$('#articleupdate-form').serialize(),
+                    success:function(){
+                    }
+                });
+            }
+        });
+    });
+    /**
+     * Function to handle onclick event to delete "Artikel"
+     * @Author Alexander Weinbeck
+     */
+    $("#btn-deleteArticle").click(function(e){
+        krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel l�schen wollen?",
+        function (result) {
+            if (result) {
+                e.preventDefault();
+                $.ajax({
+                    url: urlAjax,
+                    type:'post',
+                    headers: { '_rqstAjaxFnc': 'delete' },
+                    data:$('#articleupdate-form').serialize(),
+                    success:function(){
+                    }
+                });
+            }
+        });
+    });
+    /**
+     * Function to handle check event of "Artikelproducers"
+     * @Author Alexander Weinbeck
+     */
+    $("#textinputNewProducer").hide();
+    $("#dropdownProducers").show();
+    $(":checkbox").change(function() {
+        if($(":checkbox").prop('checked')){
+           $("#textinputNewProducer").show();
+           $("#dropdownProducers").hide();
+        }
+        else{
+           $("#textinputNewProducer").hide();
+           $("#dropdownProducers").show();
+        }               
+    });
+});
+
+JS
+);
 ?>

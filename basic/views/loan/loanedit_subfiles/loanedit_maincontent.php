@@ -12,8 +12,7 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\dialog\Dialog;
 use kartik\checkbox\CheckboxX;
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJsFile('@web/js/loanedit.js');
+
 //init Krajee
 Dialog::widget();
 
@@ -89,4 +88,68 @@ echo Html::Button('Artikel bearbeiten', ['class' => 'btn btn-success col-md-4 bt
 echo Html::Button('Artikel löschen', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-deleteArticle','style' => 'margin-right:20px; margin-top:20px;']);
 
 echo Html::endTag('div');
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJs(<<<JS
+/**
+ * Javascript for page "ausleihebearbeiten.php"
+ * @Author Alexander Weinbeck
+ */
+$(document).ready(function() {
+    /**
+     * TODO Autocomplete element to search Active Directory users
+     * @Author Alexander Weinbeck
+     */
+    var availableTags = [
+        'ActionScript',
+        'AppleScript',
+        'Java'
+    ];
+    $("#searchNamesAuto").autocomplete({
+        source: availableTags,
+    });
+    /**
+     * Function to handle onclick event of edit "Ausleihe"
+     * @Author Alexander Weinbeck
+     */
+   $("#btn-updateArticle").click(function(e){
+        krajeeDialog.confirm("Sind sie sicher, dass Sie die Ausleihe bearbeiten wollen?",
+        function (result) {
+            $("#fnc").value = 'update';
+            if (result) {                     
+                e.preventDefault();
+                $.ajax({
+                    url: urlAjax,
+                    type:'post',
+                    headers: { '_rqstAjaxFnc': 'update' },
+                    data:$('#rentalupdate-form').serialize(),
+                    success:function(){
+                    }
+                });
+            }
+        });
+    });
+    /**
+     * Function to handle onclick event of delete "Ausleihe"
+     * @Author Alexander Weinbeck
+     */
+    $("#btn-deleteArticle").click(function(e){
+        krajeeDialog.confirm("Sind sie sicher, dass Sie die Ausleihe l�schen wollen?",
+        function (result) {
+            if (result) {
+                e.preventDefault();
+                $.ajax({
+                    url: urlAjax,
+                    type:'post',
+                    headers: { '_rqstAjaxFnc': 'delete' },
+                    data:$('#rentalupdate-form').serialize(),
+                    success:function(){
+                    }
+                });
+            }
+        });
+    });
+});
+
+JS
+);
 ?>
