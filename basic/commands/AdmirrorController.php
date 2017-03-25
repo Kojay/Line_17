@@ -55,30 +55,29 @@ class AdmirrorController extends Controller
         $arrayMails = array();
         //(displayName=*)
         //$filter = '(&(objectCategory=person)(objectClass=user)(mail=*gmx*))';
-        $filter = '(&(objectCategory=user)(mail=alex*))';
+        $filter = '(&(objectCategory=user)(mail=*))';
         echo "PROGRESS: Establishing AD-Connections...\n";
         Console::startProgress(100, 1000);
         $adADM = (new \Adldap\Adldap($this->LDAPCFGADM));
         $adEDU = (new \Adldap\Adldap($this->LDAPCFGEDU));
-        echo "PROGRESS: Getting actual Users...\n";
+        echo "PROGRESS: Getting actual Users ADM Server...\n";
         $adUsersADM = $adADM->search()->newQueryBuilder()->rawFilter($filter)->paginate('1000')->getResults();
+        Console::startProgress(200, 1000);
+        echo "PROGRESS: Getting actual Users EDU Server...\n";
         $adUsersEDU = $adEDU->search()->newQueryBuilder()->rawFilter($filter)->paginate('1000')->getResults();
         echo "PROGRESS: Sort and filter Users...\n";
-        Console::updateProgress(600, 1000);
+        Console::updateProgress(700, 1000);
         foreach ($adUsersADM as $adUser) {
             if ($adUser['mail']['0']  != NULL) {
                 array_push($arrayMails,ArrayHelper::getValue($adUser['mail'],0));
-                // array_push($arrayNames,$adUser['attributes']['name']);
             }
         }
         foreach ($adUsersEDU as $adUser) {
             if ($adUser['mail']['0'] != NULL) {
                 array_push($arrayMails,ArrayHelper::getValue($adUser['mail'],0));
-                // array_push($arrayNames,$adUser['attributes']['name']);
             }
         }
         echo "PROGRESS: Saving fetched Users in Database...\n";
-
 
         Console::updateProgress(800, 1000);
         $querySwapName1     = "RENAME TABLE lv_ad TO lv_ad_old,lv_ad_new to lv_ad";
@@ -110,22 +109,12 @@ class AdmirrorController extends Controller
             throw $e;
             return 1;
         }
-
-        //$yolo = $this->stdout("Vorgang abgeschlossen\n", Console::BOLD, Console::FG_RED);
-
-        //$arrayMails = (new ldap())->getDataADUsers();
-
         $arr_length = sizeof($arrayMails);
 
-        //echo var_dump($arrayMails);
-        //echo "$yolo\n";
-        //echo "$arr_length\n";
-        echo "PROGRESS: DONE! No Errors\n";
+        $msg = $this->stdout("PROGRESS: DONE! $arr_length entries -> No Errors\n",Console::BOLD, Console::FG_BLACK, Console::BG_GREEN);
+        echo $msg;
         Console::updateProgress(1000, 1000);
         Console::endProgress();
-//        $tmp = VarDumper::dumpAsString(ArrayHelper::getValue($arrayMails,'0'),10);
-//        $yolo2 = $this->stdout("$tmp\n", Console::BG_PURPLE, Console::FG_BLUE);
-
     }
 
 }
