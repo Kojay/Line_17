@@ -373,8 +373,8 @@ class QueryRqst extends Model
     public function createDataArticle($paramArticleData)
     {
 
-        $queryArtikeltyp = ' INSERT IGNORE INTO lv_articletype (articleTypeName) VALUES ("' . $paramArticleData['articleTypeName'] . '");';
-        $queryArtikelHersteller = ' INSERT IGNORE INTO lv_articleproducer (articleproducerName) VALUES ("' . $paramArticleData['articleproducerName'] . '");';
+        $queryArtikeltyp = 'INSERT IGNORE INTO lv_articletype (articleTypeName) VALUES ("' . $paramArticleData['articleTypeName'] . '");';
+        $queryArtikelHersteller = 'INSERT IGNORE INTO lv_articleproducer (articleproducerName) VALUES ("' . $paramArticleData['articleproducerName'] . '");';
 
         $fhnwNumberPartOne = $paramArticleData['fhnwNumber'];
         $fhnwNumberPartTwo = $paramArticleData['serialNumber'];

@@ -8,9 +8,9 @@
 
 namespace app\commands;
 
+use yii;
 use Adldap\Adldap;
 use app\models\ldap;
-use yii;
 use yii\db\Query;
 use yii\console\Controller;
 use yii\helpers\Console;
@@ -20,8 +20,12 @@ use yii\helpers\ArrayHelper;
 class AdmirrorController extends Controller
 {
     /**
-     * This command echoes what you have entered as the message.
-     * @param string $message the message to be echoed.
+     * This class is an executable script on command line.
+     * It is stored in file "mirrorAD.sh" in folder "basic"
+     * to execute it type following: "sudo sh ./mirrorAD.sh"
+     * @author Alexander Weinbeck
+     * @version 0.10
+     * @return progress and information of AD and SQL usage and progress.
      */
     public $LDAPCFGEDU = [
         'domain_controllers' => ['edu.ds.fhnw.ch'],
@@ -51,10 +55,13 @@ class AdmirrorController extends Controller
         echo "INFO: Estimated processingtime is 30 seconds\n\n";
         echo "INFO: Starting Process...\n\n";
         Console::startProgress(0, 1000);
+
+        //expand memory if needed:
         //ini_set('memory_limit', '4096M');
+        //Useful filters: $filter = '(&(objectCategory=person)(objectClass=user)(mail=*gmx*))'; (displayName=*)
+
         $arrayMails = array();
-        //(displayName=*)
-        //$filter = '(&(objectCategory=person)(objectClass=user)(mail=*gmx*))';
+
         $filter = '(&(objectCategory=user)(mail=*))';
         echo "PROGRESS: Establishing AD-Connections...\n";
         Console::startProgress(100, 1000);
@@ -116,5 +123,4 @@ class AdmirrorController extends Controller
         Console::updateProgress(1000, 1000);
         Console::endProgress();
     }
-
 }
