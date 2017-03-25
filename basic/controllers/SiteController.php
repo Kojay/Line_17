@@ -76,12 +76,14 @@ class SiteController extends Controller
     }
 
     /**
-     * Login action.
+     * Login action. Which also creates a superuser if not commented!
      * @author Alexander Weinbeck
      * @return string
      */
     public function actionLogin()
     {
+        //Creates superuser be careful with this!
+        //(new QueryRqst())->setSuperuser();
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             //return $this->render('gastsuche');
@@ -180,8 +182,17 @@ class SiteController extends Controller
 
             //$model->attributes = (new QueryRqst())->getDataUserID(yii::$app->user->identity->userID);
             $userIdentity = yii::$app->user->identity;
-            $model->setAttributes((new ldap())->getDataADUser($userIdentity->email,$userIdentity->userID),false);
-
+            if(!yii::$app->user->can('all')) {
+                $model->setAttributes((new ldap())->getDataADUser($userIdentity->mail, $userIdentity->userID), false);
+            }
+            else {
+                $model->mail = "supervisor@hwa.fhnw.ch";
+                $model->department = "Keine";
+                $model->company = "Keine";
+                $model->name = "Supervisor";
+                $model->userID = yii::$app->user->getId();
+                $model->isUserAdmin = "Supervisor";
+            }
             return $this->render('profile', ['model' => $model]);
         }
         catch(\yii\db\Exception $exDb) {

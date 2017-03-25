@@ -70,7 +70,8 @@ class UserController extends Controller
     {
         try {
             $model = new User();
-            $model->attributes = (new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID'));
+            $model->setAttributes((new QueryRqst())->getDataUserID(Yii::$app->request->get('_rqstIDUserID')), false);
+            $model->setAttributes((new ldap())->getDataADUser($model->email,Yii::$app->request->get('_rqstIDUserID')),false);
             return $this->render('user', ['model' => $model]);
         }
         catch(AdldapException $exLdap) {

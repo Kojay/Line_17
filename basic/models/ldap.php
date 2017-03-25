@@ -46,12 +46,14 @@ class ldap extends Model
 
     public function getAuthentication($username, $password){
         //establish AD connection
-        if((new Adldap($this->LDAPCFG))->authenticate($username, $password)){
+        if((new Adldap($this->LDAPCFGEDU))->authenticate($username, $password)){
             // User passed authentication
             return true;
         }
-        else{
+        elseif((new Adldap($this->LDAPCFGADM))->authenticate($username, $password)){
             // Username or password is incorrect
+            return true;
+        }else{
             return false;
         }
     }

@@ -22,8 +22,8 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
 		//Themes
-		'themes/material-simple/css/materialize.css',
-		'themes/material-simple/css/prism.css'
+		//'themes/material-simple/assets/css/materialize.css',
+		//'themes/material-simple/assets/css/prism.css'
     ];
     public $js = [
 

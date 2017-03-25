@@ -34,7 +34,7 @@ if($model->hasErrors()){
         ],
     ]); ?>
 
-        <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($model, 'mail')->textInput(['autofocus' => true]) ?>
 
         <?= $form->field($model, 'password')->passwordInput() ?>
 

@@ -31,7 +31,7 @@ echo $form->errorSummary($model);
 //echo var_dump($model);
 echo $form->field($model, 'name')->textInput(['readonly'=>true,'value' => ArrayHelper::getValue($model,'name','N/A'), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('name'));
 echo $form->field($model, 'userID')->textInput(['readonly'=>true,'value' => ArrayHelper::getValue($model,'userID','N/A'),'type' => 'text', 'style' => 'border:0;'])->label(translateField('userID'));
-echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value' => translateFieldPermission($model,'isUserAdmin','N/A'), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('isUserAdmin'));
+echo $form->field($model, 'isUserAdmin')->textInput(['readonly' => true, 'value' => translateFieldPermission($model->isUserAdmin), 'type' => 'text', 'style' => 'border:0;'])->label(translateField('isUserAdmin'));
 echo $form->field($model, 'mail')->textInput(['readonly'=>true,'value' => $model->mail,'type' => 'text', 'style' => 'border:0;'])->label('E-Mail: ');
 echo $form->field($model, 'department')->textInput(['readonly'=>true,'value' => $model->department,'type' => 'text', 'style' => 'border:0;'])->label('Abteilung: ');
 echo $form->field($model, 'company')->textInput(['readonly'=>true,'value' => $model->company,'type' => 'text', 'style' => 'border:0;'])->label('Firma: ');
@@ -40,7 +40,11 @@ echo $form->field($model, 'company')->textInput(['readonly'=>true,'value' => $mo
  * @author Alexander Weinbeck
  */
 function translateFieldPermission($paramAdmin){
-    if ($paramAdmin === 1): return 'Administrator'; else: return 'Benutzer'; endif;
+    if ($paramAdmin === 1): return 'Administrator';
+    elseif($paramAdmin === 0): return 'Benutzer';
+    elseif($paramAdmin === "Supervisor"): return "Supervisor";
+    else: return "N/A";
+    endif;
 }
 /**
  * @author Alexander Weinbeck

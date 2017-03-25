@@ -27,9 +27,10 @@ AppAsset::register($this);
             <li class="navbar-text pull-left">
                 <?php
                 if(!Yii::$app->user->isGuest){
-                    if(Yii::$app->user->can('usercontrol')) echo ' Administrator  ';
-                    else echo ' Benutzer  ';
-                    echo Html::encode(Yii::$app->user->identity->email);
+                    if (Yii::$app->user->can('all')) echo '  Supervisor   ';
+                    elseif(Yii::$app->user->can('usercontrol')) echo '  Administrator   ';
+                    else echo '  Benutzer   ';
+                    echo Html::encode(Yii::$app->user->identity->mail);
                 }
                 else echo 'Gast';
                 ?>

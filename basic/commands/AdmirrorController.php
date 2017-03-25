@@ -131,5 +131,6 @@ class AdmirrorController extends Controller
         echo $msg;
         Console::updateProgress(1000, 1000);
         Console::endProgress();
+
     }
 }

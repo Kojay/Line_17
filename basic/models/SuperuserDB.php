@@ -10,21 +10,11 @@ use yii\web\IdentityInterface;
  * @author Alexander Weinbeck
  * @package app\models
  */
-class UserDB extends ActiveRecord implements IdentityInterface
+class SuperuserDB extends ActiveRecord implements IdentityInterface
 {
     public static function tableName()
     {
-        return 'lv_user';
-    }
-    public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
-                $this->auth_key = \yii::$app->security->generateRandomString();
-            }
-            return true;
-        }
-        return false;
+        return 'lv_superuser';
     }
     /**
      * Finds an identity by the given ID.

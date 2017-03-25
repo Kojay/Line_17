@@ -4,7 +4,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\SqlDataProvider;
-use yii\db\Query;
+use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -300,7 +300,7 @@ class QueryRqst extends Model
                         'articleproducer.articleproducerName, article.serialNumber, ' .
                         'article.dateBought, article.dateWarranty, article.articlePrice, ' .
                 'article.fhnwNumber, article.articleDescription, article.lv_producer_producerID, 
-                 article.lv_articletype_articleTypeID, article.isArchive, article.articleStatus, article.statusComment' .
+                 article.lv_articletype_articleTypeID, article.isArchive, article.articleStatus, article.articleComment' .
                 ' FROM lv_article AS article' .
                 ' LEFT JOIN lv_loanitems AS loanitems ON article.articleID = loanitems.lv_article_deviceID' .
                 ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID' .
@@ -372,9 +372,8 @@ class QueryRqst extends Model
 
     public function createDataArticle($paramArticleData)
     {
-
-        $queryArtikeltyp = 'INSERT IGNORE INTO lv_articletype (articleTypeName) VALUES ("' . $paramArticleData['articleTypeName'] . '");';
-        $queryArtikelHersteller = 'INSERT IGNORE INTO lv_articleproducer (articleproducerName) VALUES ("' . $paramArticleData['articleproducerName'] . '");';
+        $queryArticleType = 'INSERT IGNORE INTO lv_articletype (articleTypeName) VALUES ("' . $paramArticleData['articleTypeName'] . '");';
+        $queryArticleProducer = 'INSERT IGNORE INTO lv_articleproducer (articleproducerName) VALUES ("' . $paramArticleData['articleproducerName'] . '");';
 
         $fhnwNumberPartOne = $paramArticleData['fhnwNumber'];
         $fhnwNumberPartTwo = $paramArticleData['serialNumber'];
@@ -412,42 +411,45 @@ class QueryRqst extends Model
                         . $paramArticleData['articleDescription'] . '", 
                         (SELECT articletypeID FROM lv_articletype WHERE articleTypeName = "' . $paramArticleData['articleTypeName'] . ' "), 
                         articleproducerID FROM lv_articleproducer WHERE articleproducerName = "' . $paramArticleData['articleproducerName'] . ' "';
-
+        //TODO Try Catch Block
         $transaction = Yii::$app->db->beginTransaction();
-        Yii::$app->db->createCommand($queryArtikeltyp)->execute();
-        Yii::$app->db->createCommand($queryArtikelHersteller)->execute();
+        Yii::$app->db->createCommand($queryArticleType)->execute();
+        Yii::$app->db->createCommand($queryArticleProducer)->execute();
         Yii::$app->db->createCommand($queryArtikelsatz)->execute();
         $transaction->commit();
     }
     public function deleteDataArticle($paramArticleData)
     {
         $query = 'UPDATE lv_article SET isArchive = 1 WHERE fhnwNumber=' . $paramArticleData['fhnwNumber'];              //Artikel können nicht gelöscht werden, isArchive wird auf 1 gesetzt
-
-        $transaction = Yii::$app->db->beginTransaction();
-        Yii::$app->db->createCommand($query)->execute();
-        $transaction->commit();
+        try {
+            $transaction = Yii::$app->db->beginTransaction();
+            Yii::$app->db->createCommand($query)->execute();
+            $transaction->commit();
+        } catch(Exception $e){
+            $transaction->rollBack();
+            throw new \yii\db\Exception($e->getMessage());
+        }
     }
     public function deleteDataUser($paramUserData)
     {
         $query1 = ' DELETE FROM lv_user ' .
                   ' WHERE  lv_user.userID="' . $paramUserData['userID'] . '" AND
-                           lv_user.isUserAdmin="' . $paramUserData['isUserAdmin'] . '" AND
-                           lv_user.userPersonsID="' . $paramUserData['userPersonsID'].'"';
-        $query2 = ' DELETE FROM lv_persons ' .
-                  ' WHERE  lv_persons.personsID="' . $paramUserData['articleTypeName'] . '" AND
-                           lv_persons.personFirstname=lv_articletype.articleTypeID AND
-                           lv_persons.personMail=lv_articletype.articleTypeID AND
-                           lv_persons.personLastname=lv_articleproducer.articleproducerID';
+                           lv_user.isUserAdmin="' . $paramUserData['isUserAdmin'];
 
-        $transaction = Yii::$app->db->beginTransaction();
-        Yii::$app->db->createCommand($query1)->execute();
-        Yii::$app->db->createCommand($query2)->execute();
-        $transaction->commit();
+        try {
+            $transaction = Yii::$app->db->beginTransaction();
+            Yii::$app->db->createCommand($query1)->execute();
+            $transaction->commit();
+        } catch(Exception $e){
+            $transaction->rollBack();
+            throw new \yii\db\Exception($e->getMessage());
+        }
+
     }
     public function getDataProducer()
     {
         $dataProvider = new SqlDataProvider([
-            'sql' => ' SELECT articleproducerName FROM  lv_articleproducer'
+            'sql' => 'SELECT articleproducerName FROM  lv_articleproducer'
         ]);
         return ArrayHelper::getColumn($dataProvider->getModels(), 'articleproducerName');                               //TODO: Errorhandling einfügen
     }
@@ -455,11 +457,11 @@ class QueryRqst extends Model
     public function getDataArticletype()
     {
         $dataProvider = new SqlDataProvider([
-            'sql' => ' SELECT articleTypeName FROM lv_articletype'
+            'sql' => 'SELECT articleTypeName FROM lv_articletype'
         ]);
         return ArrayHelper::getColumn($dataProvider->getModels(), 'articleTypeName');                               //TODO: Errorhandling einfügen
     }
-    public function getDataUser()
+    public function getDataUsers()
     {
         $totalCount = Yii::$app->db->createCommand('SELECT FOUND_ROWS()')->queryScalar();
 
@@ -504,32 +506,40 @@ class QueryRqst extends Model
         ]);
         return $dataProvider;
     }
+    /**
+     * Get Data user id
+     * @version 0.1
+     * @author Alexander Weinbeck
+     */
     public function getDataUserID($paramUserID)
     {
         $dataProvider = new SqlDataProvider([
-            'sql' => 'SELECT user.email, user.isUserAdmin, user.userID' .
-                ' FROM lv_user AS user' .
-                ' WHERE user.userID = "' . $paramUserID . '"'
+            'sql' => 'SELECT user.mail, user.isUserAdmin, user.userID ' .
+                     'FROM lv_user AS user ' .
+                     'WHERE user.userID = "' . $paramUserID . '"'
         ]);
-        return ArrayHelper::getValue($dataProvider->getModels(), 0);
+        return ArrayHelper::getValue($dataProvider->getModels(), 0,false);
     }
-    public function setUpdateDataUser($paramUserModel, $paramUserPW)
+    /**
+     * Get Data users
+     * @version 0.1
+     * @author Alexander Weinbeck
+     */
+    public function setUpdateDataUser($paramUserModel)
     {
-        $query = '
-                UPDATE  lv_user user, lv_persons person 
-                
-                SET     person.personFirstname="' . $paramUserModel['personFirstname'] . '",
-                        person.personLastname="' . $paramUserModel['personLastname'] . '",
-                        person.personMail="' . $paramUserModel['personMail'] . '",
-                        user.isUserAdmin="' . $paramUserModel['isUserAdmin'] . '",
-                        user.userPassword="' . $paramUserPW . '"
-                            
-                WHERE   user.userID="' . $paramUserModel['userID'] . '" AND
-                        person.personsID="' . $paramUserModel['userID'] . '"';
+        $escIsUserAdmin = \Yii::$app->db->quoteValue($paramUserModel['isUserAdmin']);
+        $escUserID = \Yii::$app->db->quoteValue($paramUserModel['userID']);
+        $query = '  UPDATE  lv_user user, lv_persons person 
+                    SET     user.isUserAdmin="' . $escIsUserAdmin . '"                 
+                    WHERE   user.userID="' . $escUserID .'"';
 
         Yii::$app->db->createCommand($query)->execute();
     }
-
+    /**
+     * Create Data user id
+     * @version 0.1
+     * @author Alexander Weinbeck
+     */
     public function createDataUser($paramEmail, $paramIsUserAdmin)
     {
         $escEmail = \Yii::$app->db->quoteValue($paramEmail);
@@ -538,39 +548,72 @@ class QueryRqst extends Model
         $query = 'INSERT INTO lv_user (email,auth_key,isUserAdmin) 
                    VALUES ('.$escEmail.','.yii::$app->security->generateRandomString().','.$escIsUserAdmin.')';
 
-        //$transaction = Yii::$app->db->beginTransaction();
         Yii::$app->db->createCommand($query)->execute();
-        //$transaction->commit();
     }
-
+    /**
+     * Get login Data user id
+     * @version 0.1
+     * @author Alexander Weinbeck
+     */
     public function getLoginData($paramUserMail)
     {
-        try{
-            $dataProvider = new SqlDataProvider([
-                'sql' => 'SELECT user.email, user.isUserAdmin, user.userID' .
-                    ' FROM lv_user AS user' .
-                    ' WHERE user.email = "' . $paramUserMail . '"'
-            ]);
-        }
-        catch(exception $e){
-           return [false, $e];
-        }
-        //TODO must be validated, if there is no result in index 0 an error occurs!
-         return ArrayHelper::getValue($dataProvider->getModels(), 0);
-    }
-    public function getSuperuser($paramUserMail){
-        try{
-            $dataProvider = new SqlDataProvider([
-                'sql' => 'SELECT superuser.superID, superuser.username, superuser.password, superuser.auth_key' .
-                    ' FROM lv_superuser AS superuser' .
-                    ' WHERE superuser.username = "' . $paramUserMail . '"'
-            ]);
-        }
-        catch(exception $e){
-            return [false, $e];
-        }
-        //TODO must be validated, if there is no result in index 0 an error occurs!
+        $dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT user.mail, user.isUserAdmin, user.userID' .
+                ' FROM lv_user AS user' .
+                ' WHERE user.mail = "' . $paramUserMail . '"'
+        ]);
+
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
+    }
+    /**
+     * Get login Data Superuser
+     * @version 0.1
+     * @author Alexander Weinbeck
+     */
+    public function getSuperuser($paramUserMail){
+
+        $dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT superuser.userID, superuser.mail, superuser.password, superuser.auth_key, superuser.isUserAdmin' .
+                ' FROM lv_superuser AS superuser' .
+                ' WHERE superuser.mail = "' . $paramUserMail . '"'
+        ]);
+
+        return ArrayHelper::getValue($dataProvider->getModels(), 0);
+    }
+    /**
+     * Set Superuser, actually only called once manually!
+     * @version 0.1
+     * @author Alexander Weinbeck
+     */
+    public function setSuperuser(){
+        $superuserMail = "supervisor@hwa.fhnw.ch";
+        $superuserPassword = "admin";
+        $superuserisUserAdmin = "1";
+        $superuserUserID = "9990";
+        $superuserPersonsID = "1000000";
+
+        $escUserID = Yii::$app->db->quoteValue($superuserUserID);
+        $escMail = Yii::$app->db->quoteValue($superuserMail);
+        $escIsUserAdmin = Yii::$app->db->quoteValue($superuserisUserAdmin);
+        $escAuthKey =  Yii::$app->db->quoteValue(Yii::$app->security->generateRandomString());
+        $escPassword =  Yii::$app->db->quoteValue(Yii::$app->getSecurity()->generatePasswordHash($superuserPassword));
+
+        $escPersonsID = Yii::$app->db->quoteValue($superuserPersonsID);
+
+        $query1 = 'INSERT INTO lv_superuser (userID,mail,auth_key,isUserAdmin,password) 
+                  VALUES ('.$escUserID.','.$escMail.','.$escAuthKey.','.$escIsUserAdmin.','.$escPassword.')';
+        $query2 = 'INSERT INTO lv_user (userID,mail,auth_key,isUserAdmin,userPersonsID) 
+                  VALUES ('.$escUserID.','.$escMail.','.$escAuthKey.','.$escIsUserAdmin.','.$escPersonsID.')';
+
+        try {
+            $transaction = Yii::$app->db->beginTransaction();
+            Yii::$app->db->createCommand($query1)->execute();
+            Yii::$app->db->createCommand($query2)->execute();
+            $transaction->commit();
+        } catch(Exception $e){
+            $transaction->rollBack();
+            throw new \yii\db\Exception($e->getMessage());
+        }
     }
 }
 
