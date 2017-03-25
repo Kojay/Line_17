@@ -37,43 +37,43 @@ $form = ActiveForm::begin
             'template' => '{label}{input}{error}',
             'labelOptions' => ['class' => 'articleupdate-style col-md-2'],
             'inputOptions' => ['class' => 'articleupdate-style col-md-4'],
-            'errorOptions' => ['class' => 'articleupdate-style col-md-4'],
+            'errorOptions' => ['class' => 'articleupdate-style col-md-6'],
         ],
 ]);
 
 
-echo $form->field($model, 'articleName',        [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'articleName',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model->articleName])->label(translateField('articleName'));
 
 echo $form
     ->field($model, 'articleTypeName',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
 
-echo $form->field($model, 'articleTypeName',    [ 'options' => ['class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+echo $form->field($model, 'articleTypeName',['options' => ['class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
     ->textInput(['value' => $model['lv_articletype_articleTypeID']])->label(translateField('lv_articletype_articleTypeID'));
 
-echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
+echo $form->field($model, 'articleproducerName',['options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
     ->dropDownList($modelProducers,['style' => 'height: 26px;'])->label(translateField('articleproducerName'));
 
-echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
-    ->textInput(['value' => 'Herstellername'])->label('Neuer Hersteller: ');
+echo $form->field($model, 'articleproducerName',['options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+    ->textInput(['placeholder' => 'Hersteller angeben...'])->label('Neuer Hersteller: ');
 
-echo $form->field($model, 'serialNumber',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'serialNumber',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['serialNumber']], ['class' => 'col-md-6'])->label(translateField('serialNumber'));
 
-echo $form->field($model, 'dateBought',         [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'dateBought',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['dateBought']])->label(translateField('dateBought'));
 
-echo $form->field($model, 'dateWarranty',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'dateWarranty',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['dateWarranty']])->label(translateField('dateWarranty'));
 
-echo $form->field($model, 'articlePrice',       [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'articlePrice',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['articlePrice']])->label(translateField('articlePrice'));
 
-echo $form->field($model, 'fhnwNumber',         [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'fhnwNumber',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['fhnwNumber']])->label(translateField('fhnwNumber'));
 
-echo $form->field($model, 'articleDescription', [ 'options' => ['class' => 'col-md-12 fieldStyle']])
+echo $form->field($model, 'articleDescription',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textArea(['value' => $model['articleDescription']])->label(translateField('articleDescription'));
 
 

@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 use kartik\tabs\TabsX;
 
 $this->title = 'Artikelübersicht';
+
 $this->params['breadcrumbs'][] = $this->title;
 
 echo Html::tag('h1',Html::encode($this->title));

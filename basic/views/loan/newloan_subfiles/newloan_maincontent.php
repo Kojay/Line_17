@@ -11,8 +11,7 @@ use yii\widgets\Breadcrumbs;
 use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 
-$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
-$this->registerJsFile('@web/js/newloan.js');
+
 //init Krajee
 Dialog::widget();
 
@@ -90,4 +89,36 @@ echo Html::Button('Ausleihe erstellen', ['class' => 'btn btn-success','id' => 'b
 
 echo Html::endTag('div');
 
+
+$this->registerJs("var urlAjax = ".json_encode(url::current()).";");
+$this->registerJs(<<<JS
+/**
+ * Javascript for page "neueausleihe.php"
+ * @Author Alexander Weinbeck
+ */
+$(document).ready(function() {
+    /**
+     * Function to handle onclick event of create "Ausleihe"
+     * @Author Alexander Weinbeck
+     */
+    $("#btn-create").click(function(e){
+        krajeeDialog.confirm("Sind sie sicher, dass sie die Ausleihe erstellen wollen?",
+        function (result) {
+            if (result) {
+                e.preventDefault();
+                $.ajax({
+                    url: urlAjax,
+                    type:'post',
+                    headers: { '_rqstAjaxFnc': 'create' },
+                    data:$('#createRental-formActive').serialize(),
+                    success:function(){
+                        //execute changes if needed ...
+                    }
+                });
+            }
+        });
+    });
+});
+JS
+);
 ?>
