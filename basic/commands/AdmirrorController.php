@@ -117,7 +117,6 @@ class AdmirrorController extends Controller
             return 1;
         }
         $arr_length = sizeof($arrayMails);
-
         $msg = $this->stdout("PROGRESS: DONE! $arr_length entries -> No Errors\n",Console::BOLD, Console::FG_BLACK, Console::BG_GREEN);
         echo $msg;
         Console::updateProgress(1000, 1000);
