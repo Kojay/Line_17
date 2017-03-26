@@ -110,7 +110,6 @@ class AdmirrorController extends Controller
             foreach ($adUsersADM as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
                     $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
                     $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
                     $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
                     $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
@@ -118,14 +117,13 @@ class AdmirrorController extends Controller
 
                     $queryInsert1 =
                         "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
                      ON DUPLICATE KEY UPDATE
-                                  mail     =        VALUES(mail),
-                                  department =     VALUES(department),
-                                  displayname     = VALUES(displayname),
-                                  uidnumber =       VALUES(uidnumber),
-                                  company     =     VALUES(company),
-                                  GUID =            VALUES(GUID)";
+                                  mail          =   VALUES(mail),
+                                  department    =   VALUES(department),
+                                  displayname   =   VALUES(displayname),
+                                  company       =   VALUES(company),
+                                  GUID          =   VALUES(GUID)";
 
                     $connection->createCommand($queryInsert1)->execute();
                     $entriesCount++;
@@ -134,22 +132,20 @@ class AdmirrorController extends Controller
             foreach ($adUsersEDU as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
                     $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
                     $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
                     $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
                     $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
                     $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
 
                     $queryInsert =
-                    "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
                      ON DUPLICATE KEY UPDATE
-                                  mail     =        VALUES(mail),
-                                  department =     VALUES(department),
-                                  displayname     = VALUES(displayname),
-                                  uidnumber =       VALUES(uidnumber),
-                                  company     =     VALUES(company),
-                                  GUID =            VALUES(GUID)";
+                                  mail          =   VALUES(mail),
+                                  department    =   VALUES(department),
+                                  displayname   =   VALUES(displayname),
+                                  company       =   VALUES(company),
+                                  GUID          =   VALUES(GUID)";
 
                     $connection->createCommand($queryInsert)->execute();
                     $entriesCount++;
@@ -160,7 +156,6 @@ class AdmirrorController extends Controller
             foreach ($adUsersADM as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
                     $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
                     $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
                     $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
                     $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
@@ -168,14 +163,13 @@ class AdmirrorController extends Controller
 
                     $queryInsert1 =
                         "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
                      ON DUPLICATE KEY UPDATE
-                                  mail     =        VALUES(mail),
-                                  department =     VALUES(department),
-                                  displayname     = VALUES(displayname),
-                                  uidnumber =       VALUES(uidnumber),
-                                  company     =     VALUES(company),
-                                  GUID =            VALUES(GUID)";
+                                  mail          =   VALUES(mail),
+                                  department    =   VALUES(department),
+                                  displayname   =   VALUES(displayname),
+                                  company       =   VALUES(company),
+                                  GUID          =   VALUES(GUID)";
 
                     $connection->createCommand($queryInsert1)->execute();
                     $entriesCount++;
@@ -184,7 +178,6 @@ class AdmirrorController extends Controller
             foreach ($adUsersEDU as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
                     $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
                     $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
                     $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
                     $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
@@ -192,14 +185,13 @@ class AdmirrorController extends Controller
 
                     $queryInsert =
                         "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
                      ON DUPLICATE KEY UPDATE
-                                  mail     =        VALUES(mail),
-                                  department =     VALUES(department),
-                                  displayname     = VALUES(displayname),
-                                  uidnumber =       VALUES(uidnumber),
-                                  company     =     VALUES(company),
-                                  GUID =            VALUES(GUID)";
+                                  mail          =   VALUES(mail),
+                                  department    =   VALUES(department),
+                                  displayname   =   VALUES(displayname),
+                                  company       =   VALUES(company),
+                                  GUID          =   VALUES(GUID)";
 
                     $connection->createCommand($queryInsert)->execute();
                     $entriesCount++;
