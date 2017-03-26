@@ -69,10 +69,10 @@ class AdmirrorController extends Controller
         //expand memory if needed:
         //ini_set('memory_limit', '4096M');
         //Useful filters: $filter = '(&(objectCategory=person)(objectClass=user)(mail=*gmx*))'; (displayName=*)
+        //$filter = '(&(objectCategory=user)(mail=*))';
+        //94076(uidnumber=94076)(displayName=*)(mail=*)
 
-        $arrayMails = array();
-
-        $filter = '(&(objectCategory=user)(mail=*))';
+        $filter = '(&(objectCategory=user)(objectCategory=person))';
         echo "PROGRESS: Establishing AD-Connections...\n";
         Console::startProgress(100, 1000);
         $adADM = (new \Adldap\Adldap($this->LDAPCFGADM));
@@ -84,34 +84,127 @@ class AdmirrorController extends Controller
         $adUsersEDU = $adEDU->search()->newQueryBuilder()->rawFilter($filter)->paginate('1000')->getResults();
         echo "PROGRESS: Sort and filter Users...\n";
         Console::updateProgress(700, 1000);
+        /*
         foreach ($adUsersADM as $adUser) {
-            if ($adUser['mail']['0']  != NULL) {
+            if ($adUser['mail']['0'] != NULL) {
                 array_push($arrayMails,ArrayHelper::getValue($adUser['mail'],0));
+                array_push($arrayAccountIDs,ArrayHelper::getValue($adUser['uidnumber'],0));
             }
         }
         foreach ($adUsersEDU as $adUser) {
             if ($adUser['mail']['0'] != NULL) {
                 array_push($arrayMails,ArrayHelper::getValue($adUser['mail'],0));
+                array_push($arrayAccountIDs,ArrayHelper::getValue($adUser['uidnumber'],0));
             }
-        }
+        }*/
         echo "PROGRESS: Saving fetched Users in Database...\n";
-
+        $entriesCount = 0;
         Console::updateProgress(800, 1000);
         $querySwapName1     = "RENAME TABLE lv_ad TO lv_ad_old,lv_ad_new to lv_ad";
         $querySwapName2     = "RENAME TABLE lv_ad_old TO lv_ad_new";
-        $queryDelTableOld   = "DELETE FROM lv_ad_new";
-        $queryResetAutoInc  = "ALTER TABLE lv_ad_new AUTO_INCREMENT = 0";
+        //$queryDelTableOld   = "DELETE FROM lv_ad_new";
+        //$queryResetAutoInc  = "ALTER TABLE lv_ad_new AUTO_INCREMENT = 0";
         $connection = yii::$app->db;
         $transaction = $connection->beginTransaction("SERIALIZABLE");
         try {
-            foreach ($arrayMails as $mail) {
-                $query = 'INSERT INTO lv_ad_new (mail) VALUES ("'.$mail.'")';
-                $connection->createCommand($query)->execute();
+            foreach ($adUsersADM as $adUser) {
+                if ($adUser['mail']['0'] != NULL) {
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
+                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+
+                    $queryInsert1 =
+                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                     ON DUPLICATE KEY UPDATE
+                                  mail     =        VALUES(mail),
+                                  department =     VALUES(department),
+                                  displayname     = VALUES(displayname),
+                                  uidnumber =       VALUES(uidnumber),
+                                  company     =     VALUES(company),
+                                  GUID =            VALUES(GUID)";
+
+                    $connection->createCommand($queryInsert1)->execute();
+                    $entriesCount++;
+                }
+            }
+            foreach ($adUsersEDU as $adUser) {
+                if ($adUser['mail']['0'] != NULL) {
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
+                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+
+                    $queryInsert =
+                    "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                     ON DUPLICATE KEY UPDATE
+                                  mail     =        VALUES(mail),
+                                  department =     VALUES(department),
+                                  displayname     = VALUES(displayname),
+                                  uidnumber =       VALUES(uidnumber),
+                                  company     =     VALUES(company),
+                                  GUID =            VALUES(GUID)";
+
+                    $connection->createCommand($queryInsert)->execute();
+                    $entriesCount++;
+                }
             }
             $connection->createCommand($querySwapName1)->execute();
             $connection->createCommand($querySwapName2)->execute();
-            $connection->createCommand($queryDelTableOld)->execute();
-            $connection->createCommand($queryResetAutoInc)->execute();
+            foreach ($adUsersADM as $adUser) {
+                if ($adUser['mail']['0'] != NULL) {
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
+                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+
+                    $queryInsert1 =
+                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                     ON DUPLICATE KEY UPDATE
+                                  mail     =        VALUES(mail),
+                                  department =     VALUES(department),
+                                  displayname     = VALUES(displayname),
+                                  uidnumber =       VALUES(uidnumber),
+                                  company     =     VALUES(company),
+                                  GUID =            VALUES(GUID)";
+
+                    $connection->createCommand($queryInsert1)->execute();
+                    $entriesCount++;
+                }
+            }
+            foreach ($adUsersEDU as $adUser) {
+                if ($adUser['mail']['0'] != NULL) {
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
+                    $tmpUidnumber = $connection->quoteValue(ArrayHelper::getValue($adUser['uidnumber'],0,''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+
+                    $queryInsert =
+                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
+                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpUidnumber,$tmpCompany,$tmpObjectGUID)
+                     ON DUPLICATE KEY UPDATE
+                                  mail     =        VALUES(mail),
+                                  department =     VALUES(department),
+                                  displayname     = VALUES(displayname),
+                                  uidnumber =       VALUES(uidnumber),
+                                  company     =     VALUES(company),
+                                  GUID =            VALUES(GUID)";
+
+                    $connection->createCommand($queryInsert)->execute();
+                    $entriesCount++;
+                }
+            }
             $transaction->commit();
         }
         catch (yii\base\Exception $e) {
@@ -126,11 +219,14 @@ class AdmirrorController extends Controller
             throw $e;
             return 1;
         }
-        $arr_length = sizeof($arrayMails);
-        $msg = $this->stdout("PROGRESS: DONE! $arr_length entries -> No Errors\n",Console::BOLD, Console::FG_BLACK, Console::BG_GREEN);
-        echo $msg;
+        //echo var_dump($arrayAccountIDs);
+        $queryCtr = $entriesCount+4;
+        $entriesCount = $entriesCount/2;
+        $msg = $this->stdout("PROGRESS: DONE! $entriesCount entries -> $queryCtr queries executed -> No Errors\n",Console::BOLD, Console::FG_BLACK, Console::BG_GREEN);
         Console::updateProgress(1000, 1000);
         Console::endProgress();
+        echo $msg;
+
 
     }
 }
