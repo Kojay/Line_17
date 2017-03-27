@@ -110,35 +110,33 @@ class ProducerController extends Controller
         try {
             $model = new Producer();
 
-            if (Yii::$app->request->get('_rqstIDarticleProducerID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
+            if (Yii::$app->request->get('_rqstIDarticleProducerID') && Yii::$app->request->isGet && !Yii::$app->request->isPost && !Yii::$app->request->isAjax) {
                 $model->setAttributes((new QueryRqst())->getDataProducerDetails(Yii::$app->request->get('_rqstIDarticleProducerID')),false);                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
                 //if(!$model->validate()){
-                //$dataProducer = (new QueryRqst())->getDataProducer();
-                //$dataArticletype = (new QueryRqst())->getDataArticletype();
-                $model->validate();
-                return $this->render('produceredit', ['model' => $model]);
+                    $model->validate();
+                    return $this->render('produceredit', ['model' => $model]);
                 //}
                 //else{                                                                                                                         //TODO: ERRORHANDLING
                 //}
             }
-            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post() && yii::$app->request->isAjax) {
-                $model->load(Yii::$app->request->post());
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->isPost && Yii::$app->request->isAjax) {
+                $model->setAttributes(Yii::$app->request->getBodyParams('Producer','NA'),false);
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->setDataArticle($model);
-                Yii::$app->session->setFlash('herstellerDataUpdated', 'Sie haben erfolgreich den Hersteller gespeichert!');
-                $this->refresh(Url::current());
+                    (new QueryRqst())->setDataProducer($model);
+                    Yii::$app->session->setFlash('producer', 'Sie haben erfolgreich den Hersteller gespeichert!');
+                    $this->refresh(Url::current());
                 //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
                 //}
             }
-            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post() && yii::$app->request->isAjax) {
-                $model->load(Yii::$app->request->post());
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->isPost && Yii::$app->request->isAjax) {
+                $model->setAttributes(Yii::$app->request->getBodyParams('Producer','NA'),false);
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataArticle($model);
-                Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel gelöscht!');
-                $this->refresh(Url::current());
+                    (new QueryRqst())->deleteDataProducer($model);
+                    Yii::$app->session->setFlash('producer', 'Sie haben erfolgreich den Artikel gelöscht!');
+                    $this->refresh(Url::current());
                 //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
                 //}

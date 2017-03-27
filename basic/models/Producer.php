@@ -11,7 +11,9 @@ use yii\base\Model;
  */
 class Producer extends Model
 {
-    public $articleproducerName, $articleproducerDescription;
+    public $articleproducerName,
+           $articleproducerID,
+           $articleproducerDescription;
     
         
     //Listing of maximum Lengths for Database input

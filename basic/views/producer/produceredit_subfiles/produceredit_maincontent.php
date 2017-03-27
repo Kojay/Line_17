@@ -23,13 +23,12 @@ echo Breadcrumbs::widget([
 ]);
 */
 echo Html::tag('h1',Html::encode($this->title));
+echo Html::beginTag('div');
 
-
-if(Yii::$app->session->hasFlash('producerDataUpdated')){
-    echo Html::beginTag('div');
+if(Yii::$app->session->hasFlash('producer')){
     echo Alert::widget([
         'options' => ['class' => 'alert-info'],
-        'body' => Yii::$app->session->getFlash('producerDataUpdated'),
+        'body' => Yii::$app->session->getFlash('producer'),
     ]);
 }
 
@@ -47,21 +46,17 @@ $form = ActiveForm::begin
         ],
 ]);
 
+echo $form->field($model, 'articleproducerID',[ 'options' => ['id' => 'textinputArticleproducerID','class' => 'col-md-12 fieldStyle']])
+    ->textInput(['readonly' => true,'style' => 'border:0;','value' => $model['articleproducerID']])->label('Hersteller ID: ');
+//echo $form->field($model, 'articleproducerID')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label('Hersteller ID:');
 echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['articleproducerName']])->label('Hersteller: ');
 
 echo $form->field($model, 'articleproducerDescription', [ 'options' => ['class' => 'col-md-12 fieldStyle']])
-    ->textArea(['value' => $model['articleproducerDescription']])->label(translateField('articleproducerDescription'));
+    ->textArea(['value' => $model['articleproducerDescription']])->label('Beschreibung: ');
 
-function translateField($paramString){
-    $stringArray = [
-        'articleproducerName' => 'Hersteller: ',
-        'articleproducerDescription' => 'Beschreibung: '
-    ];
-    return $stringArray[$paramString];
-}
-echo Html::Button('Hersteller übernehmen', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateArticle','style' => 'margin-right:20px; margin-top:20px;']);
-echo Html::Button('Hersteller löschen', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-deleteArticle','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Hersteller übernehmen', ['class' => 'btn btn-success col-md-4 btn-md btn-group','id' => 'btn-updateProducer','style' => 'margin-right:20px; margin-top:20px;']);
+echo Html::Button('Hersteller löschen', ['class' => 'btn btn-danger col-md-4 btn-md btn-group','id' => 'btn-deleteProducer','style' => 'margin-right:20px; margin-top:20px;']);
 // widget with default options
 echo Dialog::widget();
 ActiveForm::end();
@@ -69,9 +64,8 @@ ActiveForm::end();
 echo Html::endTag('div');
 $script = <<< JS
 $( document ).ready(function() { 
-    
-    $("#btn-deleteArticle").click(function(e){
-    krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel löschen wollen?", 
+    $("#btn-deleteProducer").click(function(e){
+        krajeeDialog.confirm("Sind sie sicher, dass sie den Hersteller löschen wollen?", 
         function (result) {
             if (result) {
                 e.preventDefault();
@@ -79,32 +73,29 @@ $( document ).ready(function() {
                     url: urlAjax,
                     type:'post',
                     headers: { '_rqstAjaxFnc': 'delete' },
-                    data:$('#articleupdate-form').serialize(),
+                    data:$('#producerupdate-form').serialize(),
                     success:function(){
                     }
                 });
             }
         });
     });
-    $(':checkbox').change(function() {   
-        if($(':checkbox').prop('checked')){
-           $('#textinputNewProducer').show();  
-           $('#dropdownProducers').hide();
-        }
-        else{
-           $('#textinputNewProducer').hide();
-           $('#dropdownProducers').show();
-        }               
+    $("#btn-updateProducer").click(function(e){
+        krajeeDialog.confirm("Sind sie sicher, dass sie den Hersteller bearbeiten wollen?", 
+        function (result) {
+            if (result) {
+                e.preventDefault();
+                $.ajax({
+                    url: urlAjax,
+                    type:'post',
+                    headers: { '_rqstAjaxFnc': 'update' },
+                    data:$('#producerupdate-form').serialize(),
+                    success:function(){
+                    }
+                });
+            }
+        });
     });
-    /* Set the width of the side navigation to 250px */
-    function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    }
-
-    /* Set the width of the side navigation to 0 */
-    function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    }
 });
 JS;
 $this->registerJs("var urlAjax = ".json_encode(url::current()).";");

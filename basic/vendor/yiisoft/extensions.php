@@ -129,4 +129,22 @@ return array (
       '@yii/gii' => $vendorDir . '/yiisoft/yii2-gii',
     ),
   ),
+  'kartik-v/yii2-widget-alert' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-alert',
+    'version' => '1.1.0.0',
+    'alias' => 
+    array (
+      '@kartik/alert' => $vendorDir . '/kartik-v/yii2-widget-alert',
+    ),
+  ),
+  'kartik-v/yii2-widget-growl' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-growl',
+    'version' => '1.1.1.0',
+    'alias' => 
+    array (
+      '@kartik/growl' => $vendorDir . '/kartik-v/yii2-widget-growl',
+    ),
+  ),
 );

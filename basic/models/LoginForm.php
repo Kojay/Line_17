@@ -95,7 +95,7 @@ class LoginForm extends Model
     public function validateLoginSuperuser(){
         //superuser login
         $user = (new QueryRqst())->getSuperuser($this->mail);
-        if (Yii::$app->getSecurity()->validatePassword($this->password,$user['password'])) {
+        if ($user && Yii::$app->getSecurity()->validatePassword($this->password,$user['password'])) {
             // all good, logging user in
             return $this->mail;
         }

@@ -151,7 +151,7 @@ class UserController extends Controller
                     yii::$app->session->setFlash('userDataCreated', 'Sie haben den Benutzer erfolgreich erstellt.');
                 //}
 
-                $this->refresh(Url::current());
+                $this->refresh();
             }
             else {
                 return $this->render('//user/newuser', ['model' => $model,'adUsers' => $adUsers]);

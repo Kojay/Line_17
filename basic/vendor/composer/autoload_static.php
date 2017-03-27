@@ -37,10 +37,12 @@ class ComposerStaticInit9232d71ccad4c923a676eb8ee88aaea9
             'kartik\\plugins\\tabs\\' => 20,
             'kartik\\plugins\\checkbox\\' => 24,
             'kartik\\label\\' => 13,
+            'kartik\\growl\\' => 13,
             'kartik\\grid\\' => 12,
             'kartik\\dialog\\' => 14,
             'kartik\\checkbox\\' => 16,
             'kartik\\base\\' => 12,
+            'kartik\\alert\\' => 13,
         ),
         'c' => 
         array (
@@ -61,6 +63,7 @@ class ComposerStaticInit9232d71ccad4c923a676eb8ee88aaea9
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
         ),
         'P' => 
         array (
@@ -154,6 +157,10 @@ class ComposerStaticInit9232d71ccad4c923a676eb8ee88aaea9
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-label-inplace',
         ),
+        'kartik\\growl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-growl',
+        ),
         'kartik\\grid\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
@@ -169,6 +176,10 @@ class ComposerStaticInit9232d71ccad4c923a676eb8ee88aaea9
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
+        ),
+        'kartik\\alert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-alert',
         ),
         'cebe\\markdown\\' => 
         array (
@@ -213,6 +224,10 @@ class ComposerStaticInit9232d71ccad4c923a676eb8ee88aaea9
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
+        ),
+        'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stecman/symfony-console-completion/src',
         ),
         'Psr\\Log\\' => 
         array (

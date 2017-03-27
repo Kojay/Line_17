@@ -341,20 +341,6 @@ class QueryRqst extends Model
 
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
     }
-    public function getDataProducerDetails($articleproducerID)
-    {
-        $escarticleproducerID = Yii::$app->db->quoteValue($articleproducerID);
-
-        $dataProvider = new SqlDataProvider([
-            'sql' =>  "SELECT articleproducerName, articleproducerDescription 
-                       FROM lv_articleproducer
-                       WHERE articleproducerID = $escarticleproducerID"
-        ]);
-
-        return ArrayHelper::getValue($dataProvider->getModels(), 0);
-        //ArrayHelper::map($dataProvider->getModels(), 'articleName', 'articleTypeName', 'class') TODO: Evaluate if this is a better data processing method
-    }
-
     public function setDataArticle($paramArticleData)
     {
         $escArticleName = Yii::$app->db->quoteValue($paramArticleData['articleName'],'');
@@ -463,6 +449,19 @@ class QueryRqst extends Model
         }
 
     }
+    public function getDataProducerDetails($articleproducerID)
+    {
+        $escarticleproducerID = Yii::$app->db->quoteValue($articleproducerID);
+
+        $dataProvider = new SqlDataProvider([
+            'sql' =>  "SELECT articleproducerName, articleproducerDescription, articleproducerID 
+                       FROM lv_articleproducer
+                       WHERE articleproducerID = $escarticleproducerID"
+        ]);
+
+        return ArrayHelper::getValue($dataProvider->getModels(), 0);
+        //ArrayHelper::map($dataProvider->getModels(), 'articleName', 'articleTypeName', 'class') TODO: Evaluate if this is a better data processing method
+    }
     public function getDataProducer()
     {
         $dataProvider = new SqlDataProvider([
@@ -470,7 +469,38 @@ class QueryRqst extends Model
         ]);
         return ArrayHelper::getColumn($dataProvider->getModels(), 'articleproducerName');                               //TODO: Errorhandling einfügen
     }
-
+    public function setDataProducer($model)
+    {
+            $escArticleproducerName          = Yii::$app->db->quoteValue($model['articleproducerName']);
+            $escArticleproducerDescription   = Yii::$app->db->quoteValue($model['articleproducerDescription']);
+            $escArticleproducerID            = Yii::$app->db->quoteValue($model['articleproducerID']);
+            $query = "  UPDATE  lv_articleproducer AS producer
+                        SET     producer.articleproducerName	     = $escArticleproducerName,
+                                producer.articleproducerDescription  = $escArticleproducerDescription,         
+                        WHERE   producer.articleproducerID           = $escArticleproducerID";
+        try {
+            $transaction = Yii::$app->db->beginTransaction();
+            Yii::$app->db->createCommand($query)->execute();
+            $transaction->commit();
+        } catch(Exception $e){
+            $transaction->rollBack();
+            throw new \yii\db\Exception($e->getMessage());
+        }
+    }
+    public function deleteDataProducer($paramArticleProducerID)
+    {
+        $escArticleProducerID = Yii::$app->db->quoteValue($paramArticleProducerID);
+        $query =  "DELETE FROM lv_articleproducer
+                    WHERE  lv_articleproducer.articleproducerID = $escArticleProducerID";
+        try {
+            $transaction = Yii::$app->db->beginTransaction();
+            Yii::$app->db->createCommand($query)->execute();
+            $transaction->commit();
+        } catch(Exception $e){
+            $transaction->rollBack();
+            throw new \yii\db\Exception($e->getMessage());
+        }
+    }
     public function getDataArticletype()
     {
         $dataProvider = new SqlDataProvider([
@@ -590,7 +620,7 @@ class QueryRqst extends Model
                 ' WHERE superuser.mail = "' . $paramUserMail . '"'
         ]);
 
-        return ArrayHelper::getValue($dataProvider->getModels(), 0);
+        return ArrayHelper::getValue($dataProvider->getModels(), 0,NULL);
     }
     /**
      * Set Superuser, actually only called once manually!

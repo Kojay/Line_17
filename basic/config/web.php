@@ -109,15 +109,15 @@ if (YII_ENV_DEV) {
         'class' => 'yii\debug\Module',
         'allowedIPs' => ['127.0.0.1',
                          '::1',
-                         '*',
+                         '*',               //TODO bei deployment ändern
                          '147.86.207.240']
     ];
-
+/*
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
     ];
-
+*/
 }
 
 return $config;

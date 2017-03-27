@@ -28,6 +28,7 @@ echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
 echo $form->errorSummary($model);
 
+echo $form->field($model, 'articleproducerID')->textInput(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label('Hersteller ID:');
 echo $form->field($model, 'articleproducerName')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleproducerName'));
 echo $form->field($model, 'articleproducerDescription')->textArea(['readonly' => true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleproducerDescription'));
 

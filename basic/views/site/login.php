@@ -8,15 +8,12 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
+use kartik\alert\AlertBlock;
+use kartik\growl\Growl;
 
 $this->title = 'Login';
 
-if($model->hasErrors()){
-    echo Alert::widget([
-        'options' => ['class' => 'alert-danger'],
-        'body' => 'Falsche Eingabe: '.$model->getFirstError('login'),
-    ]);
-}
+
 
 ?>
 <div id="login-form" class="site-login">
@@ -24,8 +21,43 @@ if($model->hasErrors()){
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to login:</p>
+    <?php
+    /*
+    echo AlertBlock::widget([
+        'useSessionFlash' => false,
+        'type' => AlertBlock::TYPE_GROWL,
+        'alertSettings' => [
+            'body' => Yii::$app->session->getFlash('login'),
+            'options' => ['class' => 'alert-warning'],
+        ]
+    ]);
+    */
+if(Yii::$app->session->hasFlash('login')) {
+    echo Growl::widget([
+        'type' => Growl::TYPE_DANGER,
+        'title' => 'Fehler!',
+        'icon' => 'glyphicon glyphicon-remove-sign',
+        'body' => Yii::$app->session->getFlash('login'),
 
-    <?php $form = ActiveForm::begin([
+        'showSeparator' => true,
+        'delay' => 0,
+        'pluginOptions' => [
+            'showProgressbar' => true,
+            'placement' => [
+                'from' => 'top',
+                'align' => 'center',
+            ]
+        ]
+    ]);
+}
+/*
+    if(Yii::$app->session->hasFlash('login')){
+        echo Alert::widget([
+            'options' => ['class' => 'alert-warning'],
+            'body' => Yii::$app->session->getFlash('login'),
+        ]);
+    }*/
+    $form = ActiveForm::begin([
         'id' => 'login-activeform',
         'layout' => 'horizontal',
         'fieldConfig' => [

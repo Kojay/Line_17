@@ -82,14 +82,32 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        //Creates superuser be careful with this!
-        //(new QueryRqst())->setSuperuser();
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            //return $this->render('gastsuche');
-            return $this->redirect(Url::toRoute('site/guestsearch'));
+        try {
+            //Creates superuser be careful with this!
+            //(new QueryRqst())->setSuperuser();
+            $model = new LoginForm();
+            if (Yii::$app->request->isPost && $model->load(Yii::$app->request->getBodyParams('LoginForm')) && $model->login()) {
+                //return $this->render('gastsuche');
+                return $this->redirect(Url::toRoute('site/guestsearch'));
+            }
+            elseif (Yii::$app->request->isPost) {
+                $model->addError("login", "Benutzereingabe ungültig");
+                Yii::$app->session->setFlash('login', 'E-Mail oder Passwort ungültig');
+                $this->refresh();
+            }
+            elseif (Yii::$app->request->isGet){
+                return $this->render('login', ['model' => $model]);
+            }
         }
-        return $this->render('login', ['model' => $model]);
+        catch(\yii\db\Exception $exDb) {
+            $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
+            return $this->render('//site/dberror', ['model' => $model]);
+        }
+        catch(AdldapException $exLdap) {
+            $model->addError("ConnectionAD", "Active Directory meldet: " . $exLdap->getMessage());
+            Yii::$app->session->setFlash('login', "ERROR -> Active Directory meldet: " . $exLdap->getMessage());
+            $this->refresh();
+        }
     }
 
     /**
@@ -99,6 +117,9 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+        if(Yii::$app->user->getId() <= 9900) {
+            Yii::$app->authManager->revokeAll(Yii::$app->user->getId());
+        }
         Yii::$app->user->logout();
 
         return $this->render('guestsearch');
