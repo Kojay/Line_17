@@ -11,7 +11,7 @@
         <?php include 'articlelist_subfiles/articlelist_maincontent.php'; ?>
         <!-- CONTENT MAIN END ------------------------------------------------------------------------------------------------->
     </div>
-    <div class="col-md-2 bodyright">
+    <div class="col-md-2">
         <!-- OPTIONAL CONTENT RIGHT SIDEBAR START ----------------------------------------------------------------------------->
         <?php include 'articlelist_subfiles/articlelist_sidebar_right.php'; ?>
         <!-- OPTIONAL CONTENT RIGHT SIDEBAR END ------------------------------------------------------------------------------->

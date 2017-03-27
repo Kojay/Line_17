@@ -188,7 +188,7 @@ TODO-->
 <div class="wrap container-fluid">
     <?php echo $content ?>
 </div>
-<!-- TODO: footer mithilfe von CSS einrichten. Aktuell (01.03.2017) verbugt und aus dem Grund auskommentiert.
+<!-- TODO: footer mithilfe von CSS einrichten. Aktuell (01.03.2017) verbuggt und aus dem Grund auskommentiert.
     <footer class="footer">
     <div class="container-fluid">
         <p class="pull-left">&copy;Team Lagerverwaltung <?= date('Y') ?></p>

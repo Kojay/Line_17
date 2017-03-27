@@ -20,7 +20,6 @@ $this->title = 'Artikel bearbeiten';
 echo Html::tag('h1',Html::encode($this->title));
 
 if(Yii::$app->session->hasFlash('articleDataUpdated')){
-    echo Html::beginTag('div');
     echo Alert::widget([
         'options' => ['class' => 'alert-info'],
         'body' => Yii::$app->session->getFlash('articleDataUpdated'),
@@ -49,7 +48,7 @@ echo $form
     ->field($model, 'articleTypeName',['options' => ['class' => 'col-md-12 fieldStyle']])
     ->textInput(['value' => $model['articleTypeName']])->label(translateField('articleTypeName'));
 
-echo $form->field($model, 'articleTypeName',['options' => ['class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
+echo $form->field($model, 'lv_articletype_articleTypeID',['options' => ['class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
     ->textInput(['value' => $model['lv_articletype_articleTypeID']])->label(translateField('lv_articletype_articleTypeID'));
 
 echo $form->field($model, 'articleproducerName',['options' => ['id' => 'dropdownProducers','class' => 'col-md-12 fieldStyle','template' => '{input}{label}{error}{hint}',]])
@@ -113,7 +112,6 @@ $(document).ready(function() {
     $("#btn-updateArticle").click(function(e){
         krajeeDialog.confirm("Sind sie sicher, dass sie den Artikel bearbeiten wollen?",
         function (result) {
-            $("#fnc").value = 'update';
             if (result) {                     
                 e.preventDefault();
                 $.ajax({

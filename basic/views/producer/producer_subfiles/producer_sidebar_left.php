@@ -2,13 +2,24 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['article/articlelist','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')],['class' => 'btn btn-primary pull-left']);
+echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['producer/producerlist'],['class' => 'btn btn-primary pull-left']);
 ?>
 <div class="panel panel-info" style="margin-top: 50px">
     <div class="panel-heading">
         <h3 class="panel-title"><span class="glyphicon glyphicon-transfer"></span>&nbsp&nbspAktionen</h3>
     </div>
     <div class="panel-body">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Hersteller bearbeiten</h3>
+            </div>
+            <div class="">
+                <a href="<?= Url::toRoute('producer/produceredit').'&_rqstIDarticleProducerID='.yii::$app->request->get('_rqstIDarticleProducerID');?>" style="color: #3C578C" class="list-group-item">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Hersteller bearbeiten
+                </a>
+            </div>
+        </div>
         <!--<div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Hersteller</h3>
@@ -47,7 +58,7 @@ echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['article
 </div>
 <div class="panel panel-info" style="margin-top: 10px">
     <div class="panel-heading">
-        <h3 class="panel-title"><span class="glyphicon glyphicon-random"></span>Navigationsbaum</h3>
+        <h3 class="panel-title"><span class="glyphicon glyphicon-random"></span>&nbsp&nbspNavigationsbaum</h3>
     </div>
     <div class="panel-body">
         <div id="breadcrumbs">

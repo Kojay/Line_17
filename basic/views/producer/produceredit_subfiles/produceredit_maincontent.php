@@ -47,8 +47,8 @@ $form = ActiveForm::begin
         ],
 ]);
 
-echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle','style' => 'Display: none;']])
-    ->textInput(['value' => $model['articleproducerName']])->label('Neuer Hersteller: ');
+echo $form->field($model, 'articleproducerName',[ 'options' => ['id' => 'textinputNewProducer','class' => 'col-md-12 fieldStyle']])
+    ->textInput(['value' => $model['articleproducerName']])->label('Hersteller: ');
 
 echo $form->field($model, 'articleproducerDescription', [ 'options' => ['class' => 'col-md-12 fieldStyle']])
     ->textArea(['value' => $model['articleproducerDescription']])->label(translateField('articleproducerDescription'));

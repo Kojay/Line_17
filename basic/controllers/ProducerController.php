@@ -94,8 +94,11 @@ class ProducerController extends Controller
     {
         try {
             $model = new Producer();
-            $model->attributes = (new QueryRqst())->getDataProducerDetails(Yii::$app->request->get('_rqstarticleProducerID'));
-            return $this->render('producer', ['model' => $model]);
+            if (Yii::$app->request->get('_rqstIDarticleProducerID') && Yii::$app->request->isGet) {
+                $model->setAttributes((new QueryRqst())->getDataProducerDetails(Yii::$app->request->get('_rqstIDarticleProducerID')), false);
+                $model->validate();
+                return $this->render('producer', ['model' => $model]);
+            }
         }
         catch(\yii\db\Exception $exDb) {
             $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
@@ -107,8 +110,8 @@ class ProducerController extends Controller
         try {
             $model = new Producer();
 
-            if (Yii::$app->request->get('_rqstarticleproducerID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
-                $model->attributes = (new QueryRqst())->getDataProducerDetails(Yii::$app->request->get('_rqstarticleproducerID'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
+            if (Yii::$app->request->get('_rqstIDarticleProducerID') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
+                $model->setAttributes((new QueryRqst())->getDataProducerDetails(Yii::$app->request->get('_rqstIDarticleProducerID')),false);                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
                 //if(!$model->validate()){
                 //$dataProducer = (new QueryRqst())->getDataProducer();
                 //$dataArticletype = (new QueryRqst())->getDataArticletype();

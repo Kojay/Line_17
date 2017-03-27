@@ -14,7 +14,7 @@ use yii\helpers\Html;
             <div class="">
                 <a href="<?= Url::toRoute('producer/newproducer')?>" style="color: #3C578C" class="list-group-item">
                     <span class="glyphicon glyphicon-plus"></span>
-                    Neuen Hersteller erfassen
+                    Hersteller erfassen
                 </a>
             </div>
         </div>

@@ -105,12 +105,13 @@ class LoanController extends Controller
     {
         $model = new Loan();
         try {
-            $model->attributes = (new QueryRqst())->getDataLoan(Yii::$app->request->get('_rqstIDfhnwNumber'));
+            $model->setAttributes((new QueryRqst())->getDataLoan(Yii::$app->request->get('_rqstIDfhnwNumber')),false);
             //TODO: If running on server comment following line: so the actual user gets requested
-            $model->loanPersonMail = 'alexander.weinbeck@students.fhnw.ch';
-            $model->attributes = (new ldap())->getDataLoan($model->loanPersonMail);
-            $adUsers = (new ldap())->getDataADUsers();
-            return $this->render('loan', ['model' => $model,'adUsers' => $adUsers]);
+            //$model->loanPersonMail = 'alexander.weinbeck@students.fhnw.ch';
+            //$model->setAttributes((new QueryRqst())->getDataLoan($model->loanPersonMail),false);
+
+            //$adUsers = (new ldap())->getDataADUsers();
+            return $this->render('loan', ['model' => $model]);
         }
         catch(AdldapException $exLdap) {
             $model->addError("ConnectionAD", "Active Directory meldet: " . $exLdap->getMessage());

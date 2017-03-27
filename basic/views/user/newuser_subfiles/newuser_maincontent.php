@@ -18,14 +18,14 @@ Dialog::widget();
 $this->title = 'Benutzer hinzufügen';
 
 echo Html::tag('h1',Html::encode($this->title));
-echo var_dump($adUsers);
+//echo var_dump($adUsers);
 
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
 $form = ActiveForm::begin
 ([
     'id' => 'createuser-formActive',
-    'action' => 'user/useredit',
+    'action' => 'user/newuser',
     'options' => ['class' => 'form-horizontal'],
     'fieldConfig' =>
         [

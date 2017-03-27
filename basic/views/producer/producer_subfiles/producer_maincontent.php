@@ -26,8 +26,6 @@ $form = ActiveForm::begin
 
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 
-//echo yii\helpers\VarDumper::dump($model);
-//echo yii\helpers\VarDumper::dump($models);
 echo $form->errorSummary($model);
 
 echo $form->field($model, 'articleproducerName')->textInput(['readonly'=>true,'type' => 'text', 'style' => 'border:0;'])->label(translateField('articleproducerName'));

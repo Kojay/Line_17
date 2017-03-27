@@ -11,7 +11,7 @@
         <?php include 'loan_subfiles/loan_maincontent.php'; ?>
         <!-- CONTENT MAIN END ------------------------------------------------------------------------------------------------->
     </div>
-    <div class="col-md-2 bodyright">
+    <div class="col-md-2">
         <!-- OPTIONAL RIGHT SIDEBAR START ------------------------------------------------------------------------------------->
         <?php include 'loan_subfiles/loan_sidebar_right.php'; ?>
         <!-- OPTIONAL RIGHT SIDEBAR END --------------------------------------------------------------------------------------->

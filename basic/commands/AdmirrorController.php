@@ -109,21 +109,33 @@ class AdmirrorController extends Controller
         try {
             foreach ($adUsersADM as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
-                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
-                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
-                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
-                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'], 0, ''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'], 0, ''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'], 0, ''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'], 0, ''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'], 0, ''));
+                    $tmpSurname = $connection->quoteValue(ArrayHelper::getValue($adUser['sn'], 0, ''));
+                    $tmpPrename = $connection->quoteValue(ArrayHelper::getValue($adUser['givenname'], 0, ''));
+                    $tmpDivision = $connection->quoteValue(ArrayHelper::getValue($adUser['division'], 0, ''));
+                    $tmpPhysicaldeliveryofficename = $connection->quoteValue(ArrayHelper::getValue($adUser['physicaldeliveryofficename'], 0, ''));
+                    $tmpMobile = $connection->quoteValue(ArrayHelper::getValue($adUser['mobile'], 0, ''));
+                    $tmpPersonaltitle = $connection->quoteValue(ArrayHelper::getValue($adUser['personaltitle'], 0, ''));
 
                     $queryInsert1 =
-                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
-                     ON DUPLICATE KEY UPDATE
-                                  mail          =   VALUES(mail),
-                                  department    =   VALUES(department),
-                                  displayname   =   VALUES(displayname),
-                                  company       =   VALUES(company),
-                                  GUID          =   VALUES(GUID)";
+                        "INSERT INTO lv_ad_new (GUID,mail,department,displayname,company,surname,prename,division,mobile,personaltitle,physicaldeliveryofficename)
+                         VALUES ($tmpObjectGUID,$tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpSurname,$tmpPrename,$tmpDivision,$tmpMobile,$tmpPersonaltitle,$tmpPhysicaldeliveryofficename)
+                         ON DUPLICATE KEY UPDATE
+                              GUID           =              VALUES(GUID),
+                              mail           =              VALUES(mail),
+                              department     =              VALUES(department),
+                              displayname    =              VALUES(displayname),
+                              company        =              VALUES(company),
+                              surname        =              VALUES(surname),
+                              prename        =              VALUES(prename),
+                              mobile         =              VALUES(mobile),
+                              personaltitle  =              VALUES(personaltitle),
+                              division       =              VALUES(division),
+                              physicaldeliveryofficename =  VALUES(physicaldeliveryofficename)";
 
                     $connection->createCommand($queryInsert1)->execute();
                     $entriesCount++;
@@ -131,45 +143,71 @@ class AdmirrorController extends Controller
             }
             foreach ($adUsersEDU as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
-                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
-                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
-                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
-                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'], 0, ''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'], 0, ''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'], 0, ''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'], 0, ''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'], 0, ''));
+                    $tmpSurname = $connection->quoteValue(ArrayHelper::getValue($adUser['sn'], 0, ''));
+                    $tmpPrename = $connection->quoteValue(ArrayHelper::getValue($adUser['givenname'], 0, ''));
+                    $tmpDivision = $connection->quoteValue(ArrayHelper::getValue($adUser['division'], 0, ''));
+                    $tmpPhysicaldeliveryofficename = $connection->quoteValue(ArrayHelper::getValue($adUser['physicaldeliveryofficename'], 0, ''));
+                    $tmpMobile = $connection->quoteValue(ArrayHelper::getValue($adUser['mobile'], 0, ''));
+                    $tmpPersonaltitle = $connection->quoteValue(ArrayHelper::getValue($adUser['personaltitle'], 0, ''));
 
-                    $queryInsert =
-                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
-                     ON DUPLICATE KEY UPDATE
-                                  mail          =   VALUES(mail),
-                                  department    =   VALUES(department),
-                                  displayname   =   VALUES(displayname),
-                                  company       =   VALUES(company),
-                                  GUID          =   VALUES(GUID)";
+                    $queryInsert1 =
+                        "INSERT INTO lv_ad_new (GUID,mail,department,displayname,company,surname,prename,division,mobile,personaltitle,physicaldeliveryofficename)
+                         VALUES ($tmpObjectGUID,$tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpSurname,$tmpPrename,$tmpDivision,$tmpMobile,$tmpPersonaltitle,$tmpPhysicaldeliveryofficename)
+                         ON DUPLICATE KEY UPDATE
+                              GUID           =              VALUES(GUID),
+                              mail           =              VALUES(mail),
+                              department     =              VALUES(department),
+                              displayname    =              VALUES(displayname),
+                              company        =              VALUES(company),
+                              surname        =              VALUES(surname),
+                              prename        =              VALUES(prename),
+                              mobile         =              VALUES(mobile),
+                              personaltitle  =              VALUES(personaltitle),
+                              division       =              VALUES(division),
+                              physicaldeliveryofficename =  VALUES(physicaldeliveryofficename)";
 
-                    $connection->createCommand($queryInsert)->execute();
+                    $connection->createCommand($queryInsert1)->execute();
                     $entriesCount++;
                 }
             }
+
             $connection->createCommand($querySwapName1)->execute();
             $connection->createCommand($querySwapName2)->execute();
+
             foreach ($adUsersADM as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
-                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
-                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
-                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
-                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'], 0, ''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'], 0, ''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'], 0, ''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'], 0, ''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'], 0, ''));
+                    $tmpSurname = $connection->quoteValue(ArrayHelper::getValue($adUser['sn'], 0, ''));
+                    $tmpPrename = $connection->quoteValue(ArrayHelper::getValue($adUser['givenname'], 0, ''));
+                    $tmpDivision = $connection->quoteValue(ArrayHelper::getValue($adUser['division'], 0, ''));
+                    $tmpPhysicaldeliveryofficename = $connection->quoteValue(ArrayHelper::getValue($adUser['physicaldeliveryofficename'], 0, ''));
+                    $tmpMobile = $connection->quoteValue(ArrayHelper::getValue($adUser['mobile'], 0, ''));
+                    $tmpPersonaltitle = $connection->quoteValue(ArrayHelper::getValue($adUser['personaltitle'], 0, ''));
 
                     $queryInsert1 =
-                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
-                     ON DUPLICATE KEY UPDATE
-                                  mail          =   VALUES(mail),
-                                  department    =   VALUES(department),
-                                  displayname   =   VALUES(displayname),
-                                  company       =   VALUES(company),
-                                  GUID          =   VALUES(GUID)";
+                        "INSERT INTO lv_ad_new (GUID,mail,department,displayname,company,surname,prename,division,mobile,personaltitle,physicaldeliveryofficename)
+                         VALUES ($tmpObjectGUID,$tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpSurname,$tmpPrename,$tmpDivision,$tmpMobile,$tmpPersonaltitle,$tmpPhysicaldeliveryofficename)
+                         ON DUPLICATE KEY UPDATE
+                              GUID           =              VALUES(GUID),
+                              mail           =              VALUES(mail),
+                              department     =              VALUES(department),
+                              displayname    =              VALUES(displayname),
+                              company        =              VALUES(company),
+                              surname        =              VALUES(surname),
+                              prename        =              VALUES(prename),
+                              mobile         =              VALUES(mobile),
+                              personaltitle  =              VALUES(personaltitle),
+                              division       =              VALUES(division),
+                              physicaldeliveryofficename =  VALUES(physicaldeliveryofficename)";
 
                     $connection->createCommand($queryInsert1)->execute();
                     $entriesCount++;
@@ -177,23 +215,35 @@ class AdmirrorController extends Controller
             }
             foreach ($adUsersEDU as $adUser) {
                 if ($adUser['mail']['0'] != NULL) {
-                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'],0,''));
-                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'],0,''));
-                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'],0,''));
-                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'],0,''));
-                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'],0,''));
+                    $tmpMail = $connection->quoteValue(ArrayHelper::getValue($adUser['mail'], 0, ''));
+                    $tmpCompany = $connection->quoteValue(ArrayHelper::getValue($adUser['company'], 0, ''));
+                    $tmpDepartment = $connection->quoteValue(ArrayHelper::getValue($adUser['department'], 0, ''));
+                    $tmpDisplayName = $connection->quoteValue(ArrayHelper::getValue($adUser['displayname'], 0, ''));
+                    $tmpObjectGUID = $connection->quoteValue(ArrayHelper::getValue($adUser['objectguid'], 0, ''));
+                    $tmpSurname = $connection->quoteValue(ArrayHelper::getValue($adUser['sn'], 0, ''));
+                    $tmpPrename = $connection->quoteValue(ArrayHelper::getValue($adUser['givenname'], 0, ''));
+                    $tmpDivision = $connection->quoteValue(ArrayHelper::getValue($adUser['division'], 0, ''));
+                    $tmpPhysicaldeliveryofficename = $connection->quoteValue(ArrayHelper::getValue($adUser['physicaldeliveryofficename'], 0, ''));
+                    $tmpMobile = $connection->quoteValue(ArrayHelper::getValue($adUser['mobile'], 0, ''));
+                    $tmpPersonaltitle = $connection->quoteValue(ArrayHelper::getValue($adUser['personaltitle'], 0, ''));
 
-                    $queryInsert =
-                        "INSERT INTO lv_ad_new (mail,department,displayname,uidnumber,company,GUID)
-                     VALUES ($tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpObjectGUID)
-                     ON DUPLICATE KEY UPDATE
-                                  mail          =   VALUES(mail),
-                                  department    =   VALUES(department),
-                                  displayname   =   VALUES(displayname),
-                                  company       =   VALUES(company),
-                                  GUID          =   VALUES(GUID)";
+                    $queryInsert1 =
+                        "INSERT INTO lv_ad_new (GUID,mail,department,displayname,company,surname,prename,division,mobile,personaltitle,physicaldeliveryofficename)
+                         VALUES ($tmpObjectGUID,$tmpMail,$tmpDepartment,$tmpDisplayName,$tmpCompany,$tmpSurname,$tmpPrename,$tmpDivision,$tmpMobile,$tmpPersonaltitle,$tmpPhysicaldeliveryofficename)
+                         ON DUPLICATE KEY UPDATE
+                              GUID           =              VALUES(GUID),
+                              mail           =              VALUES(mail),
+                              department     =              VALUES(department),
+                              displayname    =              VALUES(displayname),
+                              company        =              VALUES(company),
+                              surname        =              VALUES(surname),
+                              prename        =              VALUES(prename),
+                              mobile         =              VALUES(mobile),
+                              personaltitle  =              VALUES(personaltitle),
+                              division       =              VALUES(division),
+                              physicaldeliveryofficename =  VALUES(physicaldeliveryofficename)";
 
-                    $connection->createCommand($queryInsert)->execute();
+                    $connection->createCommand($queryInsert1)->execute();
                     $entriesCount++;
                 }
             }
@@ -218,7 +268,5 @@ class AdmirrorController extends Controller
         Console::updateProgress(1000, 1000);
         Console::endProgress();
         echo $msg;
-
-
     }
 }

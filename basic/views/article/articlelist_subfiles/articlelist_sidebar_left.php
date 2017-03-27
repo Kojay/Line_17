@@ -14,7 +14,7 @@ use yii\helpers\Html;
             <div class="">
                 <a href="<?= Url::toRoute('article/newarticle')?>" style="color: #3C578C" class="list-group-item">
                     <span class="glyphicon glyphicon-plus"></span>
-                    Neuen Artikel erfassen
+                    Artikel erfassen
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@ use yii\helpers\Html;
             <div class="">
                 <a href="<?= Url::toRoute('producer/producerlist')?>" style="color: #3C578C" class="list-group-item">
                     <span class="glyphicon glyphicon-list"></span>
-                    Artikelhersteller Liste anzeigen
+                    Hersteller anzeigen
                 </a>
             </div>
         </div>
@@ -36,7 +36,7 @@ use yii\helpers\Html;
             <div class="">
                 <a href="<?= Url::toRoute('articleproducer/articleproducerList')?>" style="color: #3C578C" class="list-group-item">
                     <span class="glyphicon glyphicon-list"></span>
-                    Artikeltypen Liste anzeigen
+                    Typenliste anzeigen
                 </a>
             </div>
         </div>
@@ -65,7 +65,7 @@ use yii\helpers\Html;
             <a style="margin-left:0px" href="<?= Url::toRoute('producer/producerlist')?>"> Herstellerliste</a>
         </div>
         <div id="breadcrumbs">
-            <a style="margin-left:0px" href="<?= Url::toRoute('article/articlelist')?>"> Artikeltypenliste</a>
+            <a style="margin-left:0px" href="<?= Url::toRoute('article/articlelist')?>"> Typenliste</a>
         </div>
     </div>
 </div>

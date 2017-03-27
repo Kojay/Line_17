@@ -25,7 +25,10 @@ class Producer extends Model
     public function rules()
     {
         return 
-        [  
+        [
+        ];
+            /*
+             * TODO all rules
             //RULES must be validated and set according to prj team !DB dependencies!
             'requiredRule' => [['articleproducerName', 'articleproducerDescription'], 'required'],
             
@@ -49,7 +52,8 @@ class Producer extends Model
                 ], 
                 'safe'
             ],
-        ];
+            */
+
     }
 
 }

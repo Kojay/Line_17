@@ -41,20 +41,13 @@ class User extends Model
         return 
         [  
             //RULES must be validated and set according to prj team !DB dependencies!
-            'requiredRule' => [['personFirstname', 'personLastname','personMail', 'isUserAdmin', 'userPassword'], 'required'],
-            
-            'personFirstnameRule'   => [
-                                            ['personFirstname'],
-                                            'string',
-                                            'max' => self::USERNAME_MAXLENGTH,
-                                            'message' => 'Bitte geben Sie einen gültigen Namen ein, Sonderzeichen sind zu vermeiden sowie mehr als '.self::USERNAME_MAXLENGTH.' Zeichen'
-                                        ],
-            
-            [['isUserAdmin'], 'boolean', 'message' => 'Bitte wählen sie eine Berechtigung.'],
-            [['personLastname'],'string' ,'max' => 40 ,'message' => 'Bitte geben Sie einen gültigen Namen ein, der Name ist lang'],
+            'requiredRule' => [['mail', 'isUserAdmin','userID'], 'required'],
+
+            [['isUserAdmin'], 'number', 'message' => 'Bitte wählen sie eine Berechtigung.'],
             [['userID'],'number'],
-            [['personMail'],'email'],     
+            [['mail'],'email'],
         ];
     }
+
 
 }

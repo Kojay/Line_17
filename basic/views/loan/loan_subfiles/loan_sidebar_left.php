@@ -16,7 +16,7 @@ echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['article
             <div class="">
                 <a href="<?php echo Url::toRoute('article/articleedit').'&_rqstIDfhnwNumber='.yii::$app->request->get('_rqstIDfhnwNumber');?>" style="color: #3C578C" class="list-group-item">
                     <span class="glyphicon glyphicon-edit"></span>
-                    Artikel bearbeiten
+                    Ausleihe bearbeiten
                 </a>
             </div>
             <div class="">
@@ -28,7 +28,7 @@ echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['article
             <div class="">
                 <a href="<?= Url::toRoute('article/lend')?>" style="color: #3C578C" class="list-group-item">
                     <span class="glyphicon glyphicon-briefcase"></span>
-                    Artikel ausleihen
+                    Ausleihe ausleihen
                 </a>
             </div>
         </div>

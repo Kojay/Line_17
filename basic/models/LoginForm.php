@@ -49,8 +49,11 @@ class LoginForm extends Model
         if($this->validate() && $this->validateLogin() ) {
            Yii::$app->user->login((new UserDB())->getIdentityByID((new QueryRqst())->getLoginData($this->mail)['userID']), $this->rememberMe ? 3600 * 30 * 24 : 0);
             //assigns RBAC role to user if isUserAdmin is set to true
-           if((new QueryRqst())->getLoginData($this->mail)['isUserAdmin'] && !Yii::$app->user->can('usercontrol')) {
+           if((new QueryRqst())->getLoginData($this->mail)['isUserAdmin'] === 1 && !Yii::$app->user->can('usercontrol')) {
                Yii::$app->authManager->assign(Yii::$app->authManager->getRole('admin'), Yii::$app->user->getId());
+           }
+           elseif ((new QueryRqst())->getLoginData($this->mail)['isUserAdmin'] === 0 && !Yii::$app->user->can('usercontrol')){
+               Yii::$app->authManager->assign(Yii::$app->authManager->getRole('user'), Yii::$app->user->getId());
            }
            return true;
         }

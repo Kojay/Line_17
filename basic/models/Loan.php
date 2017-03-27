@@ -13,19 +13,26 @@ class Loan extends Model
 {
     //db properties
     public
-           $loanPersonMail,
-           $articleName,
-           $fhnwNumber,
-           $articleTypeName,
-           $lvLoanLendingDate,
-           $lvLoanReturnDate,
-           $loanAuthorityMail,
-           $loanLocation,
-           $loanDescription;
-    //ldap properties
-    public $loanInstitute,
-           $loanLecturer,
-           $loanName;
+            //lv_article
+            $articleName,
+            $fhnwNumber,
+            //lv_persons
+            $personMail,
+            $personFirstname,
+            $personLastname,
+            $department,
+            //lv_articletype
+            $articleTypeName,
+            //lv_loanitems
+            $lvLoanLendingDate,
+            $lvLoanReturnDate,
+            //lv_loanprofile
+            $loanLocation,
+            $loanDescription,
+            //ldap properties
+            $loanInstitute,
+            $loanLecturer,
+            $loanName;
 
     public $loanArticles = array();
     

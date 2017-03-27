@@ -101,7 +101,7 @@ use kartik\sidenav\SideNav;
 <!-- BODY END -->
 
 <!-- CFG START -->
-<div class="col-md-2 bodyright">
+<div class="col-md-2">
 
 </div>
 <!-- CFG END -->

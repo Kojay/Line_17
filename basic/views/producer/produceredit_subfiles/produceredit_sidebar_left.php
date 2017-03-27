@@ -1,8 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
-
-echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['article/article','_rqstIDfhnwNumber' => yii::$app->request->get('_rqstIDfhnwNumber')],['class' => 'btn btn-primary pull-left']);
+echo Html::a('<i class="glyphicon glyphicon-arrow-left"></i> Zurück', ['producer/producer','_rqstIDarticleProducerID' => yii::$app->request->get('_rqstIDarticleProducerID')],['class' => 'btn btn-primary pull-left']);
 ?>
 <div class="panel panel-info" style="margin-top: 50px">
     <div class="panel-heading">

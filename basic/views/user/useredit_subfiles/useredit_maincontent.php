@@ -34,9 +34,9 @@ if(Yii::$app->session->hasFlash('userDataUpdated'))
 }
 echo Html::beginTag('div',['style' => 'margin-top:20px']);
 //TODO after db migration uncomment this:
-//echo $form->field($model, 'name')->textInput(['value' => $model->personLastname])->label(translateField('personLastname'));
-//echo $form->field($model, 'mail')->textInput(['value' => $model->personMail])->label(translateField('personMail'));
-echo $form->field($model, 'isUserAdmin')->inline()->radioList(['0' => 'Benutzer','1' => 'Administrator'])->label(translateField('isUserAdmin'));
+echo $form->field($model, 'userID')->textInput(['readonly' => true,'value' => $model->userID])->label(translateField('userID'));
+echo $form->field($model, 'mail')->textInput(['readonly' => true,'value' => $model->mail])->label(translateField('mail'));
+echo $form->field($model, 'isUserAdmin')->inline()->radioList(['0' => 'Benutzer','1' => 'Administrator'],['value' => $model->isUserAdmin])->label(translateField('isUserAdmin'));
 
 echo Html::Button('Benutzer speichern', ['class' => 'btn btn-success','id' => 'btn-saveUser','style' => 'margin-right:20px']);
 echo Html::Button('Benutzer löschen', ['class' => 'btn btn-danger','id' => 'btn-deleteUser']);
@@ -59,9 +59,8 @@ function translateFieldPermission($paramAdmin){
 function translateField($paramString){
     $stringArray = [
         'userID'           => 'BenutzerID: ',
-        'personFirstname'  => 'Vorname: ',
-        'personLastname'   => 'Nachname: ',
-        'personMail'       => 'E-Mail Adresse: ',
+        'name'             => 'Name: ',
+        'mail'             => 'E-Mail Adresse: ',
         'isUserAdmin'      => 'Berechtigungstyp: ',
     ];
     return $stringArray[$paramString];

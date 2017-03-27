@@ -6,4 +6,7 @@ return [
     9990 => [
         'supervisor',
     ],
+    '' => [
+        'user',
+    ],
 ];

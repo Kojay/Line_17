@@ -52,8 +52,29 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
+                    'class' => 'yii\log\DbTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+                [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'logFile' => '@app/logs/404.txt',
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['orders'],
+                    'logFile' => '@app/runtime/logs/Orders/requests.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 20,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['pushNotifications'],
+                    'logFile' => '@app/runtime/logs/Orders/notification.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 50,
                 ],
             ],
         ],
@@ -86,12 +107,17 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+        'allowedIPs' => ['127.0.0.1',
+                         '::1',
+                         '*',
+                         '147.86.207.240']
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
     ];
+
 }
 
 return $config;

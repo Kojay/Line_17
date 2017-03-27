@@ -18,7 +18,7 @@ echo Html::beginTag('div',['style' => 'margin-top:20px']);
                 'hover'=> true,
                 'export' => false,
                 'rowOptions' => function ($model, $index, $widget, $grid) {
-                    return ['id' => $model['articleproducerID'], 'onclick' => 'location.href="'.Url::to(['producer/producer']).'&_rqstarticleProducerID="+(this.id);','style' => 'cursor: pointer'];
+                    return ['id' => $model['articleproducerID'], 'onclick' => 'location.href="'.Url::to(['producer/producer']).'&_rqstIDarticleProducerID="+(this.id);','style' => 'cursor: pointer'];
                 },
                 'columns' => [
                     ['class' => '\kartik\grid\SerialColumn'],

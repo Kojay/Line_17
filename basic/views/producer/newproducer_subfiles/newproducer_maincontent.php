@@ -51,7 +51,7 @@ function translateField($paramString){
         'dateWarranty' => 'Garantiedatum: ',
         'articlePrice' => 'Artikelpreis: ',
         'fhnwNumber' => 'Institut: ',
-        'articleDescription' => 'Beschreibung: '
+        'articleproducerDescription' => 'Beschreibung: '
     ];
     $result = $stringArray[$paramString];
     return $result;

@@ -147,44 +147,48 @@ class ArticleController extends Controller
     {
         try {
             $model = new Article();
-            if (Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->post() && !Yii::$app->request->isAjax) {
-                $model->attributes = (new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
+
+            if (Yii::$app->request->get('_rqstIDfhnwNumber') && !Yii::$app->request->isPost && !Yii::$app->request->isAjax) {
+                //$model->attributes = (new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber'));                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
                 //if(!$model->validate()){
                 $dataProducer = (new QueryRqst())->getDataProducer();
-                $model->validate();
-                return $this->render('articleedit', ['model' => $model, 'modelProducers' => $dataProducer]);
+                $model->setAttributes((new QueryRqst())->getDataArticle(Yii::$app->request->get('_rqstIDfhnwNumber')),false);
+                //$model->validate();
+                    return $this->render('articleedit', ['model' => $model, 'modelProducers' => $dataProducer]);
                 //}
                 //else{                                                                                                                         //TODO: ERRORHANDLING
                 //}
             }
-            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->post() && yii::$app->request->isAjax) {
-                $model->load(Yii::$app->request->post());
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->isPost && Yii::$app->request->isAjax) {
+                //TODO set to true for only safe attributes
+                $model->setAttributes(Yii::$app->request->getBodyParam('Article','NA'),false);
                 $model->validate();
-                //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->setDataArticle($model);
-                Yii::$app->session->setFlash('articleDataUpdated', 'Sie haben erfolgreich den Artikel gespeichert!');
-                $this->refresh(Url::current());
+                //if($model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
+                    (new QueryRqst())->setDataArticle($model);
+                    Yii::$app->session->setFlash('articleDataUpdated', 'Sie haben erfolgreich den Artikel gespeichert!');
+                    $this->refresh(Url::current());
                 //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
                 //}
             }
-            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->post() && yii::$app->request->isAjax) {
-                $model->load(Yii::$app->request->post());
+            if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->isPost && Yii::$app->request->isAjax) {
+                //TODO set to true for only safe attributes
+                $model->setAttributes(Yii::$app->request->getBodyParam('Article','NA'),false);
                 $model->validate();
-                //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                (new QueryRqst())->deleteDataArticle($model);
-                Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel gelöscht!');
-                $this->refresh(Url::current());
+                //if($model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
+                    (new QueryRqst())->deleteDataArticle($model->fhnwNumber);
+                    Yii::$app->session->setFlash('articleDataDeleted', 'Sie haben erfolgreich den Artikel archiviert!');
+                    $this->refresh(Url::current());
                 //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
                 //}
             }
         }
-        catch(AdldapException $exLdap) {
+       catch(AdldapException $exLdap) {
             $model->addError("ConnectionAD", "Active Directory meldet: " . $exLdap->getMessage());
             return $this->render('articleedit', ['model' => $model]);
         }
-        catch(\yii\db\Exception $exDb) {
+       catch(\yii\db\Exception $exDb) {
             $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
             return $this->render('//site/dberror', ['model' => $model]);
         }

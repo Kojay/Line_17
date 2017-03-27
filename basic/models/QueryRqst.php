@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\SqlDataProvider;
 use yii\db\Exception;
+use yii\app\models\RBAC;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -189,7 +190,6 @@ class QueryRqst extends Model
                 'pageSize' => 10,
             ],
             //'totalCount' => $totalCount,
-
             'sort' => [
 
                 'attributes' => [
@@ -294,19 +294,20 @@ class QueryRqst extends Model
  */
     public function getDataArticle($paramFhnwNumber)
     {
+        $escFhnwnumber = \Yii::$app->db->quoteValue($paramFhnwNumber);
         $dataProvider = new SqlDataProvider([
             'sql' =>
-                'SELECT  article.articleName, articletype.articleTypeName, ' .
-                        'articleproducer.articleproducerName, article.serialNumber, ' .
-                        'article.dateBought, article.dateWarranty, article.articlePrice, ' .
-                'article.fhnwNumber, article.articleDescription, article.lv_producer_producerID, 
-                 article.lv_articletype_articleTypeID, article.isArchive, article.articleStatus, article.statusComment' .
-                ' FROM lv_article AS article' .
-                ' LEFT JOIN lv_loanitems AS loanitems ON article.articleID = loanitems.lv_article_deviceID' .
-                ' LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID' .
-                ' LEFT JOIN lv_articleproducer AS articleproducer ON article.lv_producer_producerID = articleproducer.articleproducerID' .
-                ' WHERE article.fhnwNumber = "' . $paramFhnwNumber . '" GROUP BY article.fhnwNumber',
-
+                "SELECT  article.articleName, articletype.articleTypeName, 
+                         articleproducer.articleproducerName, article.serialNumber,
+                         article.dateBought, article.dateWarranty, article.articlePrice,
+                         article.fhnwNumber, article.articleDescription, article.lv_producer_producerID, 
+                         article.lv_articletype_articleTypeID, article.isArchive, article.articleStatus, 
+                         article.statusComment
+                 FROM lv_article AS article 
+                 LEFT JOIN lv_loanitems AS loanitems ON article.articleID = loanitems.lv_article_deviceID
+                 LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID
+                 LEFT JOIN lv_articleproducer AS articleproducer ON article.lv_producer_producerID = articleproducer.articleproducerID 
+                 WHERE article.fhnwNumber = $escFhnwnumber GROUP BY article.fhnwNumber"
         ]);
         return ArrayHelper::getValue($dataProvider->getModels(), 0);                //TODO Evaluate if this is a better data processing method
     }
@@ -318,30 +319,36 @@ class QueryRqst extends Model
      */
     public function getDataLoan($paramFhnwNumber)
     {
+        $escFhnwnumber = \Yii::$app->db->quoteValue($paramFhnwNumber);
         $dataProvider = new SqlDataProvider([
             'sql' =>
-                'SELECT loanitems.lvLoanReturnDate, loanitems.lvLoanLendingDate, loanitems.loanAuthorityMail, 
-                        loanprofile.loanLocation, loanprofile.loanDscription, loanprofile.loanPersonMail,
+                "SELECT loanitems.lvLoanReturnDate, loanitems.lvLoanLendingDate, 
+                        loanprofile.loanLocation, loanprofile.loanDescription,
+                        persons.personMail, persons.personFirstname, persons.personLastname, persons.department,
                         article.articleName, article.fhnwNumber,
-                        articleproducer.articleTypeName'.
+                        articleproducer.articleproducerName
 
-                ' FROM lv_loanprofile AS loanprofile' .
-
-                ' LEFT JOIN lv_articletype AS articletype ON article.articleID = articletype.articleTypeID' .
-                ' LEFT JOIN lv_articleproducer AS articleproducer ON article.articleID = articleproducer.articleproducerID' .
-                ' LEFT JOIN lv_loanitems AS loanitems ON loanprofile.loanID = loanitems.lv_loan_loanID' .
-                ' LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID' .
-
-                ' WHERE article.fhnwNumber = "' . $paramFhnwNumber . '" GROUP BY article.fhnwNumber',
+                FROM lv_loanprofile AS loanprofile
+                
+                LEFT JOIN lv_loanitems AS loanitems ON loanprofile.loanID = loanitems.lv_loan_loanID
+                LEFT JOIN lv_article AS article ON loanitems.lv_article_deviceID = article.articleID
+                LEFT JOIN lv_articletype AS articletype ON article.lv_articletype_articleTypeID = articletype.articleTypeID
+                LEFT JOIN lv_persons AS persons ON persons.personsID = loanprofile.loanPerson
+                LEFT JOIN lv_articleproducer AS articleproducer ON article.articleID = articleproducer.articleproducerID
+                
+                WHERE article.fhnwNumber =  $escFhnwnumber  GROUP BY article.fhnwNumber",
         ]);
 
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
     }
     public function getDataProducerDetails($articleproducerID)
     {
+        $escarticleproducerID = Yii::$app->db->quoteValue($articleproducerID);
+
         $dataProvider = new SqlDataProvider([
-            'sql' => 'SELECT articleproducerName, articleproducerDescription FROM lv_articleproducer'.
-                ' WHERE articleproducerID = "' . $articleproducerID . '"'
+            'sql' =>  "SELECT articleproducerName, articleproducerDescription 
+                       FROM lv_articleproducer
+                       WHERE articleproducerID = $escarticleproducerID"
         ]);
 
         return ArrayHelper::getValue($dataProvider->getModels(), 0);
@@ -350,22 +357,31 @@ class QueryRqst extends Model
 
     public function setDataArticle($paramArticleData)
     {
-        $query = 'UPDATE  lv_article article, lv_articletype articletype, lv_articleproducer articleproducer 
+        $escArticleName = Yii::$app->db->quoteValue($paramArticleData['articleName'],'');
+        $escSerialNumber = Yii::$app->db->quoteValue($paramArticleData['serialNumber'],'');
+        $escDateBought = Yii::$app->db->quoteValue($paramArticleData['dateBought'],'');
+        $escDateWarranty = Yii::$app->db->quoteValue($paramArticleData['dateWarranty'],'');
+        $escArticlePrice = Yii::$app->db->quoteValue($paramArticleData['articlePrice'],'');
+        $escFhnwNumber = Yii::$app->db->quoteValue($paramArticleData['fhnwNumber'],'');
+        $escArticleDescription = Yii::$app->db->quoteValue($paramArticleData['articleDescription'],'');
+        $escArticleTypeName = Yii::$app->db->quoteValue($paramArticleData['articleTypeName'],'');
+        $escArticleproducerName = Yii::$app->db->quoteValue($paramArticleData['articleproducerName'],'');
+        $query = "UPDATE  lv_article AS article, lv_articletype AS articletype, lv_articleproducer AS articleproducer 
                         
-                SET     article.articleName="' . $paramArticleData['articleName'] . '",
-                        article.serialNumber="' . $paramArticleData['serialNumber'] . '",
-                        article.dateBought="' . $paramArticleData['dateBought'] . '",
-                        article.dateWarranty="' . $paramArticleData['dateWarranty'] . '",
-                        article.articlePrice="' . $paramArticleData['articlePrice'] . '",
-                        article.fhnwNumber="' . $paramArticleData['fhnwNumber'] . '",
-                        article.articleDescription="' . $paramArticleData['articleDescription'] . '",
-                        articletype.articleTypeName="' . $paramArticleData['articleTypeName'] . '", 
-                        articleproducer.articleproducerName="' . $paramArticleData['articleproducerName'] . '" 
+                  SET     article.articleName = $escArticleName,
+                          article.serialNumber = $escSerialNumber,
+                          article.dateBought = $escDateBought,
+                          article.dateWarranty = $escDateWarranty,
+                          article.articlePrice = $escArticlePrice,
+                          article.fhnwNumber = $escFhnwNumber,
+                          article.articleDescription = $escArticleDescription,
+                          articletype.articleTypeName = $escArticleTypeName, 
+                          articleproducer.articleproducerName = $escArticleproducerName
+                           
                             
-                WHERE   article.fhnwNumber="' . $paramArticleData['fhnwNumber'] . '" AND
-                        article.lv_articletype_articleTypeID=articletype.articleTypeID AND
-                        article.lv_producer_producerID=articleproducer.articleproducerID';
-        //echo'<script>'.$query.'</script>';
+                  WHERE   article.fhnwNumber = $escFhnwNumber AND
+                          article.lv_articletype_articleTypeID = articletype.articleTypeID AND
+                          article.lv_producer_producerID = articleproducer.articleproducerID";
 
         Yii::$app->db->createCommand($query)->execute();
     }
@@ -418,9 +434,10 @@ class QueryRqst extends Model
         Yii::$app->db->createCommand($queryArtikelsatz)->execute();
         $transaction->commit();
     }
-    public function deleteDataArticle($paramArticleData)
+    public function deleteDataArticle($paramFhnwNumber)
     {
-        $query = 'UPDATE lv_article SET isArchive = 1 WHERE fhnwNumber=' . $paramArticleData['fhnwNumber'];              //Artikel können nicht gelöscht werden, isArchive wird auf 1 gesetzt
+        $escArticleData = Yii::$app->db->quoteValue($paramFhnwNumber);
+        $query = Yii::$app->db->quoteSql("UPDATE lv_article SET isArchive = 1 WHERE fhnwNumber = $escArticleData");              //Artikel können nicht gelöscht werden, isArchive wird auf 1 gesetzt
         try {
             $transaction = Yii::$app->db->beginTransaction();
             Yii::$app->db->createCommand($query)->execute();
@@ -432,9 +449,9 @@ class QueryRqst extends Model
     }
     public function deleteDataUser($paramUserData)
     {
-        $query1 = ' DELETE FROM lv_user ' .
-                  ' WHERE  lv_user.userID="' . $paramUserData['userID'] . '" AND
-                           lv_user.isUserAdmin="' . $paramUserData['isUserAdmin'];
+        $escUserID = Yii::$app->db->quoteValue($paramUserData['userID']);
+        $query1 =  "DELETE FROM lv_user
+                    WHERE  lv_user.userID = $escUserID";
 
         try {
             $transaction = Yii::$app->db->beginTransaction();
@@ -522,9 +539,9 @@ class QueryRqst extends Model
     {
         $escIsUserAdmin = \Yii::$app->db->quoteValue($paramUserModel['isUserAdmin']);
         $escUserID = \Yii::$app->db->quoteValue($paramUserModel['userID']);
-        $query = '  UPDATE  lv_user user, lv_persons person 
-                    SET     user.isUserAdmin="' . $escIsUserAdmin . '"                 
-                    WHERE   user.userID="' . $escUserID .'"';
+        $query = "  UPDATE  lv_user user, lv_persons person 
+                    SET     user.isUserAdmin = $escIsUserAdmin                 
+                    WHERE   user.userID = $escUserID ";
 
         Yii::$app->db->createCommand($query)->execute();
     }
@@ -537,9 +554,10 @@ class QueryRqst extends Model
     {
         $escEmail = \Yii::$app->db->quoteValue($paramEmail);
         $escIsUserAdmin = \Yii::$app->db->quoteValue($paramIsUserAdmin);
+        $escRndString = \Yii::$app->db->quoteValue(yii::$app->security->generateRandomString());
 
-        $query = 'INSERT INTO lv_user (email,auth_key,isUserAdmin) 
-                   VALUES ('.$escEmail.','.yii::$app->security->generateRandomString().','.$escIsUserAdmin.')';
+        $query = "INSERT INTO lv_user (mail,auth_key,isUserAdmin) 
+                  VALUES ($escEmail,$escRndString,$escIsUserAdmin)";
 
         Yii::$app->db->createCommand($query)->execute();
     }
@@ -550,10 +568,11 @@ class QueryRqst extends Model
      */
     public function getLoginData($paramUserMail)
     {
+        $escParamMail = \Yii::$app->db->quoteValue($paramUserMail);
         $dataProvider = new SqlDataProvider([
-            'sql' => 'SELECT user.mail, user.isUserAdmin, user.userID' .
-                ' FROM lv_user AS user' .
-                ' WHERE user.mail = "' . $paramUserMail . '"'
+            'sql' => "SELECT user.mail, user.isUserAdmin, user.userID
+                      FROM lv_user AS user
+                      WHERE user.mail = $escParamMail "
         ]);
 
         return ArrayHelper::getValue($dataProvider->getModels(), 0);

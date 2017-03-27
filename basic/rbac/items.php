@@ -8,8 +8,13 @@ return [
         'type' => 2,
         'description' => 'Control all things',
     ],
+    'user' => [
+        'type' => 1,
+        'description' => 'Standard User',
+    ],
     'admin' => [
         'type' => 1,
+        'description' => 'Control administrative things',
         'children' => [
             'usercontrol',
         ],
