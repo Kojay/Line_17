@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\dialog\Dialog;
 use kartik\checkbox\CheckboxX;
-
+use kartik\growl\Growl;
 
 $this->title = 'Hersteller bearbeiten';
 /*
@@ -25,10 +25,38 @@ echo Breadcrumbs::widget([
 echo Html::tag('h1',Html::encode($this->title));
 echo Html::beginTag('div');
 
-if(Yii::$app->session->hasFlash('producer')){
-    echo Alert::widget([
-        'options' => ['class' => 'alert-info'],
-        'body' => Yii::$app->session->getFlash('producer'),
+if(Yii::$app->session->hasFlash('producerSuccess')) {
+    echo Growl::widget([
+        'type' => Growl::TYPE_SUCCESS,
+        'title' => 'Erfolg!',
+        'icon' => 'glyphicon glyphicon-ok-sign',
+        'body' => Yii::$app->session->getFlash('producerSuccess'),
+        'showSeparator' => true,
+        'delay' => 0,
+        'pluginOptions' => [
+            'showProgressbar' => true,
+            'placement' => [
+                'from' => 'top',
+                'align' => 'center',
+            ]
+        ]
+    ]);
+}
+if(Yii::$app->session->hasFlash('producerError')) {
+    echo Growl::widget([
+        'type' => Growl::TYPE_DANGER,
+        'title' => 'Fehler!',
+        'icon' => 'glyphicon glyphicon-remove-sign',
+        'body' => Yii::$app->session->getFlash('producerError'),
+        'showSeparator' => true,
+        'delay' => 0,
+        'pluginOptions' => [
+            'showProgressbar' => true,
+            'placement' => [
+                'from' => 'top',
+                'align' => 'center',
+            ]
+        ]
     ]);
 }
 

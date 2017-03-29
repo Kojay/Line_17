@@ -5,6 +5,8 @@ use yii\bootstrap\ActiveForm;
 use kartik\dialog\Dialog;
 use yii\helpers\Url;
 use yii\bootstrap\Alert;
+use kartik\growl\Growl;
+
 
 //init Krajee
 Dialog::widget();
@@ -25,11 +27,21 @@ $form = ActiveForm::begin
         ],
 ]);
 
-if(Yii::$app->session->hasFlash('userDataUpdated'))
-{
-    echo Alert::widget([
-        'options' => ['class' => 'alert-info'],
+if(Yii::$app->session->hasFlash('userDataUpdated')) {
+    echo Growl::widget([
+        'type' => Growl::TYPE_SUCCESS,
+        'title' => 'Erfolg!',
+        'icon' => 'glyphicon glyphicon-ok-sign',
         'body' => Yii::$app->session->getFlash('userDataUpdated'),
+        'showSeparator' => true,
+        'delay' => 0,
+        'pluginOptions' => [
+            'showProgressbar' => true,
+            'placement' => [
+                'from' => 'top',
+                'align' => 'center',
+            ]
+        ]
     ]);
 }
 echo Html::beginTag('div',['style' => 'margin-top:20px']);

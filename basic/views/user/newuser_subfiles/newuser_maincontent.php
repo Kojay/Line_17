@@ -10,7 +10,7 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use kartik\dialog\Dialog;
-
+use kartik\growl\Growl;
 
 //init Krajee
 Dialog::widget();
@@ -36,14 +36,22 @@ $form = ActiveForm::begin
         ],
 ]);
 
-if(Yii::$app->session->hasFlash('userDataCreated'))
-{
-    echo Html::beginTag('div',['style' => 'margin-top:20px']);
-    echo Alert::widget([
-        'options' => ['class' => 'alert-info'],
+if(Yii::$app->session->hasFlash('userDataCreated')) {
+    echo Growl::widget([
+        'type' => Growl::TYPE_SUCCESS,
+        'title' => 'Erfolg!',
+        'icon' => 'glyphicon glyphicon-ok-sign',
         'body' => Yii::$app->session->getFlash('userDataCreated'),
+        'showSeparator' => true,
+        'delay' => 0,
+        'pluginOptions' => [
+            'showProgressbar' => true,
+            'placement' => [
+                'from' => 'top',
+                'align' => 'center',
+            ]
+        ]
     ]);
-    echo Html::endTag('div',['style' => 'margin-bottom:20px']);
 }
 echo $form->errorSummary($model);
 
@@ -139,9 +147,16 @@ $(document).ready(function() {
         response: function(event, ui) {
                 $(".loaderAD").hide();
         },
-        */
+       
+        close: function(event, ui) {
+                $(".loaderAD").hide();
+        },*/
         source: dataAD,
-        minlength: 3
+        //minlength: 3
+    });
+    $("#inputSearchNamesAD").focus(function() {
+    $("#inputSearchNamesAD").autocomplete( "option", "minLength", 3 );
+    $("#inputSearchNamesAD").autocomplete( "option", "delay", 1000 );
     });
     /**
      * Function to handle onclick event to create "Benutzer"

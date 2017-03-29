@@ -104,19 +104,18 @@ class UserController extends Controller
                     yii::$app->session->open();
                     yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gespeichert.');
                 //}
-                $this->refresh(Url::current());
+                return Yii::$app->response->redirect(Url::to(['user/usermanagement']));
             }
             if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->isPost && yii::$app->request->isAjax) {
                 $model->load(Yii::$app->request->getBodyParams('User'));
                 $model->validate();
-                //if($model->validate()){
-                  if(Yii::$app->authManager->revokeAll($model->userID)) {                                                                                                  //TODO: Must be updated ASAP after DB corrections
-                      (new QueryRqst())->deleteDataUser($model);
-                  }
-                    yii::$app->session->open();
-                    yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gelöscht.');
+                //if($model->validate()){                 //TODO: Must be updated ASAP after DB corrections
+                (new QueryRqst())->deleteDataUser($model);
+                Yii::$app->authManager->revokeAll($model->userID);
+                Yii::$app->session->open();
+                Yii::$app->session->setFlash('userDataUpdated', 'Sie haben erfolgreich den Benutzer gelöscht.');
                 //}
-                $this->refresh(Url::current());
+                return Yii::$app->response->redirect(Url::to(['user/usermanagement']));
             }
         }
         catch(AdldapException $exLdap) {
@@ -144,14 +143,14 @@ class UserController extends Controller
                     //add user to RBAC
                 if($model->isUserAdmin === 1 && $model->userID) {
                     Yii::$app->authManager->assign(Yii::$app->authManager->getRole('admin'), $model->userID);
-                }elseif($model->isUserAdmin === 1 && $model->userID){
+                }elseif($model->isUserAdmin === 0 && $model->userID){
                     Yii::$app->authManager->assign(Yii::$app->authManager->getRole('user'), $model->userID);
                 }
-                    yii::$app->session->open();
-                    yii::$app->session->setFlash('userDataCreated', 'Sie haben den Benutzer erfolgreich erstellt.');
+                Yii::$app->session->open();
+                Yii::$app->session->setFlash('userDataUpdated', 'Sie haben den Benutzer erfolgreich erstellt.');
                 //}
 
-                $this->refresh();
+                return Yii::$app->response->redirect(Url::to(['user/usermanagement']));
             }
             else {
                 return $this->render('//user/newuser', ['model' => $model,'adUsers' => $adUsers]);

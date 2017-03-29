@@ -12,9 +12,28 @@ use yii\helpers\Url;
 use kartik\grid\GridView;
 use app\models\QueryRqst;
 use kartik\sidenav\SideNav;
+use kartik\growl\Growl;
 
 $this->title = 'Benutzerübersicht';
 $this->params['breadcrumbs'][] = $this->title;
+
+if(Yii::$app->session->hasFlash('userDataUpdated')) {
+    echo Growl::widget([
+        'type' => Growl::TYPE_SUCCESS,
+        'title' => 'Erfolg!',
+        'icon' => 'glyphicon glyphicon-ok-sign',
+        'body' => Yii::$app->session->getFlash('userDataUpdated'),
+        'showSeparator' => true,
+        'delay' => 0,
+        'pluginOptions' => [
+            'showProgressbar' => true,
+            'placement' => [
+                'from' => 'top',
+                'align' => 'center',
+            ]
+        ]
+    ]);
+}
 
 echo Html::tag('h1',Html::encode($this->title));
 

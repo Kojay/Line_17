@@ -85,6 +85,7 @@ class ldap extends Model
         //TODO insert paramMail into find when server is migrated
         if ($adUserEDU != NULL) {
             return [
+                'displayname' => ArrayHelper::getValue($adUserEDU->displayname,0,'N/A'),
                 'name' => ArrayHelper::getValue($adUserEDU->name,0,'N/A'),
                 'department' => ArrayHelper::getValue($adUserEDU->department,0,'N/A'),
                 'title' => ArrayHelper::getValue($adUserEDU->title,0,'N/A'),
@@ -95,6 +96,7 @@ class ldap extends Model
         }
         elseif ($adUserADM != NULL){
             return [
+                'displayname' => ArrayHelper::getValue($adUserEDU->displayname,0,'N/A'),
                 'name' => ArrayHelper::getValue($adUserADM->name,0,'N/A'),
                 'department' => ArrayHelper::getValue($adUserADM->department,0,'N/A'),
                 'title' => ArrayHelper::getValue($adUserADM->title,0,'N/A'),

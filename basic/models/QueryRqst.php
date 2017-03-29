@@ -5,7 +5,6 @@ use Yii;
 use yii\base\Model;
 use yii\data\SqlDataProvider;
 use yii\db\Exception;
-use yii\app\models\RBAC;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -433,22 +432,7 @@ class QueryRqst extends Model
             throw new \yii\db\Exception($e->getMessage());
         }
     }
-    public function deleteDataUser($paramUserData)
-    {
-        $escUserID = Yii::$app->db->quoteValue($paramUserData['userID']);
-        $query1 =  "DELETE FROM lv_user
-                    WHERE  lv_user.userID = $escUserID";
 
-        try {
-            $transaction = Yii::$app->db->beginTransaction();
-            Yii::$app->db->createCommand($query1)->execute();
-            $transaction->commit();
-        } catch(Exception $e){
-            $transaction->rollBack();
-            throw new \yii\db\Exception($e->getMessage());
-        }
-
-    }
     public function getDataProducerDetails($articleproducerID)
     {
         $escarticleproducerID = Yii::$app->db->quoteValue($articleproducerID);
@@ -471,13 +455,13 @@ class QueryRqst extends Model
     }
     public function setDataProducer($model)
     {
-            $escArticleproducerName          = Yii::$app->db->quoteValue($model['articleproducerName']);
-            $escArticleproducerDescription   = Yii::$app->db->quoteValue($model['articleproducerDescription']);
-            $escArticleproducerID            = Yii::$app->db->quoteValue($model['articleproducerID']);
-            $query = "  UPDATE  lv_articleproducer AS producer
-                        SET     producer.articleproducerName	     = $escArticleproducerName,
-                                producer.articleproducerDescription  = $escArticleproducerDescription,         
-                        WHERE   producer.articleproducerID           = $escArticleproducerID";
+            $escArticleproducerName          = Yii::$app->db->quoteValue($model->articleproducerName);
+            $escArticleproducerDescription   = Yii::$app->db->quoteValue($model->articleproducerDescription);
+            $escArticleproducerID            = Yii::$app->db->quoteValue($model->articleproducerID);
+            $query = "  UPDATE  lv_articleproducer
+                        SET     articleproducerName	        =: $escArticleproducerName,
+                                articleproducerDescription  =: $escArticleproducerDescription        
+                        WHERE   articleproducerID           =: $escArticleproducerID";
         try {
             $transaction = Yii::$app->db->beginTransaction();
             Yii::$app->db->createCommand($query)->execute();
@@ -487,15 +471,20 @@ class QueryRqst extends Model
             throw new \yii\db\Exception($e->getMessage());
         }
     }
-    public function deleteDataProducer($paramArticleProducerID)
+    public function deleteDataProducer($model)
     {
-        $escArticleProducerID = Yii::$app->db->quoteValue($paramArticleProducerID);
-        $query =  "DELETE FROM lv_articleproducer
-                    WHERE  lv_articleproducer.articleproducerID = $escArticleProducerID";
         try {
+        $escArticleProducerID = Yii::$app->db->quoteValue($model['articleproducerID']);
+            $query =  "DELETE
+                       FROM lv_articleproducer
+                       WHERE  articleproducerID = $escArticleProducerID ";
             $transaction = Yii::$app->db->beginTransaction();
-            Yii::$app->db->createCommand($query)->execute();
-            $transaction->commit();
+        /*Yii::$app->db
+            ->createCommand()
+            ->delete('lv_articleproducer', ['articleproducerID' => $escArticleProducerID])
+            ->execute();*/
+        Yii::$app->db->createCommand($query)->execute();
+        $transaction->commit();
         } catch(Exception $e){
             $transaction->rollBack();
             throw new \yii\db\Exception($e->getMessage());
@@ -591,6 +580,20 @@ class QueryRqst extends Model
 
         Yii::$app->db->createCommand($query)->execute();
     }
+    public function deleteDataUser($paramUserData)
+    {
+        $escUserID = Yii::$app->db->quoteValue($paramUserData->userID);
+        $query1 =  "DELETE FROM lv_user
+                    WHERE  userID = $escUserID ";
+        try {
+            $transaction = Yii::$app->db->beginTransaction();
+            Yii::$app->db->createCommand($query1)->execute();
+            $transaction->commit();
+        } catch(Exception $e){
+            $transaction->rollBack();
+            throw new \yii\db\Exception($e->getMessage());
+        }
+    }
     /**
      * Get login Data user id
      * @version 0.1
@@ -631,7 +634,7 @@ class QueryRqst extends Model
         $superuserMail = "supervisor@hwa.fhnw.ch";
         $superuserPassword = "admin";
         $superuserisUserAdmin = "1";
-        $superuserUserID = "9990";
+        $superuserUserID = "10";
         $superuserPersonsID = "1000000";
 
         $escUserID = Yii::$app->db->quoteValue($superuserUserID);
@@ -639,13 +642,12 @@ class QueryRqst extends Model
         $escIsUserAdmin = Yii::$app->db->quoteValue($superuserisUserAdmin);
         $escAuthKey =  Yii::$app->db->quoteValue(Yii::$app->security->generateRandomString());
         $escPassword =  Yii::$app->db->quoteValue(Yii::$app->getSecurity()->generatePasswordHash($superuserPassword));
-
         $escPersonsID = Yii::$app->db->quoteValue($superuserPersonsID);
 
-        $query1 = 'INSERT INTO lv_superuser (userID,mail,auth_key,isUserAdmin,password) 
-                  VALUES ('.$escUserID.','.$escMail.','.$escAuthKey.','.$escIsUserAdmin.','.$escPassword.')';
-        $query2 = 'INSERT INTO lv_user (userID,mail,auth_key,isUserAdmin,userPersonsID) 
-                  VALUES ('.$escUserID.','.$escMail.','.$escAuthKey.','.$escIsUserAdmin.','.$escPersonsID.')';
+        $query1 = "INSERT INTO lv_superuser (userID,mail,auth_key,isUserAdmin,password) 
+                   VALUES ($escUserID,$escMail,$escAuthKey,$escIsUserAdmin,$escPassword)";
+        $query2 = "INSERT INTO lv_user (userID,mail,auth_key,isUserAdmin,userPersonsID) 
+                   VALUES ($escUserID,$escMail,$escAuthKey,$escIsUserAdmin,$escPersonsID)";
 
         try {
             $transaction = Yii::$app->db->beginTransaction();

@@ -69,13 +69,13 @@ class ProducerController extends Controller
         try {
             $model = new Producer();
             if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'create' && Yii::$app->request->post() && yii::$app->request->isAjax) {
-                $model->load(Yii::$app->request->post());
+                $model->setAttributes(Yii::$app->request->getBodyParams('Producer'),false);
                 $model->validate();
                 //if(!$model->validate()){                                                                                    //TODO Must be updated ASAP after DB corrections
                 (new QueryRqst())->createDataArticle($model);
-                Yii::$app->session->setFlash('articleDataCreated', 'Sie haben den Artikel erfolgreich erstellt.');
+                Yii::$app->session->setFlash('producerDataUpdated', 'Sie haben den Hersteller erfolgreich hinzugefügt.');
                 //}
-                $this->refresh(Url::current());
+                return Yii::$app->response->redirect(Url::to(['producer/producerlist']));
             }
             else{
                 return $this->render('newproducer', ['model' => $model]);
@@ -107,48 +107,51 @@ class ProducerController extends Controller
     }
     public function actionProduceredit()
     {
-        try {
+        //try {
             $model = new Producer();
 
             if (Yii::$app->request->get('_rqstIDarticleProducerID') && Yii::$app->request->isGet && !Yii::$app->request->isPost && !Yii::$app->request->isAjax) {
                 $model->setAttributes((new QueryRqst())->getDataProducerDetails(Yii::$app->request->get('_rqstIDarticleProducerID')),false);                           //schreibt in das Model vom typ Artikel die Daten des Datensatzes mit der einmaligen fhnwNummer und versucht vom ersten model des "SQLDataproviders" die Attribute zu übernehmen.
                 //if(!$model->validate()){
-                    $model->validate();
+                    //$model->validate();
                     return $this->render('produceredit', ['model' => $model]);
                 //}
                 //else{                                                                                                                         //TODO: ERRORHANDLING
                 //}
             }
             if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'update' && Yii::$app->request->isPost && Yii::$app->request->isAjax) {
-                $model->setAttributes(Yii::$app->request->getBodyParams('Producer','NA'),false);
+                $model->setAttributes(Yii::$app->request->getBodyParams('Producer'),false);
                 $model->validate();
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                    (new QueryRqst())->setDataProducer($model);
-                    Yii::$app->session->setFlash('producer', 'Sie haben erfolgreich den Hersteller gespeichert!');
-                    $this->refresh(Url::current());
+                (new QueryRqst())->setDataProducer($model);
+                Yii::$app->session->setFlash('producerDataUpdated', 'Sie haben erfolgreich den Hersteller gespeichert!');
+                return Yii::$app->response->redirect(Url::to(['producer/producerlist']));
                 //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
                 //}
             }
             if (Yii::$app->request->headers->get('_rqstAjaxFnc') === 'delete' && Yii::$app->request->isPost && Yii::$app->request->isAjax) {
-                $model->setAttributes(Yii::$app->request->getBodyParams('Producer','NA'),false);
-                $model->validate();
+                $model->setAttributes(Yii::$app->request->post('Producer'),false);
+                //$model->attributes = Yii::$app->request->post();
+                //$model->validate();                 //TODO: Must be updated ASAP after DB corrections
                 //if(!$model->validate()){                                                                                                      //TODO: Must be updated ASAP after DB corrections
-                    (new QueryRqst())->deleteDataProducer($model);
-                    Yii::$app->session->setFlash('producer', 'Sie haben erfolgreich den Artikel gelöscht!');
-                    $this->refresh(Url::current());
+                (new QueryRqst())->deleteDataProducer($model);
+                Yii::$app->session->setFlash('producerDataUpdated', 'Sie haben erfolgreich den Hersteller gelöscht!');
+                return Yii::$app->response->redirect(Url::to(['producer/producerlist']));
                 //  }
                 //else{                                                                                                                     //TODO: ERRORHANDLING
                 //}
             }
-        }
+       // }
+        /*
         catch(AdldapException $exLdap) {
             $model->addError("ConnectionAD", "Active Directory meldet: " . $exLdap->getMessage());
-            return $this->render('produceredit', ['model' => $model]);
+            Yii::$app->session->setFlash('producerError', "ERROR -> Active Directory meldet: " . $exLdap->getMessage());
+            $this->refresh();
         }
         catch(\yii\db\Exception $exDb) {
             $model->addError("ConnectionDB", "Datenbank meldet: " . $exDb->getMessage());
-            return $this->render('//site/dberror', ['model' => $model]);
-        }
+            return $this->render('@app/views/site/dberror', ['model' => $model]);
+        }*/
     }
 }

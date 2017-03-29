@@ -13,7 +13,7 @@ use yii\base\Model;
 class User extends Model
 {
     public $mail,
-           $name,
+           $displayname,
            $isUserAdmin,
            $userID,
            $department,

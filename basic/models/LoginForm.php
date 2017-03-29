@@ -60,7 +60,7 @@ class LoginForm extends Model
         elseif($this->validate() && $this->validateLoginSuperuser()) {
             Yii::$app->user->login((new SuperuserDB())->getIdentityByID((new QueryRqst())->getSuperuser($this->mail)['userID']), $this->rememberMe ? 3600 * 30 * 24 : 0);
             //assigns RBAC role to user if isUserAdmin is set to true
-            if((new QueryRqst())->getSuperuser($this->mail)['isUserAdmin'] && !Yii::$app->user->can('usercontrol')) {
+            if(!Yii::$app->user->can('all')) {
                 Yii::$app->authManager->assign(Yii::$app->authManager->getRole('supervisor'), Yii::$app->user->getId());
             }
             return true;

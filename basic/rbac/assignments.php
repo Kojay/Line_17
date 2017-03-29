@@ -9,4 +9,7 @@ return [
     '' => [
         'user',
     ],
+    10 => [
+        'supervisor',
+    ],
 ];

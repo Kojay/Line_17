@@ -1,12 +1,13 @@
 <?php
-    use yii\helpers\Url;
-    use yii\helpers\Html;
-    use yii\widgets\Menu;
-    use yii\widgets\Breadcrumbs;
-    use yii\bootstrap\ActiveForm;
-    use app\models\QueryRqst;
-    use kartik\tabs\TabsX;
-    use kartik\grid\GridView;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\widgets\Menu;
+use yii\widgets\Breadcrumbs;
+use yii\bootstrap\ActiveForm;
+use app\models\QueryRqst;
+use kartik\tabs\TabsX;
+use kartik\grid\GridView;
+use kartik\growl\Growl;
 
 $this->title = 'Hersteller Details';
 
@@ -14,7 +15,7 @@ echo Html::tag('h1',Html::encode($this->title));
 
 $form = ActiveForm::begin
 ([
-    'id' => 'article-form',
+    'id' => 'producerform',
     'layout' => 'horizontal',
     'fieldConfig' =>
         [
@@ -44,24 +45,23 @@ echo Html::endTag('div');
 
 $script = <<< JS
 $( document ).ready(function() { 
-   $("#btn-updateArticle").click(function(e){
+   $("#btn-updateProducer").click(function(e){
     krajeeDialog.confirm("Sind sie sicher, dass sie den Hersteller bearbeiten wollen?", 
         function (result) {
-            $("#fnc").value = 'update';
             if (result) {                     
                 e.preventDefault();
                 $.ajax({
                     url: urlAjax,
                     type:'post',
-                    headers: { 'REQUESTfnc': 'update' },
-                    data:$('#articleUpdate-form').serialize(),
+                    headers: { '_rqstAjaxFnc': 'update' },
+                    data:$('#producerform').serialize(),
                     success:function(){
                     }
                 });
             }
         });
     });
-    $("#btn-deleteArticle").click(function(e){
+    $("#btn-deleteProducer").click(function(e){
     krajeeDialog.confirm("Sind sie sicher, dass sie den Hersteller löschen wollen?", 
         function (result) {
             if (result) {
@@ -70,7 +70,7 @@ $( document ).ready(function() {
                     url: urlAjax,
                     type:'post',
                     headers: { '_rqstAjaxFnc': 'delete' },
-                    data:$('#articleUpdate-form').serialize(),
+                    data:$('#producerform').serialize(),
                     success:function(){
                     }
                 });

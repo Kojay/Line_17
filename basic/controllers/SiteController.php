@@ -74,6 +74,15 @@ class SiteController extends Controller
     {
         return $this->redirect(Url::toRoute('site/guestsearch'));
     }
+    /**
+     * Displays homepage, which in our case is the "Gastsuche"
+     * @author Alexander Weinbeck
+     * @return string
+     */
+    public function actionDberror()
+    {
+        return $this->render('dberror');
+    }
 
     /**
      * Login action. Which also creates a superuser if not commented!
@@ -117,7 +126,7 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        if(Yii::$app->user->getId() <= 9900) {
+        if(Yii::$app->user->getId() >= 100) {
             Yii::$app->authManager->revokeAll(Yii::$app->user->getId());
         }
         Yii::$app->user->logout();
